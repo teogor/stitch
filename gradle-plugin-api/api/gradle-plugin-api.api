@@ -1,0 +1,9 @@
+public abstract interface class dev/teogor/stitch/api/StitchExtension {
+	public abstract fun getAddDocumentation ()Z
+	public abstract fun getGenerateOperations ()Z
+	public abstract fun getGeneratedPackageName ()Ljava/lang/String;
+	public abstract fun setAddDocumentation (Z)V
+	public abstract fun setGenerateOperations (Z)V
+	public abstract fun setGeneratedPackageName (Ljava/lang/String;)V
+}
+

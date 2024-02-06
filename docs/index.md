@@ -5,7 +5,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/dev.teogor.stitch/bom.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Aapi&smo=true)
 [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
 [![Profile](https://source.teogor.dev/badges/teogor-github.svg)](https://github.com/teogor)
-[![Portfolio](https://source.teogor.dev/badges/teogor-dev.svg)](https://source.teogor.dev/stitch)
+[![Portfolio](https://source.teogor.dev/badges/teogor-dev.svg)](https://source.teogor.dev)
 
 ### Effortlessly Sew Your Room Persistence Layer Together
 
@@ -28,27 +28,16 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 ## Features:
 
 * **Automatic Generation:** Stitch generates essential code components based on your Room DAOs and entities, including:
-    * **Repositories:** Provide a high-level interface for interacting with your data.
-    * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
-    * **Operations:** Represent specific data access actions with clear signatures.
+  * **Repositories:** Provide a high-level interface for interacting with your data.
+  * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
+  * **Operations:** Represent specific data access actions with clear signatures.
 * **Flexible Customization:** Configure generated code to match your project's needs with options like:
-    * Customizing base class or interface for repositories.
-    * Specifying naming conventions for generated components.
-    * Excluding specific entities or DAOs from generation.
+  * Customizing base class or interface for repositories.
+  * Specifying naming conventions for generated components.
+  * Excluding specific entities or DAOs from generation.
 * **Dependency Injection Integration:** Stitch seamlessly integrates with Hilt, automatically generating modules for injected repository instances.
 * **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
 * **Efficient KSP Integration:** Leverages Kotlin Symbol Processing for accurate and optimized code generation based on your project's specific setup.
-
-
-
-## Documentation and Community:
-
-* **Website:** [https://source.teogor.dev/stitch](https://source.teogor.dev/stitch)
-* **GitHub Repository:** [https://github.com/teogor/stitch](https://github.com/teogor/stitch)
-* **Documentation:** Refer to the website or repository for detailed instructions and examples.
-* **Community:** Join the GitHub discussions or other Kotlin developer communities for help and feedback.
-
-Start saving time and focus on what truly matters with Stitch!
 
 ## Find this repository useful? 🩷
 

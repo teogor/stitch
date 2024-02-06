@@ -1,0 +1,9 @@
+public abstract interface annotation class dev/teogor/stitch/Bind : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class dev/teogor/stitch/Operation : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class dev/teogor/stitch/OperationSignature : java/lang/annotation/Annotation {
+}
+
