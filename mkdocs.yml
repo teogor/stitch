@@ -1,5 +1,5 @@
 site_name: Stitch
-site_description: Winds build and publish libraries and applications for multiple platforms, simple and efficient.
+site_description: Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations.
 site_author: Teodor Grigor (teogor)
 site_dir: build/docs/stitch
 site_url: https://github.com/teogor/stitch
@@ -20,6 +20,8 @@ nav:
   - Releases:
     - releases.md
     - Implementation: releases/implementation.md
+    - Changelog:
+        - 1.0.0-alpha01: releases/changelog/1.0.0-alpha01.md
   - Reference: reference.md
   - Sponsor: sponsor.md
   - Security: security.md
