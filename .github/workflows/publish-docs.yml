@@ -64,8 +64,8 @@ jobs:
 
       - name: Relocate API References
         run: |
-          mkdir -p build/docs/${{ env.REPOSITORY }}/reference
-          cp -r build/dokka/htmlMultiModule/* build/docs/${{ env.REPOSITORY }}/reference
+          mkdir -p build/docs/${{ env.REPOSITORY }}/html
+          cp -r build/dokka/htmlMultiModule/* build/docs/${{ env.REPOSITORY }}/html
 
       - id: publish-docs
         name: Deploy Documentation

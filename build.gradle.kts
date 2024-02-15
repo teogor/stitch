@@ -47,7 +47,7 @@ winds {
     url = "https://source.teogor.dev/stitch"
 
     version = createVersion(1, 0, 0) {
-      alphaRelease(1)
+      alphaRelease(2)
     }
 
     inceptionYear = 2024

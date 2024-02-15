@@ -6,15 +6,6 @@ public final class dev/teogor/stitch/codegen/CodeGenerator : dev/teogor/stitch/c
 }
 
 public final class dev/teogor/stitch/codegen/commons/ConstantsKt {
-	public static final field ACTIVITY_DESTINATION_ANNOTATION Ljava/lang/String;
-	public static final field CORE_PACKAGE_NAME Ljava/lang/String;
-	public static final field DAO_ANNOTATION Ljava/lang/String;
-	public static final field DAO_ANNOTATION_QUALIFIED Ljava/lang/String;
-	public static final field DESTINATION_ANNOTATION Ljava/lang/String;
-	public static final field ENTITY_ANNOTATION Ljava/lang/String;
-	public static final field NAV_GRAPH_ANNOTATION Ljava/lang/String;
-	public static final field NAV_TYPE_SERIALIZER_ANNOTATION Ljava/lang/String;
-	public static final field ROOM_PACKAGE_NAME Ljava/lang/String;
 	public static final fun getDAGGER_APPLICATION_CONTEXT ()Lcom/squareup/kotlinpoet/ClassName;
 	public static final fun getDAGGER_INSTALL_IN ()Lcom/squareup/kotlinpoet/ClassName;
 	public static final fun getDAGGER_MODULE ()Lcom/squareup/kotlinpoet/ClassName;

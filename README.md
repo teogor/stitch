@@ -2,7 +2,7 @@
 
 ## Overview
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Maven Central](https://img.shields.io/maven-central/v/dev.teogor.stitch/bom.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Aapi&smo=true)
+[![Maven Central](https://img.shields.io/maven-central/v/dev.teogor.stitch/common.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Acommon&smo=true)
 [![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
 [![Profile](https://source.teogor.dev/badges/teogor-github.svg)](https://github.com/teogor)
 [![Portfolio](https://source.teogor.dev/badges/teogor-dev.svg)](https://source.teogor.dev/stitch)
@@ -38,8 +38,6 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 * **Dependency Injection Integration:** Stitch seamlessly integrates with Hilt, automatically generating modules for injected repository instances.
 * **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
 * **Efficient KSP Integration:** Leverages Kotlin Symbol Processing for accurate and optimized code generation based on your project's specific setup.
-
-
 
 ## Documentation and Community:
 

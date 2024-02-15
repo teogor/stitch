@@ -3,7 +3,7 @@ site_description: Stitch handles the Room boilerplate, including automatic gener
 site_author: Teodor Grigor (teogor)
 site_dir: build/docs/stitch
 site_url: https://github.com/teogor/stitch
-edit_uri: raw/main/docs/
+edit_uri: edit/main/docs/
 
 docs_dir: docs
 

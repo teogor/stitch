@@ -18,21 +18,31 @@ package dev.teogor.stitch.codegen.commons
 
 import com.squareup.kotlinpoet.ClassName
 
-const val CORE_PACKAGE_NAME = "dev.teogor.stitch"
-const val ROOM_PACKAGE_NAME = "androidx.room"
-
-const val DESTINATION_ANNOTATION = "Destination"
-const val DAO_ANNOTATION = "Dao"
-const val ENTITY_ANNOTATION = "Entity"
-const val ACTIVITY_DESTINATION_ANNOTATION = "ActivityDestination"
-const val NAV_GRAPH_ANNOTATION = "NavGraph"
-const val NAV_TYPE_SERIALIZER_ANNOTATION = "NavTypeSerializer"
-const val DAO_ANNOTATION_QUALIFIED = "$ROOM_PACKAGE_NAME.$DAO_ANNOTATION"
-
-val DAGGER_MODULE = ClassName("dagger", "Module")
-val DAGGER_PROVIDES = ClassName("dagger", "Provides")
-val DAGGER_INSTALL_IN = ClassName("dagger.hilt", "InstallIn")
-val DAGGER_APPLICATION_CONTEXT = ClassName("dagger.hilt.android.qualifiers", "ApplicationContext")
-val DAGGER_SINGLETON_COMPONENT = ClassName("dagger.hilt.components", "SingletonComponent")
-val JAVAX_INJECT_SINGLETON = ClassName("javax.inject", "Singleton")
-val JAVAX_INJECT = ClassName("javax.inject", "Inject")
+val DAGGER_MODULE = ClassName(
+  packageName = "dagger",
+  "Module",
+)
+val DAGGER_PROVIDES = ClassName(
+  packageName = "dagger",
+  "Provides",
+)
+val DAGGER_INSTALL_IN = ClassName(
+  packageName = "dagger.hilt",
+  "InstallIn",
+)
+val DAGGER_APPLICATION_CONTEXT = ClassName(
+  packageName = "dagger.hilt.android.qualifiers",
+  "ApplicationContext",
+)
+val DAGGER_SINGLETON_COMPONENT = ClassName(
+  packageName = "dagger.hilt.components",
+  "SingletonComponent",
+)
+val JAVAX_INJECT_SINGLETON = ClassName(
+  packageName = "javax.inject",
+  "Singleton",
+)
+val JAVAX_INJECT = ClassName(
+  packageName = "javax.inject",
+  "Inject",
+)

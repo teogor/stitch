@@ -19,12 +19,12 @@ plugins {
   alias(libs.plugins.ceres.android.room)
   alias(libs.plugins.ceres.android.hilt)
   alias(libs.plugins.ksp)
-  // id("dev.teogor.stitch")
 }
 
 ksp {
   arg("stitch.addDocumentation", "true")
-  arg("stitch.generateOperations", "true")
+  arg("stitch.enableOperationGeneration", "true")
+  arg("stitch.operationGenerationLevel", "explicit")
   arg("stitch.generatedPackageName", "dev.teogor.stitch")
 }
 
