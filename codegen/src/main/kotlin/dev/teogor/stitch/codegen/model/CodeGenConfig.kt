@@ -17,7 +17,7 @@
 package dev.teogor.stitch.codegen.model
 
 data class CodeGenConfig(
-    val addDocumentation: Boolean,
-    val generateOperations: Boolean,
-    val generatedPackageName: String?,
+  val addDocumentation: Boolean,
+  val generateOperations: Boolean,
+  val generatedPackageName: String?,
 )

@@ -27,26 +27,26 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TestingKindDao {
-    @Query("SELECT * FROM testing_kind")
-    fun getAll(): Flow<List<SavedGame>>
+  @Query("SELECT * FROM testing_kind")
+  fun getAll(): Flow<List<SavedGame>>
 
-    @Query("SELECT * FROM testing_kind WHERE board_id == :id")
-    suspend fun get(id: Long): SavedGame?
+  @Query("SELECT * FROM testing_kind WHERE board_id == :id")
+  suspend fun get(id: Long): SavedGame?
 
-    @Query(
-        "SELECT * FROM testing_kind " +
-            "WHERE completed == 'false' " +
-            "ORDER BY board_id DESC " +
-            "LIMIT 1",
-    )
-    fun getLast(): Flow<SavedGame?>
+  @Query(
+    "SELECT * FROM testing_kind " +
+      "WHERE completed == 'false' " +
+      "ORDER BY board_id DESC " +
+      "LIMIT 1",
+  )
+  fun getLast(): Flow<SavedGame?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(savedGame: SavedGame): Long
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insert(savedGame: SavedGame): Long
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(savedGame: SavedGame)
+  @Update(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun update(savedGame: SavedGame)
 
-    @Delete
-    suspend fun delete(savedGame: SavedGame)
+  @Delete
+  suspend fun delete(savedGame: SavedGame)
 }

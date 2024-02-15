@@ -21,45 +21,45 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import dev.teogor.stitch.core.database.util.Converters
-import dev.teogor.stitch.core.database.util.DurationConverter
-import dev.teogor.stitch.core.database.util.ZonedDateTimeConverter
 import dev.teogor.stitch.core.database.dao.SavedGameDao
 import dev.teogor.stitch.core.database.dao.TestingKindDao
 import dev.teogor.stitch.core.database.model.SavedGame
 import dev.teogor.stitch.core.database.model.TestingKind
+import dev.teogor.stitch.core.database.util.Converters
+import dev.teogor.stitch.core.database.util.DurationConverter
+import dev.teogor.stitch.core.database.util.ZonedDateTimeConverter
 
 @Database(
-    entities = [
-        TestingKind::class,
-        SavedGame::class,
-    ],
-    version = 1,
+  entities = [
+    TestingKind::class,
+    SavedGame::class,
+  ],
+  version = 1,
 )
 @TypeConverters(
-    Converters::class,
-    DurationConverter::class,
-    ZonedDateTimeConverter::class,
+  Converters::class,
+  DurationConverter::class,
+  ZonedDateTimeConverter::class,
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun testingKindDao(): TestingKindDao
+  abstract fun testingKindDao(): TestingKindDao
 
-    abstract fun savedGameDao(): SavedGameDao
+  abstract fun savedGameDao(): SavedGameDao
 
-    companion object {
-        private var INSTANCE: AppDatabase? = null
+  companion object {
+    private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
-            if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java,
-                    "main_database",
-                ).build()
-            }
+    fun getInstance(context: Context): AppDatabase {
+      if (INSTANCE == null) {
+        INSTANCE = Room.databaseBuilder(
+          context,
+          AppDatabase::class.java,
+          "main_database",
+        ).build()
+      }
 
-            return INSTANCE as AppDatabase
-        }
+      return INSTANCE as AppDatabase
     }
+  }
 }

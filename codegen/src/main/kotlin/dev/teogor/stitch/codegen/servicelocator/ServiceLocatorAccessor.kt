@@ -28,71 +28,71 @@ import dev.teogor.stitch.codegen.writers.RepositoryOutputWriter
 import dev.teogor.stitch.codegen.writers.StitchModuleOutputWriter
 
 internal interface ServiceLocatorAccessor {
-    val codeOutputStreamMaker: CodeOutputStreamMaker
-    val codeGenConfig: CodeGenConfig
+  val codeOutputStreamMaker: CodeOutputStreamMaker
+  val codeGenConfig: CodeGenConfig
 }
 
 abstract class OutputWriter(
-    private val codeGenConfig: CodeGenConfig,
+  private val codeGenConfig: CodeGenConfig,
 ) {
 
-    fun RoomModel.getPackageName() = codeGenConfig.generatedPackageName ?: packageName
+  fun RoomModel.getPackageName() = codeGenConfig.generatedPackageName ?: packageName
 
-    fun FunSpec.Builder.addDocumentation(
-        format: String,
-        vararg args: Any,
-    ) = this.apply {
-        if (codeGenConfig.addDocumentation) {
-            addKdoc(format, args)
-        }
+  fun FunSpec.Builder.addDocumentation(
+    format: String,
+    vararg args: Any,
+  ) = this.apply {
+    if (codeGenConfig.addDocumentation) {
+      addKdoc(format, args)
     }
+  }
 
-    fun FunSpec.Builder.addDocumentation(
-        block: CodeBlock,
-    ) = this.apply {
-        if (codeGenConfig.addDocumentation) {
-            addKdoc(block)
-        }
+  fun FunSpec.Builder.addDocumentation(
+    block: CodeBlock,
+  ) = this.apply {
+    if (codeGenConfig.addDocumentation) {
+      addKdoc(block)
     }
+  }
 
-    fun TypeSpec.Builder.addDocumentation(
-        format: String,
-        vararg args: Any,
-    ) = this.apply {
-        if (codeGenConfig.addDocumentation) {
-            addKdoc(format, args)
-        }
+  fun TypeSpec.Builder.addDocumentation(
+    format: String,
+    vararg args: Any,
+  ) = this.apply {
+    if (codeGenConfig.addDocumentation) {
+      addKdoc(format, args)
     }
+  }
 
-    fun TypeSpec.Builder.addDocumentation(
-        block: CodeBlock,
-    ) = this.apply {
-        if (codeGenConfig.addDocumentation) {
-            addKdoc(block)
-        }
+  fun TypeSpec.Builder.addDocumentation(
+    block: CodeBlock,
+  ) = this.apply {
+    if (codeGenConfig.addDocumentation) {
+      addKdoc(block)
     }
+  }
 }
 
 internal val ServiceLocatorAccessor.repositoryOutputWriter
-    get() = RepositoryOutputWriter(
-        codeOutputStreamMaker,
-        codeGenConfig,
-    )
+  get() = RepositoryOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
 
 internal val ServiceLocatorAccessor.repositoryImplOutputWriter
-    get() = RepositoryImplOutputWriter(
-        codeOutputStreamMaker,
-        codeGenConfig,
-    )
+  get() = RepositoryImplOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
 
 internal val ServiceLocatorAccessor.operationOutputWriter
-    get() = OperationOutputWriter(
-        codeOutputStreamMaker,
-        codeGenConfig,
-    )
+  get() = OperationOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
 
 internal val ServiceLocatorAccessor.stitchModuleOutputWriter
-    get() = StitchModuleOutputWriter(
-        codeOutputStreamMaker,
-        codeGenConfig,
-    )
+  get() = StitchModuleOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )

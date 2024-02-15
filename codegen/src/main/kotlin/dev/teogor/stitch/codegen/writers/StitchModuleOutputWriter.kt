@@ -36,129 +36,132 @@ import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.codegen.servicelocator.OutputWriter
 
 class StitchModuleOutputWriter(
-    private val codeOutputStreamMaker: CodeOutputStreamMaker,
-    codeGenConfig: CodeGenConfig,
+  private val codeOutputStreamMaker: CodeOutputStreamMaker,
+  codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-    fun write(
-        databaseModels: Sequence<DatabaseModel>,
-        roomModels: List<RoomModel>,
+  fun write(
+    databaseModels: Sequence<DatabaseModel>,
+    roomModels: List<RoomModel>,
+  ) {
+    val packageName = roomModels.first().getPackageName()
+    fileBuilder(
+      packageName = "$packageName.di",
+      fileName = "StitchModule",
     ) {
-        val packageName = roomModels.first().getPackageName()
-        fileBuilder(
-            packageName = "$packageName.di",
-            fileName = "StitchModule",
-        ) {
-            addType(
-                TypeSpec.objectBuilder("StitchModule")
-                    .addAnnotation(DAGGER_MODULE)
-                    .addAnnotation(
-                        AnnotationSpec.builder(DAGGER_INSTALL_IN)
-                            .addMember("%T::class", DAGGER_SINGLETON_COMPONENT)
-                            .build(),
-                    )
-                    .addDocumentation(
-                        """
+      addType(
+        TypeSpec.objectBuilder("StitchModule")
+          .addAnnotation(DAGGER_MODULE)
+          .addAnnotation(
+            AnnotationSpec.builder(DAGGER_INSTALL_IN)
+              .addMember("%T::class", DAGGER_SINGLETON_COMPONENT)
+              .build(),
+          )
+          .addDocumentation(
+            """
             This object provides the Stitch module for dependency injection.
 
             It configures and provides necessary dependencies for Stitch-related components,
             including DAOs and repositories.
-                        """.trimIndent(),
-                    )
-                    .apply {
-                        addFunction(
-                            FunSpec.builder("provideAppDatabase")
-                                .addAnnotation(DAGGER_PROVIDES)
-                                .addParameter("app", ClassName("android.app", "Application"))
-                                .returns(databaseModels.first().type)
-                                .addDocumentation(
-                                    """
+            """.trimIndent(),
+          )
+          .apply {
+            addFunction(
+              FunSpec.builder("provideAppDatabase")
+                .addAnnotation(DAGGER_PROVIDES)
+                .addParameter("app", ClassName("android.app", "Application"))
+                .returns(databaseModels.first().type)
+                .addDocumentation(
+                  """
                   Provides an instance of the [${databaseModels.first().type.shortName}] for dependency injection.
 
                   @param app The application context for accessing the database.
 
                   @return The created [${databaseModels.first().type.shortName}] instance.
-                                    """.trimIndent(),
-                                )
-                                .addStatement("return %T.getInstance(context = app)", databaseModels.first().type)
-                                .build(),
-                        )
-                        roomModels.forEach { roomModel ->
-                            val database = databaseModels.firstOrNull {
-                                it.entities.contains(roomModel.entity)
-                            } ?: databaseModels.first()
-                            val function = database.functions.first { it.returnType == roomModel.dao }
-                            addFunction(
-                                FunSpec.builder("provide${roomModel.name}Dao")
-                                    .addDocumentation(
-                                        """
+                  """.trimIndent(),
+                )
+                .addStatement(
+                  "return %T.getInstance(context = app)",
+                  databaseModels.first().type,
+                )
+                .build(),
+            )
+            roomModels.forEach { roomModel ->
+              val database = databaseModels.firstOrNull {
+                it.entities.contains(roomModel.entity)
+              } ?: databaseModels.first()
+              val function = database.functions.first { it.returnType == roomModel.dao }
+              addFunction(
+                FunSpec.builder("provide${roomModel.name}Dao")
+                  .addDocumentation(
+                    """
                     Provides the [${roomModel.name}Dao] instance.
 
                     @param db The [${database.type.shortName}] instance.
 
                     @see [${roomModel.name}Dao]
                     @see [${database.type.shortName}]
-                                        """.trimIndent(),
-                                    )
-                                    .addAnnotation(JAVAX_INJECT_SINGLETON)
-                                    .addAnnotation(DAGGER_PROVIDES)
-                                    .returns(
-                                        ClassName(
-                                            "${roomModel.packageName}.dao",
-                                            "${roomModel.name}Dao",
-                                        ),
-                                    )
-                                    .addParameter(
-                                        ParameterSpec.builder(
-                                            "db",
-                                            database.type,
-                                        ).build(),
-                                    )
-                                    .addStatement("return db.${function.name}()")
-                                    .build(),
-                            )
-                            addFunction(
-                                FunSpec.builder("provide${roomModel.name}Repository")
-                                    .addDocumentation(
-                                        """
+                    """.trimIndent(),
+                  )
+                  .addAnnotation(JAVAX_INJECT_SINGLETON)
+                  .addAnnotation(DAGGER_PROVIDES)
+                  .returns(
+                    ClassName(
+                      "${roomModel.packageName}.dao",
+                      "${roomModel.name}Dao",
+                    ),
+                  )
+                  .addParameter(
+                    ParameterSpec.builder(
+                      "db",
+                      database.type,
+                    ).build(),
+                  )
+                  .addStatement("return db.${function.name}()")
+                  .build(),
+              )
+              addFunction(
+                FunSpec.builder("provide${roomModel.name}Repository")
+                  .addDocumentation(
+                    """
                     Provides the [${roomModel.name}Repository] using the provided DAO.
 
                     @param dao The [${roomModel.name}Dao] instance.
 
                     @see [${roomModel.name}Dao]
                     @see [${roomModel.name}Repository]
-                                        """.trimIndent(),
-                                    )
-                                    .addAnnotation(JAVAX_INJECT_SINGLETON)
-                                    .addAnnotation(DAGGER_PROVIDES)
-                                    .returns(
-                                        ClassName(
-                                            "${roomModel.getPackageName()}.data.repository",
-                                            "${roomModel.name}Repository",
-                                        ),
-                                    )
-                                    .addParameter(
-                                        ParameterSpec.builder(
-                                            "dao",
-                                            ClassName(
-                                                "${roomModel.packageName}.dao",
-                                                "${roomModel.name}Dao",
-                                            ),
-                                        ).build(),
-                                    )
-                                    .addStatement(
-                                        "return %T(dao)",
-                                        ClassName(
-                                            "${roomModel.getPackageName()}.data.repository.impl",
-                                            "${roomModel.name}RepositoryImpl",
-                                        ),
-                                    )
-                                    .build(),
-                            )
-                        }
-                    }
-                    .build(),
-            )
-        }.writeWith(codeOutputStreamMaker)
-    }
+                    """.trimIndent(),
+                  )
+                  .addAnnotation(JAVAX_INJECT_SINGLETON)
+                  .addAnnotation(DAGGER_PROVIDES)
+                  .returns(
+                    ClassName(
+                      "${roomModel.getPackageName()}.data.repository",
+                      "${roomModel.name}Repository",
+                    ),
+                  )
+                  .addParameter(
+                    ParameterSpec.builder(
+                      "dao",
+                      ClassName(
+                        "${roomModel.packageName}.dao",
+                        "${roomModel.name}Dao",
+                      ),
+                    ).build(),
+                  )
+                  .addStatement(
+                    "return %T(dao)",
+                    ClassName(
+                      "${roomModel.getPackageName()}.data.repository.impl",
+                      "${roomModel.name}RepositoryImpl",
+                    ),
+                  )
+                  .build(),
+              )
+            }
+          }
+          .build(),
+      )
+    }.writeWith(codeOutputStreamMaker)
+  }
 }

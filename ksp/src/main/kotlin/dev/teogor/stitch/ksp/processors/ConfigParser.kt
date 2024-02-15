@@ -21,38 +21,38 @@ package dev.teogor.stitch.ksp.processors
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 
 class ConfigParser(
-    private val options: Map<String, String>,
+  private val options: Map<String, String>,
 ) {
 
-    companion object {
-        private const val PREFIX = "stitch"
+  companion object {
+    private const val PREFIX = "stitch"
 
-        // Configs
-        private const val ADD_DOCUMENTATION = "$PREFIX.addDocumentation"
-        private const val GENERATE_OPERATIONS = "$PREFIX.generateOperations"
-        private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
+    // Configs
+    private const val ADD_DOCUMENTATION = "$PREFIX.addDocumentation"
+    private const val GENERATE_OPERATIONS = "$PREFIX.generateOperations"
+    private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
+  }
+
+  fun parse(): CodeGenConfig {
+    val addDocumentation = parseBoolean(ADD_DOCUMENTATION) ?: true
+    val generateOperations = parseBoolean(GENERATE_OPERATIONS) ?: true
+    val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
+
+    return CodeGenConfig(
+      addDocumentation = addDocumentation,
+      generateOperations = generateOperations,
+      generatedPackageName = generatedPackageName,
+    )
+  }
+
+  private fun parseBoolean(key: String): Boolean? {
+    return options[key]?.runCatching {
+      toBooleanStrict()
+    }?.getOrElse {
+      throw WrongConfigurationSetup("$key must be a boolean value!", cause = it)
     }
-
-    fun parse(): CodeGenConfig {
-        val addDocumentation = parseBoolean(ADD_DOCUMENTATION) ?: true
-        val generateOperations = parseBoolean(GENERATE_OPERATIONS) ?: true
-        val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
-
-        return CodeGenConfig(
-            addDocumentation = addDocumentation,
-            generateOperations = generateOperations,
-            generatedPackageName = generatedPackageName,
-        )
-    }
-
-    private fun parseBoolean(key: String): Boolean? {
-        return options[key]?.runCatching {
-            toBooleanStrict()
-        }?.getOrElse {
-            throw WrongConfigurationSetup("$key must be a boolean value!", cause = it)
-        }
-    }
+  }
 }
 
 class WrongConfigurationSetup(message: String, cause: Throwable? = null) :
-    RuntimeException(message, cause)
+  RuntimeException(message, cause)

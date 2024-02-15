@@ -21,33 +21,33 @@ import com.squareup.kotlinpoet.TypeName
 data class FunctionData(val name: String)
 
 data class DatabaseModel(
-    val entities: List<TypeName>,
-    val type: TypeName,
-    val functions: List<FunctionKind>,
+  val entities: List<TypeName>,
+  val type: TypeName,
+  val functions: List<FunctionKind>,
 )
 
 data class RoomModel(
-    val name: String,
-    val packageName: String,
-    val entity: TypeName,
-    val dao: TypeName,
-    val fields: List<FieldKind>,
-    val functions: List<FunctionKind>,
+  val name: String,
+  val packageName: String,
+  val entity: TypeName,
+  val dao: TypeName,
+  val fields: List<FieldKind>,
+  val functions: List<FunctionKind>,
 )
 
 data class FieldKind(
-    val name: String,
-    val type: TypeName,
+  val name: String,
+  val type: TypeName,
 )
 
 data class FunctionKind(
-    val name: String,
-    val isSuspend: Boolean,
-    val returnType: TypeName,
-    val parameters: List<ParameterKind>,
+  val name: String,
+  val isSuspend: Boolean,
+  val returnType: TypeName,
+  val parameters: List<ParameterKind>,
 )
 
 data class ParameterKind(
-    val name: String,
-    val type: TypeName,
+  val name: String,
+  val type: TypeName,
 )

@@ -35,95 +35,98 @@ import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.codegen.servicelocator.OutputWriter
 
 class OperationOutputWriter(
-    private val codeOutputStreamMaker: CodeOutputStreamMaker,
-    codeGenConfig: CodeGenConfig,
+  private val codeOutputStreamMaker: CodeOutputStreamMaker,
+  codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-    fun write(
-        databaseModels: Sequence<DatabaseModel>,
-        roomModels: List<RoomModel>,
-    ) {
-        roomModels.forEach { room ->
-            val generatedClasses = mutableMapOf<String, MutableList<FunSpec>>()
+  fun write(
+    databaseModels: Sequence<DatabaseModel>,
+    roomModels: List<RoomModel>,
+  ) {
+    roomModels.forEach { room ->
+      val generatedClasses = mutableMapOf<String, MutableList<FunSpec>>()
 
-            room.functions.forEach { function ->
-                val existingFunctions = generatedClasses.getOrDefault(function.name, mutableListOf())
-                val args = function.parameters.joinToString(separator = ",") {
-                    it.name
-                }
-
-                existingFunctions.add(
-                    FunSpec.builder("invoke")
-                        .apply {
-                            addAnnotation(OperationSignature::class)
-                            if (function.isSuspend) {
-                                addModifiers(KModifier.SUSPEND)
-                            }
-                            function.parameters.forEach { parameter ->
-                                addParameter(parameter.name, parameter.type)
-                            }
-                            if (function.returnType != UNIT) {
-                                returns(function.returnType)
-                            }
-                        }
-                        .addModifiers(KModifier.OPERATOR)
-                        .addStatement("return repository.${function.name}($args)")
-                        .build(),
-                )
-
-                generatedClasses[function.name] = existingFunctions
-            }
-
-            generatedClasses.forEach { (baseName, invokeFunctions) ->
-                val className = "${room.name}${baseName.titleCase()}Operation"
-                fileBuilder(
-                    packageName = "${room.getPackageName()}.database.operation",
-                    fileName = className,
-                ) {
-                    addType(
-                        TypeSpec.classBuilder(className)
-                            .apply {
-                                addAnnotation(Operation::class)
-                                addProperty(
-                                    PropertySpec.builder(
-                                        "repository",
-                                        ClassName(
-                                            "${room.getPackageName()}.data.repository",
-                                            "${room.name}Repository",
-                                        ),
-                                    )
-                                        .initializer("repository")
-                                        .addModifiers(KModifier.PRIVATE)
-                                        .build(),
-                                )
-                                primaryConstructor(
-                                    FunSpec.constructorBuilder()
-                                        .addParameter(
-                                            "repository",
-                                            ClassName(
-                                                "${room.getPackageName()}.data.repository",
-                                                "${room.name}Repository",
-                                            ),
-                                        )
-                                        .addAnnotation(JAVAX_INJECT)
-                                        .build(),
-                                )
-                                invokeFunctions.forEach { addFunction(it) }
-                            }
-                            .build(),
-                    )
-                }.writeWith(codeOutputStreamMaker) {
-                    // todo error
-                    val message = buildString {
-                        appendLine(room)
-                        appendLine()
-                        appendLine(className)
-                        appendLine()
-                        appendLine(invokeFunctions.joinToString(separator = ", "))
-                    }
-                    throw RuntimeException(message)
-                }
-            }
+      room.functions.forEach { function ->
+        val existingFunctions = generatedClasses.getOrDefault(
+          function.name,
+          mutableListOf(),
+        )
+        val args = function.parameters.joinToString(separator = ",") {
+          it.name
         }
+
+        existingFunctions.add(
+          FunSpec.builder("invoke")
+            .apply {
+              addAnnotation(OperationSignature::class)
+              if (function.isSuspend) {
+                addModifiers(KModifier.SUSPEND)
+              }
+              function.parameters.forEach { parameter ->
+                addParameter(parameter.name, parameter.type)
+              }
+              if (function.returnType != UNIT) {
+                returns(function.returnType)
+              }
+            }
+            .addModifiers(KModifier.OPERATOR)
+            .addStatement("return repository.${function.name}($args)")
+            .build(),
+        )
+
+        generatedClasses[function.name] = existingFunctions
+      }
+
+      generatedClasses.forEach { (baseName, invokeFunctions) ->
+        val className = "${room.name}${baseName.titleCase()}Operation"
+        fileBuilder(
+          packageName = "${room.getPackageName()}.database.operation",
+          fileName = className,
+        ) {
+          addType(
+            TypeSpec.classBuilder(className)
+              .apply {
+                addAnnotation(Operation::class)
+                addProperty(
+                  PropertySpec.builder(
+                    "repository",
+                    ClassName(
+                      "${room.getPackageName()}.data.repository",
+                      "${room.name}Repository",
+                    ),
+                  )
+                    .initializer("repository")
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+                )
+                primaryConstructor(
+                  FunSpec.constructorBuilder()
+                    .addParameter(
+                      "repository",
+                      ClassName(
+                        "${room.getPackageName()}.data.repository",
+                        "${room.name}Repository",
+                      ),
+                    )
+                    .addAnnotation(JAVAX_INJECT)
+                    .build(),
+                )
+                invokeFunctions.forEach { addFunction(it) }
+              }
+              .build(),
+          )
+        }.writeWith(codeOutputStreamMaker) {
+          // todo error
+          val message = buildString {
+            appendLine(room)
+            appendLine()
+            appendLine(className)
+            appendLine()
+            appendLine(invokeFunctions.joinToString(separator = ", "))
+          }
+          throw RuntimeException(message)
+        }
+      }
     }
+  }
 }

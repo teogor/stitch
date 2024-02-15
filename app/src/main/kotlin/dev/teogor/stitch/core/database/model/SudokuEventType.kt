@@ -17,8 +17,8 @@
 package dev.teogor.stitch.core.database.model
 
 enum class SudokuEventType {
-    Daily,
-    Challenges,
-    SeasonalEvents,
-    User,
+  Daily,
+  Challenges,
+  SeasonalEvents,
+  User,
 }

@@ -22,21 +22,21 @@ import dev.teogor.stitch.core.database.model.GameType
 import dev.teogor.stitch.core.database.model.SudokuEventType
 
 object Converters {
-    @TypeConverter
-    fun toSudokuEventType(value: Int) = enumValues<SudokuEventType>()[value]
+  @TypeConverter
+  fun toSudokuEventType(value: Int) = enumValues<SudokuEventType>()[value]
 
-    @TypeConverter
-    fun fromSudokuEventType(value: SudokuEventType) = value.ordinal
+  @TypeConverter
+  fun fromSudokuEventType(value: SudokuEventType) = value.ordinal
 
-    @TypeConverter
-    fun toGameType(value: Int) = enumValues<GameType>()[value]
+  @TypeConverter
+  fun toGameType(value: Int) = enumValues<GameType>()[value]
 
-    @TypeConverter
-    fun fromGameType(value: GameType) = value.ordinal
+  @TypeConverter
+  fun fromGameType(value: GameType) = value.ordinal
 
-    @TypeConverter
-    fun toDifficulty(value: Int) = enumValues<Difficulty>()[value]
+  @TypeConverter
+  fun toDifficulty(value: Int) = enumValues<Difficulty>()[value]
 
-    @TypeConverter
-    fun fromDifficulty(value: Difficulty) = value.ordinal
+  @TypeConverter
+  fun fromDifficulty(value: Difficulty) = value.ordinal
 }
