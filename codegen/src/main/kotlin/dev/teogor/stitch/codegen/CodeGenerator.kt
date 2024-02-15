@@ -37,7 +37,7 @@ class CodeGenerator(
     databaseModels: Sequence<DatabaseModel>,
     roomModels: List<RoomModel>,
   ) {
-    roomModels.forEach { roomModel ->
+    roomModels.filter { it.hasDao }.forEach { roomModel ->
       val repositoryType = repositoryOutputWriter.write(roomModel)
       repositoryImplOutputWriter.write(roomModel, repositoryType)
     }

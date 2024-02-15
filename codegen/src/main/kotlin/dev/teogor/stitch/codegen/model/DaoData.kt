@@ -28,10 +28,12 @@ data class RoomModel(
   val name: String,
   val packageName: String,
   val entity: TypeName,
-  val dao: TypeName,
+  val dao: TypeName? = null,
   val fields: List<FieldKind>,
   val functions: List<FunctionKind>,
-)
+) {
+  val hasDao: Boolean = dao != null
+}
 
 data class FieldKind(
   val name: String,

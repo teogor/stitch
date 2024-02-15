@@ -49,7 +49,7 @@ class RepositoryImplOutputWriter(
           .addDocumentation(
             """
             Implementation of the [${roomModel.name}Repository] interface, providing access
-            to [${roomModel.name}] data using a [${roomModel.dao.shortName}].
+            to [${roomModel.name}] data using a [${roomModel.dao!!.shortName}].
 
             **Constructor:**
 
