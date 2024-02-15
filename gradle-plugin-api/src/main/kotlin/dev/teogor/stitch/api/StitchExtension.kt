@@ -26,24 +26,24 @@ package dev.teogor.stitch.api
  * - Set the base package name for generated code or artifacts.
  */
 interface StitchExtension {
-    /**
-     * Enables or disables the generation of documentation.
-     *
-     * Set to `true` to generate documentation, `false` to disable it.
-     */
-    var addDocumentation: Boolean
+  /**
+   * Enables or disables the generation of documentation.
+   *
+   * Set to `true` to generate documentation, `false` to disable it.
+   */
+  var addDocumentation: Boolean
 
-    /**
-     * Enables or disables the generation of operations.
-     *
-     * Set to `true` to generate operations, `false` to disable it.
-     */
-    var generateOperations: Boolean
+  /**
+   * Enables or disables the generation of operations.
+   *
+   * Set to `true` to generate operations, `false` to disable it.
+   */
+  var generateOperations: Boolean
 
-    /**
-     * Specifies the base package name for generated code or artifacts.
-     *
-     * Ensure this matches your project's package structure.
-     */
-    var generatedPackageName: String
+  /**
+   * Specifies the base package name for generated code or artifacts.
+   *
+   * Ensure this matches your project's package structure.
+   */
+  var generatedPackageName: String
 }

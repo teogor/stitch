@@ -20,22 +20,22 @@ import dev.teogor.stitch.api.StitchExtension
 import org.gradle.process.CommandLineArgumentProvider
 
 class StitchSchemaArgProvider(
-    private val addDocumentation: Boolean,
-    private val generateOperations: Boolean,
-    private val generatedPackageName: String,
+  private val addDocumentation: Boolean,
+  private val generateOperations: Boolean,
+  private val generatedPackageName: String,
 ) : CommandLineArgumentProvider {
 
-    override fun asArguments() = listOf(
-        "stitch.addDocumentation=$addDocumentation",
-        "stitch.generateOperations=$generateOperations",
-        "stitch.generatedPackageName=$generatedPackageName",
-    )
+  override fun asArguments() = listOf(
+    "stitch.addDocumentation=$addDocumentation",
+    "stitch.generateOperations=$generateOperations",
+    "stitch.generatedPackageName=$generatedPackageName",
+  )
 
-    companion object {
-        fun from(stitchExtension: StitchExtension) = StitchSchemaArgProvider(
-            addDocumentation = stitchExtension.addDocumentation,
-            generateOperations = stitchExtension.generateOperations,
-            generatedPackageName = stitchExtension.generatedPackageName,
-        )
-    }
+  companion object {
+    fun from(stitchExtension: StitchExtension) = StitchSchemaArgProvider(
+      addDocumentation = stitchExtension.addDocumentation,
+      generateOperations = stitchExtension.generateOperations,
+      generatedPackageName = stitchExtension.generatedPackageName,
+    )
+  }
 }
