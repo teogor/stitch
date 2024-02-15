@@ -23,24 +23,24 @@ import java.nio.charset.StandardCharsets
 
 interface CodeOutputStreamMaker {
 
-    fun makeFile(
-        name: String,
-        packageName: String,
-        vararg sourceIds: String,
-    ): OutputStream
+  fun makeFile(
+    name: String,
+    packageName: String,
+    vararg sourceIds: String,
+  ): OutputStream
 }
 
 fun CodeOutputStreamMaker.writeTo(
-    file: FileSpec,
-    fileName: String = file.name,
-    packageName: String = file.packageName,
+  file: FileSpec,
+  fileName: String = file.name,
+  packageName: String = file.packageName,
 ) {
-    makeFile(
-        fileName,
-        packageName,
-    ).use { out ->
-        OutputStreamWriter(out, StandardCharsets.UTF_8).use { writer ->
-            file.writeTo(writer)
-        }
+  makeFile(
+    fileName,
+    packageName,
+  ).use { out ->
+    OutputStreamWriter(out, StandardCharsets.UTF_8).use { writer ->
+      file.writeTo(writer)
     }
+  }
 }

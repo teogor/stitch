@@ -45,160 +45,164 @@ import dev.teogor.stitch.ksp.codegen.KspLogger
 import kotlin.reflect.KClass
 
 class Processor(
-    private val codeGenerator: KSPCodeGenerator,
-    private val logger: KSPLogger,
-    private val options: Map<String, String>,
+  private val codeGenerator: KSPCodeGenerator,
+  private val logger: KSPLogger,
+  private val options: Map<String, String>,
 ) : SymbolProcessor {
 
-    @OptIn(KspExperimental::class)
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-        Logger.instance = KspLogger(logger)
+  @OptIn(KspExperimental::class)
+  override fun process(resolver: Resolver): List<KSAnnotated> {
+    Logger.instance = KspLogger(logger)
 
-        val annotatedDao = resolver.getDao()
-        val annotatedEntities = resolver.getEntities()
-        val annotatedDatabases = resolver.getDatabases()
+    val annotatedDao = resolver.getDao()
+    val annotatedEntities = resolver.getEntities()
+    val annotatedDatabases = resolver.getDatabases()
 
-        if (
-            !annotatedDao.iterator().hasNext() &&
-            !annotatedEntities.iterator().hasNext() &&
-            !annotatedDatabases.iterator().hasNext()
-        ) {
-            return emptyList()
-        }
-
-        val sourceFiles = annotatedDao.mapNotNull {
-            it.containingFile
-        } + annotatedEntities.mapNotNull {
-            it.containingFile
-        } + annotatedDatabases.mapNotNull {
-            it.containingFile
-        }
-
-        val databaseModels = annotatedDatabases.map { database ->
-            val annotation = database.annotations.find {
-                it.shortName.asString() == Database::class.simpleName
-            }!!
-            val entities = (
-                annotation.arguments.first {
-                    it.name!!.getShortName() == "entities"
-                }.value as List<KSType>
-                ).map {
-                (it.declaration as KSClassDeclaration).toClassName()
-            }
-            val functions = database.getDeclaredFunctions().toList().map { function ->
-                val fieldName = function.simpleName.asString()
-                val fieldType = function.returnType?.resolve().let {
-                    it?.toTypeName() ?: UNIT
-                }
-                val parameters = function.parameters.map { parameter ->
-                    ParameterKind(
-                        name = parameter.toString(),
-                        type = parameter.type.toTypeName(),
-                    )
-                }
-                val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-                FunctionKind(
-                    name = fieldName,
-                    returnType = fieldType,
-                    parameters = parameters,
-                    isSuspend = isSuspend,
-                )
-            }
-            DatabaseModel(
-                entities = entities,
-                type = database.toClassName(),
-                functions = functions,
-            )
-        }
-
-        val roomModels = annotatedEntities
-            .toList()
-            .filter {
-                annotatedDao.firstOrNull {
-                    it.simpleName.asString().startsWith(it.simpleName.asString())
-                } != null
-            }
-            .map { entity ->
-                Pair(
-                    entity,
-                    annotatedDao.first { it.simpleName.asString().startsWith(entity.simpleName.asString()) },
-                )
-            }
-            .map { (entity, dao) ->
-                val fields = entity.primaryConstructor!!.parameters.map { parameter ->
-                    val fieldName = parameter.name!!.asString()
-                    val fieldType = parameter.type.resolve()
-                    FieldKind(
-                        fieldName,
-                        ClassName(
-                            fieldType.declaration.packageName.asString(),
-                            fieldType.declaration.simpleName.asString(),
-                        ),
-                    )
-                }
-                val functions = dao.getDeclaredFunctions().toList().map { function ->
-                    val fieldName = function.simpleName.asString()
-                    val fieldType = function.returnType?.resolve().let {
-                        it?.toTypeName() ?: UNIT
-                    }
-                    val parameters = function.parameters.map { parameter ->
-                        ParameterKind(
-                            name = parameter.toString(),
-                            type = parameter.type.toTypeName(),
-                        )
-                    }
-                    val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-                    FunctionKind(
-                        name = fieldName,
-                        returnType = fieldType,
-                        parameters = parameters,
-                        isSuspend = isSuspend,
-                    )
-                }
-                RoomModel(
-                    name = entity.simpleName.asString(),
-                    packageName = findCommonBase(
-                        entity.packageName.asString(),
-                        dao.packageName.asString(),
-                    ),
-                    fields = fields,
-                    functions = functions,
-                    entity = entity.toClassName(),
-                    dao = dao.toClassName(),
-                )
-            }
-
-        CodeGenerator(
-            codeOutputStreamMaker = KspCodeOutputStreamMaker(
-                codeGenerator = codeGenerator,
-                sourceMapper = KspToCodeGenDestinationsMapper(resolver),
-            ),
-            codeGenConfig = ConfigParser(options).parse(),
-        ).generate(
-            databaseModels = databaseModels,
-            roomModels = roomModels,
-        )
-
-        return emptyList()
+    if (
+      !annotatedDao.iterator().hasNext() &&
+      !annotatedEntities.iterator().hasNext() &&
+      !annotatedDatabases.iterator().hasNext()
+    ) {
+      return emptyList()
     }
 
-    private fun Resolver.findAnnotations(
-        kClass: KClass<*>,
-    ) = getSymbolsWithAnnotation(
-        kClass.qualifiedName.toString(),
+    val sourceFiles = annotatedDao.mapNotNull {
+      it.containingFile
+    } + annotatedEntities.mapNotNull {
+      it.containingFile
+    } + annotatedDatabases.mapNotNull {
+      it.containingFile
+    }
+
+    val databaseModels = annotatedDatabases.map { database ->
+      val annotation = database.annotations.find {
+        it.shortName.asString() == Database::class.simpleName
+      }!!
+      val entities = (
+        annotation.arguments.first {
+          it.name!!.getShortName() == "entities"
+        }.value as List<KSType>
+        ).map {
+        (it.declaration as KSClassDeclaration).toClassName()
+      }
+      val functions = database.getDeclaredFunctions().toList().map { function ->
+        val fieldName = function.simpleName.asString()
+        val fieldType = function.returnType?.resolve().let {
+          it?.toTypeName() ?: UNIT
+        }
+        val parameters = function.parameters.map { parameter ->
+          ParameterKind(
+            name = parameter.toString(),
+            type = parameter.type.toTypeName(),
+          )
+        }
+        val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+        FunctionKind(
+          name = fieldName,
+          returnType = fieldType,
+          parameters = parameters,
+          isSuspend = isSuspend,
+        )
+      }
+      DatabaseModel(
+        entities = entities,
+        type = database.toClassName(),
+        functions = functions,
+      )
+    }
+
+    val roomModels = annotatedEntities
+      .toList()
+      .filter {
+        annotatedDao.firstOrNull {
+          it.simpleName.asString().startsWith(it.simpleName.asString())
+        } != null
+      }
+      .map { entity ->
+        Pair(
+          entity,
+          annotatedDao.first {
+            it.simpleName.asString().startsWith(
+              entity.simpleName.asString(),
+            )
+          },
+        )
+      }
+      .map { (entity, dao) ->
+        val fields = entity.primaryConstructor!!.parameters.map { parameter ->
+          val fieldName = parameter.name!!.asString()
+          val fieldType = parameter.type.resolve()
+          FieldKind(
+            fieldName,
+            ClassName(
+              fieldType.declaration.packageName.asString(),
+              fieldType.declaration.simpleName.asString(),
+            ),
+          )
+        }
+        val functions = dao.getDeclaredFunctions().toList().map { function ->
+          val fieldName = function.simpleName.asString()
+          val fieldType = function.returnType?.resolve().let {
+            it?.toTypeName() ?: UNIT
+          }
+          val parameters = function.parameters.map { parameter ->
+            ParameterKind(
+              name = parameter.toString(),
+              type = parameter.type.toTypeName(),
+            )
+          }
+          val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+          FunctionKind(
+            name = fieldName,
+            returnType = fieldType,
+            parameters = parameters,
+            isSuspend = isSuspend,
+          )
+        }
+        RoomModel(
+          name = entity.simpleName.asString(),
+          packageName = findCommonBase(
+            entity.packageName.asString(),
+            dao.packageName.asString(),
+          ),
+          fields = fields,
+          functions = functions,
+          entity = entity.toClassName(),
+          dao = dao.toClassName(),
+        )
+      }
+
+    CodeGenerator(
+      codeOutputStreamMaker = KspCodeOutputStreamMaker(
+        codeGenerator = codeGenerator,
+        sourceMapper = KspToCodeGenDestinationsMapper(resolver),
+      ),
+      codeGenConfig = ConfigParser(options).parse(),
+    ).generate(
+      databaseModels = databaseModels,
+      roomModels = roomModels,
     )
 
-    private fun Resolver.getDao(): Sequence<KSClassDeclaration> {
-        return findAnnotations(Dao::class).filterIsInstance<KSClassDeclaration>()
-    }
+    return emptyList()
+  }
 
-    private fun Resolver.getEntities(): Sequence<KSClassDeclaration> {
-        return findAnnotations(Entity::class).filterIsInstance<KSClassDeclaration>()
-    }
+  private fun Resolver.findAnnotations(
+    kClass: KClass<*>,
+  ) = getSymbolsWithAnnotation(
+    kClass.qualifiedName.toString(),
+  )
 
-    private fun Resolver.getDatabases(): Sequence<KSClassDeclaration> {
-        return findAnnotations(Database::class).filterIsInstance<KSClassDeclaration>()
-    }
+  private fun Resolver.getDao(): Sequence<KSClassDeclaration> {
+    return findAnnotations(Dao::class).filterIsInstance<KSClassDeclaration>()
+  }
+
+  private fun Resolver.getEntities(): Sequence<KSClassDeclaration> {
+    return findAnnotations(Entity::class).filterIsInstance<KSClassDeclaration>()
+  }
+
+  private fun Resolver.getDatabases(): Sequence<KSClassDeclaration> {
+    return findAnnotations(Database::class).filterIsInstance<KSClassDeclaration>()
+  }
 }
 
 typealias KSPClassKind = com.google.devtools.ksp.symbol.ClassKind

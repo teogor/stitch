@@ -28,97 +28,97 @@ package dev.teogor.stitch.core.database.model
  * puzzle, and an `isSquare` property that returns whether the puzzle is a square.
  */
 enum class GameType(
-    val gridHeight: Int,
-    val gridWidth: Int,
+  val gridHeight: Int,
+  val gridWidth: Int,
 ) {
-    /**
-     * The unspecified game type.
-     */
-    Unspecified(0, 0),
+  /**
+   * The unspecified game type.
+   */
+  Unspecified(0, 0),
 
-    /**
-     * The 4x4 game type.
-     */
-    FourDigits(2, 2),
+  /**
+   * The 4x4 game type.
+   */
+  FourDigits(2, 2),
 
-    /**
-     * The 6x6 game type.
-     */
-    SixDigits(2, 3),
+  /**
+   * The 6x6 game type.
+   */
+  SixDigits(2, 3),
 
-    /**
-     * The 8x8 game type.
-     */
-    EightDigits(2, 4),
+  /**
+   * The 8x8 game type.
+   */
+  EightDigits(2, 4),
 
-    /**
-     * The 9x9 game type.
-     */
-    NineDigits(3, 3),
+  /**
+   * The 9x9 game type.
+   */
+  NineDigits(3, 3),
 
-    /**
-     * The 10x10 game type.
-     */
-    TenDigits(2, 5),
+  /**
+   * The 10x10 game type.
+   */
+  TenDigits(2, 5),
 
-    /**
-     * The 12x12 game type.
-     */
-    TwelveDigits(3, 4),
+  /**
+   * The 12x12 game type.
+   */
+  TwelveDigits(3, 4),
 
-    /**
-     * The 15x15 game type.
-     */
-    FifteenDigits(3, 5),
+  /**
+   * The 15x15 game type.
+   */
+  FifteenDigits(3, 5),
 
-    /**
-     * The 16x16 game type.
-     */
-    SixteenDigits(4, 4),
+  /**
+   * The 16x16 game type.
+   */
+  SixteenDigits(4, 4),
 
-    /**
-     * The 25x25 game type.
-     */
-    TwentyFiveDigits(5, 5),
+  /**
+   * The 25x25 game type.
+   */
+  TwentyFiveDigits(5, 5),
 
-    /**
-     * The 36x36 game type.
-     */
-    ThirtySixDigits(6, 6),
+  /**
+   * The 36x36 game type.
+   */
+  ThirtySixDigits(6, 6),
 
-    /**
-     * The 49x49 game type.
-     */
-    FortyNineDigits(7, 7),
+  /**
+   * The 49x49 game type.
+   */
+  FortyNineDigits(7, 7),
 
-    /**
-     * The 64x64 game type.
-     */
-    SixtyFourDigits(8, 8),
+  /**
+   * The 64x64 game type.
+   */
+  SixtyFourDigits(8, 8),
 
-    /**
-     * The 81x81 game type.
-     */
-    EightyOneDigits(9, 9),
-    ;
+  /**
+   * The 81x81 game type.
+   */
+  EightyOneDigits(9, 9),
+  ;
 
-    /**
-     * The total number of cells in the puzzle.
-     */
-    val cells: Int
-        get() = gridHeight * gridWidth
+  /**
+   * The total number of cells in the puzzle.
+   */
+  val cells: Int
+    get() = gridHeight * gridWidth
 
-    /**
-     * Whether the puzzle is a square.
-     */
-    val isSquare: Boolean
-        get() = gridHeight == gridWidth
+  /**
+   * Whether the puzzle is a square.
+   */
+  val isSquare: Boolean
+    get() = gridHeight == gridWidth
 
-    /**
-     * Returns a string representation of the game type.
-     */
-    @Override
-    override fun toString(): String {
-        return "${cells}x$cells"
-    }
+  /**
+   * Returns a string representation of the game type.
+   */
+  @Override
+  override fun toString(): String {
+    return "${cells}x$cells"
+  }
 }

@@ -36,28 +36,28 @@ package dev.teogor.stitch.core.database.model
  * | VERY_HARD | 0-10 | 10-20 | No | These puzzles are the most difficult to solve and are intended only for Sudoku experts, requiring extreme patience and logical reasoning. |
  */
 enum class Difficulty {
-    /**
-     * Indicates an easy Sudoku puzzle with a large number of clues.
-     */
-    VERY_EASY,
+  /**
+   * Indicates an easy Sudoku puzzle with a large number of clues.
+   */
+  VERY_EASY,
 
-    /**
-     * Indicates an easy Sudoku puzzle with fewer clues than VERY_EASY puzzles.
-     */
-    EASY,
+  /**
+   * Indicates an easy Sudoku puzzle with fewer clues than VERY_EASY puzzles.
+   */
+  EASY,
 
-    /**
-     * Indicates a Sudoku puzzle of moderate difficulty with a moderate number of clues.
-     */
-    MEDIUM,
+  /**
+   * Indicates a Sudoku puzzle of moderate difficulty with a moderate number of clues.
+   */
+  MEDIUM,
 
-    /**
-     * Indicates a challenging Sudoku puzzle with few clues and intricate arrangements.
-     */
-    HARD,
+  /**
+   * Indicates a challenging Sudoku puzzle with few clues and intricate arrangements.
+   */
+  HARD,
 
-    /**
-     * Indicates an extremely challenging Sudoku puzzle with almost no clues and highly complex arrangements.
-     */
-    VERY_HARD,
+  /**
+   * Indicates an extremely challenging Sudoku puzzle with almost no clues and highly complex arrangements.
+   */
+  VERY_HARD,
 }

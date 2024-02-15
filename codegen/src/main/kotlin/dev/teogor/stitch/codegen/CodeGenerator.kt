@@ -29,23 +29,23 @@ import dev.teogor.stitch.codegen.servicelocator.repositoryOutputWriter
 import dev.teogor.stitch.codegen.servicelocator.stitchModuleOutputWriter
 
 class CodeGenerator(
-    override val codeOutputStreamMaker: CodeOutputStreamMaker,
-    override val codeGenConfig: CodeGenConfig,
+  override val codeOutputStreamMaker: CodeOutputStreamMaker,
+  override val codeGenConfig: CodeGenConfig,
 ) : ServiceLocatorAccessor {
 
-    fun generate(
-        databaseModels: Sequence<DatabaseModel>,
-        roomModels: List<RoomModel>,
-    ) {
-        roomModels.forEach { roomModel ->
-            val repositoryType = repositoryOutputWriter.write(roomModel)
-            repositoryImplOutputWriter.write(roomModel, repositoryType)
-        }
-
-        stitchModuleOutputWriter.write(databaseModels, roomModels)
-
-        if (codeGenConfig.generateOperations) {
-            operationOutputWriter.write(databaseModels, roomModels)
-        }
+  fun generate(
+    databaseModels: Sequence<DatabaseModel>,
+    roomModels: List<RoomModel>,
+  ) {
+    roomModels.forEach { roomModel ->
+      val repositoryType = repositoryOutputWriter.write(roomModel)
+      repositoryImplOutputWriter.write(roomModel, repositoryType)
     }
+
+    stitchModuleOutputWriter.write(databaseModels, roomModels)
+
+    if (codeGenConfig.generateOperations) {
+      operationOutputWriter.write(databaseModels, roomModels)
+    }
+  }
 }

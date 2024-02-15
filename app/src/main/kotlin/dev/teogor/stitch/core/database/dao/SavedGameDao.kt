@@ -27,29 +27,29 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SavedGameDao {
-    @Query("SELECT * FROM saved_games")
-    fun getAll(): Flow<List<SavedGame>>
+  @Query("SELECT * FROM saved_games")
+  fun getAll(): Flow<List<SavedGame>>
 
-    @Query("SELECT * FROM saved_games WHERE board_id == :id")
-    suspend fun get(id: Long): SavedGame?
+  @Query("SELECT * FROM saved_games WHERE board_id == :id")
+  suspend fun get(id: Long): SavedGame?
 
-    @Query(
-        "SELECT * FROM saved_games " +
-            "WHERE completed == 'false' " +
-            "ORDER BY board_id DESC " +
-            "LIMIT 1",
-    )
-    fun getLast(): Flow<SavedGame?>
+  @Query(
+    "SELECT * FROM saved_games " +
+      "WHERE completed == 'false' " +
+      "ORDER BY board_id DESC " +
+      "LIMIT 1",
+  )
+  fun getLast(): Flow<SavedGame?>
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(savedGame: SavedGame)
+  @Update(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun update(savedGame: SavedGame)
 
-    @Delete
-    suspend fun delete(savedGame: SavedGame)
+  @Delete
+  suspend fun delete(savedGame: SavedGame)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(savedGames: List<SavedGame>)
+  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  suspend fun insert(savedGames: List<SavedGame>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(savedGame: SavedGame): Long
+  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  suspend fun insert(savedGame: SavedGame): Long
 }

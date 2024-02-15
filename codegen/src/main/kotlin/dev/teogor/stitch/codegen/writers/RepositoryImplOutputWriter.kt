@@ -31,23 +31,23 @@ import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.codegen.servicelocator.OutputWriter
 
 class RepositoryImplOutputWriter(
-    private val codeOutputStreamMaker: CodeOutputStreamMaker,
-    codeGenConfig: CodeGenConfig,
+  private val codeOutputStreamMaker: CodeOutputStreamMaker,
+  codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-    fun write(
-        roomModel: RoomModel,
-        repositoryType: TypeName,
+  fun write(
+    roomModel: RoomModel,
+    repositoryType: TypeName,
+  ) {
+    fileBuilder(
+      packageName = "${roomModel.getPackageName()}.data.repository.impl",
+      fileName = "${roomModel.name}RepositoryImpl",
     ) {
-        fileBuilder(
-            packageName = "${roomModel.getPackageName()}.data.repository.impl",
-            fileName = "${roomModel.name}RepositoryImpl",
-        ) {
-            addType(
-                TypeSpec.classBuilder("${roomModel.name}RepositoryImpl")
-                    .addSuperinterface(repositoryType)
-                    .addDocumentation(
-                        """
+      addType(
+        TypeSpec.classBuilder("${roomModel.name}RepositoryImpl")
+          .addSuperinterface(repositoryType)
+          .addDocumentation(
+            """
             Implementation of the [${roomModel.name}Repository] interface, providing access
             to [${roomModel.name}] data using a [${roomModel.dao.shortName}].
 
@@ -60,69 +60,83 @@ class RepositoryImplOutputWriter(
             @see [${roomModel.name}]
             @see [${roomModel.name}Repository]
             @see [${roomModel.dao.shortName}]
-                        """.trimIndent(),
-                    )
-                    .apply {
-                        primaryConstructor(
-                            FunSpec.constructorBuilder()
-                                .addParameter("dao", roomModel.dao)
-                                .build(),
-                        )
-                        addProperty(
-                            PropertySpec.builder("dao", roomModel.dao)
-                                .initializer("dao")
-                                .addModifiers(KModifier.PRIVATE)
-                                .build(),
-                        )
-
-                        roomModel.functions.forEach { function ->
-                            addFunction(
-                                FunSpec.builder(function.name)
-                                    .addModifiers(KModifier.OVERRIDE)
-                                    .addDocumentation(
-                                        buildString {
-                                            appendLine("Performs the ${function.name} operation on [${roomModel.name}]s.")
-
-                                            if (function.isSuspend) {
-                                                appendLine("This function is executed asynchronously and might block the calling thread.")
-                                                appendLine("Use it within coroutines or with appropriate thread management.")
-                                            }
-
-                                            if (function.parameters.isNotEmpty()) {
-                                                appendLine()
-                                                appendLine(function.parameters.joinToString(separator = "\n") { "@param ${it.name}" })
-                                            }
-
-                                            if (function.returnType != UNIT) {
-                                                appendLine()
-                                                appendLine("@return ${function.returnType.shortName}")
-                                            }
-                                        }.trimIndent(),
-                                    )
-                                    .apply {
-                                        val args = function.parameters.joinToString(separator = ",") {
-                                            it.name
-                                        }
-                                        val invokeCode = "dao.${function.name}($args)"
-                                        if (function.returnType != UNIT) {
-                                            returns(function.returnType)
-                                            addCode("return $invokeCode")
-                                        } else {
-                                            addCode(invokeCode)
-                                        }
-                                        function.parameters.forEach { parameter ->
-                                            addParameter(parameter.name, parameter.type)
-                                        }
-                                        if (function.isSuspend) {
-                                            addModifiers(KModifier.SUSPEND)
-                                        }
-                                    }
-                                    .build(),
-                            )
-                        }
-                    }
-                    .build(),
+            """.trimIndent(),
+          )
+          .apply {
+            primaryConstructor(
+              FunSpec.constructorBuilder()
+                .addParameter("dao", roomModel.dao)
+                .build(),
             )
-        }.writeWith(codeOutputStreamMaker)
-    }
+            addProperty(
+              PropertySpec.builder("dao", roomModel.dao)
+                .initializer("dao")
+                .addModifiers(KModifier.PRIVATE)
+                .build(),
+            )
+
+            roomModel.functions.forEach { function ->
+              addFunction(
+                FunSpec.builder(function.name)
+                  .addModifiers(KModifier.OVERRIDE)
+                  .addDocumentation(
+                    buildString {
+                      appendLine(
+                        "Performs the ${function.name} operation on [${roomModel.name}]s.",
+                      )
+
+                      if (function.isSuspend) {
+                        appendLine(
+                          "This function is executed asynchronously and might block the calling thread.",
+                        )
+                        appendLine(
+                          "Use it within coroutines or with appropriate thread management.",
+                        )
+                      }
+
+                      if (function.parameters.isNotEmpty()) {
+                        appendLine()
+                        appendLine(
+                          function.parameters.joinToString(
+                            separator = "\n",
+                          ) { "@param ${it.name}" },
+                        )
+                      }
+
+                      if (function.returnType != UNIT) {
+                        appendLine()
+                        appendLine(
+                          "@return ${function.returnType.shortName}",
+                        )
+                      }
+                    }.trimIndent(),
+                  )
+                  .apply {
+                    val args = function.parameters.joinToString(
+                      separator = ",",
+                    ) {
+                      it.name
+                    }
+                    val invokeCode = "dao.${function.name}($args)"
+                    if (function.returnType != UNIT) {
+                      returns(function.returnType)
+                      addCode("return $invokeCode")
+                    } else {
+                      addCode(invokeCode)
+                    }
+                    function.parameters.forEach { parameter ->
+                      addParameter(parameter.name, parameter.type)
+                    }
+                    if (function.isSuspend) {
+                      addModifiers(KModifier.SUSPEND)
+                    }
+                  }
+                  .build(),
+              )
+            }
+          }
+          .build(),
+      )
+    }.writeWith(codeOutputStreamMaker)
+  }
 }

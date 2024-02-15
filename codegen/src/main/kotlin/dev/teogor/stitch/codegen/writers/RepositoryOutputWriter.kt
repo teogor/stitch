@@ -31,19 +31,19 @@ import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.codegen.servicelocator.OutputWriter
 
 class RepositoryOutputWriter(
-    private val codeOutputStreamMaker: CodeOutputStreamMaker,
-    codeGenConfig: CodeGenConfig,
+  private val codeOutputStreamMaker: CodeOutputStreamMaker,
+  codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-    fun write(roomModel: RoomModel): TypeName {
-        fileBuilder(
-            packageName = "${roomModel.getPackageName()}.data.repository",
-            fileName = "${roomModel.name}Repository",
-        ) {
-            addType(
-                TypeSpec.interfaceBuilder("${roomModel.name}Repository")
-                    .addDocumentation(
-                        """
+  fun write(roomModel: RoomModel): TypeName {
+    fileBuilder(
+      packageName = "${roomModel.getPackageName()}.data.repository",
+      fileName = "${roomModel.name}Repository",
+    ) {
+      addType(
+        TypeSpec.interfaceBuilder("${roomModel.name}Repository")
+          .addDocumentation(
+            """
             Interface for accessing and managing [${roomModel.name}] data.
 
             This repository provides a high-level abstraction for interacting with [${roomModel.name}]'s,
@@ -53,58 +53,70 @@ class RepositoryOutputWriter(
 
             @see [${roomModel.name}]
             @see [${roomModel.dao.shortName}]
-                        """.trimIndent(),
-                    )
-                    .apply {
-                        roomModel.functions.forEach { function ->
-                            addFunction(
-                                FunSpec.builder(function.name)
-                                    .addModifiers(KModifier.ABSTRACT)
-                                    .apply {
-                                        val kdoc = buildString {
-                                            appendLine("Performs the ${function.name} operation on [${roomModel.name}]s.")
+            """.trimIndent(),
+          )
+          .apply {
+            roomModel.functions.forEach { function ->
+              addFunction(
+                FunSpec.builder(function.name)
+                  .addModifiers(KModifier.ABSTRACT)
+                  .apply {
+                    val kdoc = buildString {
+                      appendLine(
+                        "Performs the ${function.name} operation on [${roomModel.name}]s.",
+                      )
 
-                                            if (function.isSuspend) {
-                                                appendLine()
-                                                appendLine("This function is executed asynchronously and might block the calling thread.")
-                                                appendLine("Use it within coroutines or with appropriate thread management.")
-                                            }
+                      if (function.isSuspend) {
+                        appendLine()
+                        appendLine(
+                          "This function is executed asynchronously and might block the calling thread.",
+                        )
+                        appendLine(
+                          "Use it within coroutines or with appropriate thread management.",
+                        )
+                      }
 
-                                            if (function.parameters.isNotEmpty()) {
-                                                appendLine()
-                                                appendLine(function.parameters.joinToString(separator = "\n") { "@param ${it.name}" })
-                                            }
+                      if (function.parameters.isNotEmpty()) {
+                        appendLine()
+                        appendLine(
+                          function.parameters.joinToString(
+                            separator = "\n",
+                          ) { "@param ${it.name}" },
+                        )
+                      }
 
-                                            if (function.returnType != UNIT) {
-                                                appendLine()
-                                                appendLine("@return ${function.returnType.shortName}")
-                                            }
-                                        }
-
-                                        addDocumentation(kdoc.trimIndent())
-                                    }
-                                    .apply {
-                                        if (function.returnType != UNIT) {
-                                            returns(function.returnType)
-                                        }
-                                        function.parameters.forEach { parameter ->
-                                            addParameter(parameter.name, parameter.type)
-                                        }
-                                        if (function.isSuspend) {
-                                            addModifiers(KModifier.SUSPEND)
-                                        }
-                                    }
-                                    .build(),
-                            )
-                        }
+                      if (function.returnType != UNIT) {
+                        appendLine()
+                        appendLine(
+                          "@return ${function.returnType.shortName}",
+                        )
+                      }
                     }
-                    .build(),
-            )
-        }.writeWith(codeOutputStreamMaker)
 
-        return ClassName(
-            "${roomModel.getPackageName()}.data.repository",
-            "${roomModel.name}Repository",
-        )
-    }
+                    addDocumentation(kdoc.trimIndent())
+                  }
+                  .apply {
+                    if (function.returnType != UNIT) {
+                      returns(function.returnType)
+                    }
+                    function.parameters.forEach { parameter ->
+                      addParameter(parameter.name, parameter.type)
+                    }
+                    if (function.isSuspend) {
+                      addModifiers(KModifier.SUSPEND)
+                    }
+                  }
+                  .build(),
+              )
+            }
+          }
+          .build(),
+      )
+    }.writeWith(codeOutputStreamMaker)
+
+    return ClassName(
+      "${roomModel.getPackageName()}.data.repository",
+      "${roomModel.name}Repository",
+    )
+  }
 }

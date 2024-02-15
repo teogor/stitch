@@ -18,17 +18,17 @@ package dev.teogor.stitch.codegen.facades
 
 interface Logger {
 
-    fun logging(message: String)
+  fun logging(message: String)
 
-    fun info(message: String)
+  fun info(message: String)
 
-    fun warn(message: String)
+  fun warn(message: String)
 
-    fun error(message: String)
+  fun error(message: String)
 
-    fun exception(e: Throwable)
+  fun exception(e: Throwable)
 
-    companion object {
-        lateinit var instance: Logger
-    }
+  companion object {
+    lateinit var instance: Logger
+  }
 }

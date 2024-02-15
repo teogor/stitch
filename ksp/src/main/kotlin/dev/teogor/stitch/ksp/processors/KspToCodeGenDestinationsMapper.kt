@@ -21,11 +21,11 @@ import com.google.devtools.ksp.symbol.KSFile
 import dev.teogor.stitch.ksp.commons.KSFileSourceMapper
 
 class KspToCodeGenDestinationsMapper(
-    private val resolver: Resolver,
+  private val resolver: Resolver,
 ) : KSFileSourceMapper {
-    private val sourceFilesById = mutableMapOf<String, KSFile?>()
+  private val sourceFilesById = mutableMapOf<String, KSFile?>()
 
-    override fun mapToKSFile(sourceId: String): KSFile? {
-        return sourceFilesById[sourceId]
-    }
+  override fun mapToKSFile(sourceId: String): KSFile? {
+    return sourceFilesById[sourceId]
+  }
 }
