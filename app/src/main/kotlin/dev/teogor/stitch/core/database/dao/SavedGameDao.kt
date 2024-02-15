@@ -22,11 +22,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import dev.teogor.stitch.RawOperation
 import dev.teogor.stitch.core.database.model.SavedGame
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SavedGameDao {
+  @RawOperation
   @Query("SELECT * FROM saved_games")
   fun getAll(): Flow<List<SavedGame>>
 

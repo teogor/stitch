@@ -1,9 +1,25 @@
+public final class dev/teogor/stitch/api/OperationGenerationLevel : java/lang/Enum {
+	public static final field ALL Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static final field AUTOMATIC Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static final field Companion Ldev/teogor/stitch/api/OperationGenerationLevel$Companion;
+	public static final field DISABLED Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static final field EXPLICIT Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static fun valueOf (Ljava/lang/String;)Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static fun values ()[Ldev/teogor/stitch/api/OperationGenerationLevel;
+}
+
+public final class dev/teogor/stitch/api/OperationGenerationLevel$Companion {
+	public final fun from (Ljava/lang/String;)Ldev/teogor/stitch/api/OperationGenerationLevel;
+}
+
 public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun getAddDocumentation ()Z
-	public abstract fun getGenerateOperations ()Z
+	public abstract fun getEnableOperationGeneration ()Z
 	public abstract fun getGeneratedPackageName ()Ljava/lang/String;
+	public abstract fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public abstract fun setAddDocumentation (Z)V
-	public abstract fun setGenerateOperations (Z)V
+	public abstract fun setEnableOperationGeneration (Z)V
 	public abstract fun setGeneratedPackageName (Ljava/lang/String;)V
+	public abstract fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V
 }
 

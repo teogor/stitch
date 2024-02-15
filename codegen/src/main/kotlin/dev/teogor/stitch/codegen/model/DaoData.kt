@@ -18,8 +18,6 @@ package dev.teogor.stitch.codegen.model
 
 import com.squareup.kotlinpoet.TypeName
 
-data class FunctionData(val name: String)
-
 data class DatabaseModel(
   val entities: List<TypeName>,
   val type: TypeName,
@@ -45,6 +43,7 @@ data class FunctionKind(
   val isSuspend: Boolean,
   val returnType: TypeName,
   val parameters: List<ParameterKind>,
+  val enableRawOperationGeneration: Boolean = false,
 )
 
 data class ParameterKind(

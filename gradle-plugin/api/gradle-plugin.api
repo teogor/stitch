@@ -18,16 +18,18 @@ public final class dev/teogor/stitch/Plugin$apply$1$1$inlined$sam$i$org_gradle_a
 public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/api/StitchExtension {
 	public fun <init> ()V
 	public fun getAddDocumentation ()Z
-	public fun getGenerateOperations ()Z
+	public fun getEnableOperationGeneration ()Z
 	public fun getGeneratedPackageName ()Ljava/lang/String;
+	public fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public fun setAddDocumentation (Z)V
-	public fun setGenerateOperations (Z)V
+	public fun setEnableOperationGeneration (Z)V
 	public fun setGeneratedPackageName (Ljava/lang/String;)V
+	public fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V
 }
 
 public final class dev/teogor/stitch/StitchSchemaArgProvider : org/gradle/process/CommandLineArgumentProvider {
 	public static final field Companion Ldev/teogor/stitch/StitchSchemaArgProvider$Companion;
-	public fun <init> (ZZLjava/lang/String;)V
+	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;)V
 	public synthetic fun asArguments ()Ljava/lang/Iterable;
 	public fun asArguments ()Ljava/util/List;
 }

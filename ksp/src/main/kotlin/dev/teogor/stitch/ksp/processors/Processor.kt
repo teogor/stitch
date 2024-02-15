@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
 import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
@@ -32,6 +33,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
+import dev.teogor.stitch.RawOperation
 import dev.teogor.stitch.codegen.CodeGenerator
 import dev.teogor.stitch.codegen.commons.findCommonBase
 import dev.teogor.stitch.codegen.facades.Logger
@@ -141,6 +143,8 @@ class Processor(
           )
         }
         val functions = dao.getDeclaredFunctions().toList().map { function ->
+          val rawOperation = function.getAnnotationsByType(RawOperation::class)
+            .firstOrNull()
           val fieldName = function.simpleName.asString()
           val fieldType = function.returnType?.resolve().let {
             it?.toTypeName() ?: UNIT
@@ -157,6 +161,7 @@ class Processor(
             returnType = fieldType,
             parameters = parameters,
             isSuspend = isSuspend,
+            enableRawOperationGeneration = rawOperation?.generate ?: false,
           )
         }
         RoomModel(
