@@ -65,6 +65,25 @@ fun FileSpec.writeWith(
   }
 }
 
+fun getCommonBase(word1: String, word2: String): String {
+  val minLength = minOf(word1.length, word2.length)
+  var commonBase = ""
+
+  for (i in 0 until minLength) {
+    if (word1[i] == word2[i]) {
+      commonBase += word1[i]
+    } else {
+      break
+    }
+  }
+
+  if (commonBase.isEmpty()) {
+    return word1
+  }
+
+  return commonBase.removeSuffix("_")
+}
+
 fun findCommonBase(string1: String, string2: String): String {
   val parts1 = string1.split(".")
   val parts2 = string2.split(".")

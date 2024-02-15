@@ -20,6 +20,7 @@ import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
 import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
@@ -33,9 +34,11 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
+import dev.teogor.stitch.ExplicitEntities
 import dev.teogor.stitch.RawOperation
 import dev.teogor.stitch.codegen.CodeGenerator
 import dev.teogor.stitch.codegen.commons.findCommonBase
+import dev.teogor.stitch.codegen.commons.getCommonBase
 import dev.teogor.stitch.codegen.facades.Logger
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.FieldKind
@@ -44,6 +47,8 @@ import dev.teogor.stitch.codegen.model.ParameterKind
 import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.ksp.codegen.KspCodeOutputStreamMaker
 import dev.teogor.stitch.ksp.codegen.KspLogger
+import dev.teogor.stitch.ksp.commons.findArgumentValue
+import dev.teogor.stitch.ksp.commons.firstAnnotation
 import kotlin.reflect.KClass
 
 class Processor(
@@ -121,15 +126,44 @@ class Processor(
         } != null
       }
       .map { entity ->
+        val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
+        annotatedDao.forEach { daoClass ->
+          val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
+          if (explicitEntities != null) {
+            val entities = explicitEntities
+              .findArgumentValue<ArrayList<KSType>>("entities")
+              ?.toList()
+            daoToEntitiesMap[daoClass] = entities ?: emptyList()
+          }
+        }
+        val matchingDaoKeys = daoToEntitiesMap.keys.filter { daoClass ->
+          daoToEntitiesMap[daoClass]?.any { entityTest ->
+            entityTest.declaration.closestClassDeclaration() == entity
+          } ?: false
+        }
+
+        val matchingEntityClass = matchingDaoKeys.firstOrNull()
+
+        val potentialDao = annotatedDao.firstOrNull {
+          it.simpleName.asString().startsWith(
+            entity.simpleName.asString(),
+          )
+        }
+        val dao = when {
+          matchingEntityClass != null -> {
+            matchingEntityClass
+          }
+
+          potentialDao != null -> potentialDao
+          else -> null
+        }
         Pair(
           entity,
-          annotatedDao.first {
-            it.simpleName.asString().startsWith(
-              entity.simpleName.asString(),
-            )
-          },
+          dao,
         )
       }
+      // todo better handling for multiple DAOs
+      .distinctBy { it.second }
       .map { (entity, dao) ->
         val fields = entity.primaryConstructor!!.parameters.map { parameter ->
           val fieldName = parameter.name!!.asString()
@@ -142,7 +176,7 @@ class Processor(
             ),
           )
         }
-        val functions = dao.getDeclaredFunctions().toList().map { function ->
+        val functions = dao?.getDeclaredFunctions()?.toList()?.map { function ->
           val rawOperation = function.getAnnotationsByType(RawOperation::class)
             .firstOrNull()
           val fieldName = function.simpleName.asString()
@@ -163,17 +197,20 @@ class Processor(
             isSuspend = isSuspend,
             enableRawOperationGeneration = rawOperation?.generate ?: false,
           )
-        }
+        } ?: emptyList()
         RoomModel(
-          name = entity.simpleName.asString(),
+          name = getCommonBase(
+            entity.simpleName.asString(),
+            dao?.simpleName?.asString() ?: "",
+          ),
           packageName = findCommonBase(
-            entity.packageName.asString(),
-            dao.packageName.asString(),
+            string1 = entity.packageName.asString(),
+            string2 = dao?.packageName?.asString() ?: entity.packageName.asString(),
           ),
           fields = fields,
           functions = functions,
           entity = entity.toClassName(),
-          dao = dao.toClassName(),
+          dao = dao?.toClassName(),
         )
       }
 

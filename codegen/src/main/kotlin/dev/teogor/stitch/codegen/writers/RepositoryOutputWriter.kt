@@ -49,7 +49,7 @@ class RepositoryOutputWriter(
             This repository provides a high-level abstraction for interacting with [${roomModel.name}]'s,
             managing CRUD operations and data flow.
 
-            Generated based on [${roomModel.dao.shortName}]
+            Generated based on [${roomModel.dao!!.shortName}]
 
             @see [${roomModel.name}]
             @see [${roomModel.dao.shortName}]

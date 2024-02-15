@@ -1,4 +1,6 @@
-public abstract interface annotation class dev/teogor/stitch/Bind : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/teogor/stitch/ExplicitEntities : java/lang/annotation/Annotation {
+	public abstract fun entities ()[Ljava/lang/Class;
+	public abstract fun isExclusive ()Z
 }
 
 public abstract interface annotation class dev/teogor/stitch/Operation : java/lang/annotation/Annotation {

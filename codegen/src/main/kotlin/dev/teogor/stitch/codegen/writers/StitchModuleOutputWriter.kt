@@ -86,40 +86,42 @@ class StitchModuleOutputWriter(
                 )
                 .build(),
             )
-            roomModels.forEach { roomModel ->
+            roomModels.filter { it.hasDao }.forEach { roomModel ->
               val database = databaseModels.firstOrNull {
                 it.entities.contains(roomModel.entity)
               } ?: databaseModels.first()
-              val function = database.functions.first { it.returnType == roomModel.dao }
-              addFunction(
-                FunSpec.builder("provide${roomModel.name}Dao")
-                  .addDocumentation(
-                    """
+              val function = database.functions.firstOrNull { it.returnType == roomModel.dao }
+              if (function != null) {
+                addFunction(
+                  FunSpec.builder("provide${roomModel.name}Dao")
+                    .addDocumentation(
+                      """
                     Provides the [${roomModel.name}Dao] instance.
 
                     @param db The [${database.type.shortName}] instance.
 
                     @see [${roomModel.name}Dao]
                     @see [${database.type.shortName}]
-                    """.trimIndent(),
-                  )
-                  .addAnnotation(JAVAX_INJECT_SINGLETON)
-                  .addAnnotation(DAGGER_PROVIDES)
-                  .returns(
-                    ClassName(
-                      "${roomModel.packageName}.dao",
-                      "${roomModel.name}Dao",
-                    ),
-                  )
-                  .addParameter(
-                    ParameterSpec.builder(
-                      "db",
-                      database.type,
-                    ).build(),
-                  )
-                  .addStatement("return db.${function.name}()")
-                  .build(),
-              )
+                      """.trimIndent(),
+                    )
+                    .addAnnotation(JAVAX_INJECT_SINGLETON)
+                    .addAnnotation(DAGGER_PROVIDES)
+                    .returns(
+                      ClassName(
+                        "${roomModel.packageName}.dao",
+                        "${roomModel.name}Dao",
+                      ),
+                    )
+                    .addParameter(
+                      ParameterSpec.builder(
+                        "db",
+                        database.type,
+                      ).build(),
+                    )
+                    .addStatement("return db.${function.name}()")
+                    .build(),
+                )
+              }
               addFunction(
                 FunSpec.builder("provide${roomModel.name}Repository")
                   .addDocumentation(
