@@ -40,7 +40,7 @@ class RepositoryImplOutputWriter(
         repositoryType: TypeName,
     ) {
         fileBuilder(
-            packageName = "${roomModel.getPackageName()}.repository.impl",
+            packageName = "${roomModel.getPackageName()}.data.repository.impl",
             fileName = "${roomModel.name}RepositoryImpl",
         ) {
             addType(

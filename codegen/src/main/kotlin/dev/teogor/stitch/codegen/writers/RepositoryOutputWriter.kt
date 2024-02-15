@@ -37,7 +37,7 @@ class RepositoryOutputWriter(
 
     fun write(roomModel: RoomModel): TypeName {
         fileBuilder(
-            packageName = "${roomModel.getPackageName()}.repository",
+            packageName = "${roomModel.getPackageName()}.data.repository",
             fileName = "${roomModel.name}Repository",
         ) {
             addType(
@@ -103,7 +103,7 @@ class RepositoryOutputWriter(
         }.writeWith(codeOutputStreamMaker)
 
         return ClassName(
-            "${roomModel.getPackageName()}.repository",
+            "${roomModel.getPackageName()}.data.repository",
             "${roomModel.name}Repository",
         )
     }

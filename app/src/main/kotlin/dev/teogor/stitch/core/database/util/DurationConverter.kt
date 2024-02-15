@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.data.converters
+package dev.teogor.stitch.core.database.util
 
 import androidx.room.TypeConverter
 import java.time.Duration
