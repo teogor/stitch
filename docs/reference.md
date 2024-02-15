@@ -1,10 +1,9 @@
 ## Reference
 
 Welcome to the comprehensive API documentation for our project, meticulously crafted to empower you
-to
-effectively utilize its capabilities. This guide provides detailed information about the project's
-structure, API, and usage, enabling you to navigate the project with ease and unlock its full
-potential.
+to effectively utilize its capabilities. This guide provides detailed information about the
+project's structure, API, and usage, enabling you to navigate the project with ease and unlock its
+full potential.
 
 ### Project Overview
 
@@ -12,31 +11,14 @@ Our project encompasses a suite of modules, each designed to address specific fu
 enhance the overall developer experience. To delve into the intricacies of each module, refer to the
 dedicated documentation pages:
 
-**Dive into the essential components of our project:**
+### API Reference
 
-- **[Stitch](../reference):** Explore the core functionalities that weave everything together,
-  enabling seamless code generation, data binding, and more. Discover how Stitch streamlines your
-  development process and empowers you to focus on your app's core logic.
-
-- **[Codegen](../reference/codegen):** Delve into the heart of code generation, where magic happens
-  behind the scenes. Learn about the mechanisms that transform your annotations and models into
-  efficient, type-safe code, saving you time and effort.
-
-- **[Common](../reference/common):** Explore the shared utilities and components that form the
-  backbone of our project. Discover reusable classes, extensions, and tools that ensure consistency
-  and maintainability across different modules.
-
-- **[Gradle Plugin](../reference/gradle-plugin):** Empower your development with the Kotlin Symbol
-  Processing (KSP) Plugin. Learn how to seamlessly integrate Stitch into your Gradle build process,
-  enabling powerful code generation features at build time.
-
-- **[Gradle Plugin API](../reference/gradle-plugin-api):** Uncover the intricacies of custom Gradle
-  plugin development. Get insights into extending Stitch's capabilities and tailoring it to your
-  specific project needs through a flexible API.
-
-- **[KSP Processor](../reference/ksp):** Dive into the heart of code analysis and transformation.
-  Explore how Stitch utilizes KSP to examine your code, generate tailored components, and weave them
-  seamlessly into your project.
+* [`dev.teogor.stitch`](../html/){:target="_blank"}
+* [`dev.teogor.stitch:codegen`](../html/codegen){:target="_blank"}
+* [`dev.teogor.stitch:common`](../html/common){:target="_blank"}
+* [`dev.teogor.stitch:gradle-plugin`](../html/gradle-plugin){:target="_blank"}
+* [`dev.teogor.stitch:gradle-plugin-api`](../html/gradle-plugi-api){:target="_blank"}
+* [`dev.teogor.stitch:ksp`](../html/ksp){:target="_blank"}
 
 ### Contributions and Support
 

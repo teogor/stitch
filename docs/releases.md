@@ -8,16 +8,18 @@ Stitch handles the Room boilerplate, including automatic generation of repositor
 
 ### API Reference
 
-* [`dev.teogor.stitch`](../reference/gradle-plugin)
-* [`dev.teogor.stitch:codegen`](../reference/codegen)
-* [`dev.teogor.stitch:common`](../reference/common)
-* [`dev.teogor.stitch:gradle-plugin-api`](../reference/gradle-plugin-api)
-* [`dev.teogor.stitch:ksp`](../reference/ksp)
+* [`dev.teogor.stitch`](../html/){:target="_blank"}
+* [`dev.teogor.stitch:codegen`](../html/codegen){:target="_blank"}
+* [`dev.teogor.stitch:common`](../html/common){:target="_blank"}
+* [`dev.teogor.stitch:gradle-plugin`](../html/gradle-plugin){:target="_blank"}
+* [`dev.teogor.stitch:gradle-plugin-api`](../html/gradle-plugi-api){:target="_blank"}
+* [`dev.teogor.stitch:ksp`](../html/ksp){:target="_blank"}
 
 ### Release
 
 |   Latest Update   | Stable Release | Beta Release | Alpha Release |
 |:-----------------:|:--------------:|:------------:|:-------------:|
+| February 15, 2024 |       -        |      -       | 1.0.0-alpha02 |
 | February 06, 2024 |       -        |      -       | 1.0.0-alpha01 |
 
 ### Declaring dependencies
@@ -31,7 +33,7 @@ Add the dependencies for the artifacts you need in the `build.gradle` file for y
 
     ```kotlin
     plugins {
-      id("dev.teogor.stitch") version "1.0.0-alpha01"
+      id("dev.teogor.stitch") version "1.0.0-alpha02"
     }
     ```
 
@@ -39,7 +41,7 @@ Add the dependencies for the artifacts you need in the `build.gradle` file for y
 
     ```groovy
     plugins {
-      id 'dev.teogor.stitch' version '1.0.0-alpha01'
+      id 'dev.teogor.stitch' version '1.0.0-alpha02'
     }
     ```
 
@@ -53,6 +55,23 @@ existing issue by clicking the star button.
 [Create a new issue](https://github.com/teogor/stitch/issues/new){ .md-button }
 
 ### Version 1.0.0
+
+#### Version 1.0.0-alpha02
+
+February 15, 2024
+
+`dev.teogor.stitch:stitch-*:1.0.0-alpha02` is
+released. [Version 1.0.0-alpha02 contains these commits.](https://github.com/teogor/stitch/compare/1.0.0-alpha01...1.0.0-alpha02)
+
+**Enhancement**
+
+* Introduce Fine-grained Control over Generated Operations ([#8](https://github.com/teogor/stitch/pull/8)) by [@teogor](https://github.com/teogor)
+* Add `:core:database` package for data management ([#5](https://github.com/teogor/stitch/pull/5)) by [@teogor](https://github.com/teogor)
+
+**Bug Fixes**
+
+* Implement `ExplicitEntities` Annotation for Enhanced DAO and Entity Management ([#10](https://github.com/teogor/stitch/pull/10)) by [@teogor](https://github.com/teogor)
+* Prevent unintended null defaults in Stitch code generation ([#6](https://github.com/teogor/stitch/pull/6)) by [@teogor](https://github.com/teogor)
 
 #### Version 1.0.0-alpha01
 

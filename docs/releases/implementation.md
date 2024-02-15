@@ -4,7 +4,7 @@
 
 ### Latest Version
 
-The latest release is [`1.0.0-alpha01`](../releases.md)
+The latest release is [`1.0.0-alpha02`](../releases.md)
 
 ### Plugin Releases
 
@@ -12,6 +12,7 @@ Here's a summary of the latest versions:
 
 |    Version    |               Release Notes                | Release Date |
 |:-------------:|:------------------------------------------:|:------------:|
+| 1.0.0-alpha02 | [changelog 🔗](changelog/1.0.0-alpha02.md) | 15 Feb 2024  |
 | 1.0.0-alpha01 | [changelog 🔗](changelog/1.0.0-alpha01.md) | 06 Feb 2024  |
 
 ### Using Version Catalog
@@ -25,14 +26,15 @@ TOML format.
 
     ```toml title="gradle/libs.versions.toml"
     [versions]
-    stitch = "1.0.0-alpha01"
+    teogor-stitch = "1.0.0-alpha02"
 
     [libraries]
-    stitch-common = { id = "dev.teogor.stitch", name = "common", version.ref = "stitch" }
-    stitch-ksp = { id = "dev.teogor.stitch", name = "ksp", version.ref = "stitch" }
+    teogor-stitch-codegen = { module = "dev.teogor.stitch:codegen", version.ref = "teogor-stitch" }
+    teogor-stitch-common = { module = "dev.teogor.stitch:common", version.ref = "teogor-stitch" }
+    teogor-stitch-ksp = { module = "dev.teogor.stitch:ksp", version.ref = "teogor-stitch" }
 
     [plugins]
-    stitch = { id = "dev.teogor.stitch", version.ref = "stitch" }
+    teogor-stitch = { id = "dev.teogor.stitch", version.ref = "teogor-stitch" }
     ```
 
 #### Dependencies Implementation
@@ -40,19 +42,29 @@ TOML format.
 === "Kotlin"
 
     ```kotlin title="build.gradle.kts"
+    plugins {
+      // Stitch Plugin
+      alias(libs.plugins.teogor.stitch)
+    }
+
     dependencies {
       // Stitch Libraries
-      implementation(libs.stitch.common)
-      ksp(libs.stitch.ksp)
+      implementation(libs.teogor.stitch.common)
+      ksp(libs.teogor.stitch.ksp)
     }
     ```
 
 === "Groovy"
 
     ```groovy title="build.gradle"
+    plugins {
+      // Stitch Plugin
+      alias libs.plugins.teogor.stitch
+    }
+
     dependencies {
       // Stitch Libraries
-      implementation(libs.stitch.common)
-      ksp(libs.stitch.ksp)
+      implementation libs.teogor.stitch.common
+      ksp libs.teogor.stitch.ksp
     }
     ```
