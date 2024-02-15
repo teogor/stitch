@@ -10,9 +10,19 @@ public final class dev/teogor/stitch/Plugin : org/gradle/api/Plugin {
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public final class dev/teogor/stitch/Plugin$apply$1$1$1$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
+public final class dev/teogor/stitch/Plugin$apply$1$1$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
 	public fun <init> (Lkotlin/jvm/functions/Function1;)V
 	public final synthetic fun execute (Ljava/lang/Object;)V
+}
+
+public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/api/StitchExtension {
+	public fun <init> ()V
+	public fun getAddDocumentation ()Z
+	public fun getGenerateOperations ()Z
+	public fun getGeneratedPackageName ()Ljava/lang/String;
+	public fun setAddDocumentation (Z)V
+	public fun setGenerateOperations (Z)V
+	public fun setGeneratedPackageName (Ljava/lang/String;)V
 }
 
 public final class dev/teogor/stitch/StitchSchemaArgProvider : org/gradle/process/CommandLineArgumentProvider {

@@ -23,22 +23,33 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 
+/**
+ * A Plugin for applying Stitch functionalities to your project.
+ *
+ * This plugin configures Ksp to generate code based on your project's Stitch schema.
+ * You can customize generation behavior through the provided [StitchExtension].
+ *
+ * @see StitchExtension interface for configuration options.
+ */
 class Plugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            val stitchExtension = extensions.create<StitchExtension>(
-                name = "stitch",
-            )
+  override fun apply(target: Project) {
+    with(target) {
+      // Create a named extension instance for configuration
+      val extension = extensions.create(
+        publicType = StitchExtension::class,
+        name = "stitch",
+        instanceType = StitchExtensionImpl::class,
+      )
 
-            with(target) {
-                pluginManager.apply("com.google.devtools.ksp")
+      // Apply the KSP plugin
+      pluginManager.apply("com.google.devtools.ksp")
 
-                afterEvaluate {
-                    extensions.configure<KspExtension> {
-                        arg(StitchSchemaArgProvider.from(stitchExtension))
-                    }
-                }
-            }
+      // Configure KSP extension after project evaluation
+      afterEvaluate {
+        extensions.configure<KspExtension> {
+          arg(StitchSchemaArgProvider.from(extension))
         }
+      }
     }
+  }
 }
