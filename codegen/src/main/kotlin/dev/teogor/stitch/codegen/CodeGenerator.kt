@@ -44,7 +44,7 @@ class CodeGenerator(
 
     stitchModuleOutputWriter.write(databaseModels, roomModels)
 
-    if (codeGenConfig.generateOperations) {
+    if (codeGenConfig.enableOperationGeneration) {
       operationOutputWriter.write(databaseModels, roomModels)
     }
   }

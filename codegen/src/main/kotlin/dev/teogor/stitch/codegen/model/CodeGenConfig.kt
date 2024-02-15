@@ -16,8 +16,11 @@
 
 package dev.teogor.stitch.codegen.model
 
+import dev.teogor.stitch.api.OperationGenerationLevel
+
 data class CodeGenConfig(
   val addDocumentation: Boolean,
-  val generateOperations: Boolean,
+  val enableOperationGeneration: Boolean,
   val generatedPackageName: String?,
+  val operationGenerationLevel: OperationGenerationLevel,
 )

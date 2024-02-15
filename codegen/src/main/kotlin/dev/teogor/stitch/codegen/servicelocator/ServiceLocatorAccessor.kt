@@ -33,7 +33,7 @@ internal interface ServiceLocatorAccessor {
 }
 
 abstract class OutputWriter(
-  private val codeGenConfig: CodeGenConfig,
+  internal val codeGenConfig: CodeGenConfig,
 ) {
 
   fun RoomModel.getPackageName() = codeGenConfig.generatedPackageName ?: packageName

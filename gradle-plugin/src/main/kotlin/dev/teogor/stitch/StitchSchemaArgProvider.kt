@@ -16,26 +16,30 @@
 
 package dev.teogor.stitch
 
+import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.api.StitchExtension
 import org.gradle.process.CommandLineArgumentProvider
 
 class StitchSchemaArgProvider(
   private val addDocumentation: Boolean,
-  private val generateOperations: Boolean,
+  private val enableOperationGeneration: Boolean,
   private val generatedPackageName: String,
+  private val operationGenerationLevel: OperationGenerationLevel,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
     "stitch.addDocumentation=$addDocumentation",
-    "stitch.generateOperations=$generateOperations",
+    "stitch.enableOperationGeneration=$enableOperationGeneration",
     "stitch.generatedPackageName=$generatedPackageName",
+    "stitch.operationGenerationLevel=$operationGenerationLevel",
   )
 
   companion object {
     fun from(stitchExtension: StitchExtension) = StitchSchemaArgProvider(
       addDocumentation = stitchExtension.addDocumentation,
-      generateOperations = stitchExtension.generateOperations,
+      enableOperationGeneration = stitchExtension.enableOperationGeneration,
       generatedPackageName = stitchExtension.generatedPackageName,
+      operationGenerationLevel = stitchExtension.operationGenerationLevel,
     )
   }
 }

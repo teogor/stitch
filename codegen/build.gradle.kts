@@ -32,6 +32,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 dependencies {
   api(project(mapOf("path" to ":common")))
+  api(project(mapOf("path" to ":gradle-plugin-api")))
 
   api(libs.kotlin.poet)
   api(libs.kotlin.poet.ksp)

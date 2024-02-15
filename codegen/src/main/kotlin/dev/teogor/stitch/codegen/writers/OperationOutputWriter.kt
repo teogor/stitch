@@ -24,6 +24,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.Operation
 import dev.teogor.stitch.OperationSignature
+import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.codegen.commons.JAVAX_INJECT
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.titleCase
@@ -46,7 +47,19 @@ class OperationOutputWriter(
     roomModels.forEach { room ->
       val generatedClasses = mutableMapOf<String, MutableList<FunSpec>>()
 
-      room.functions.forEach { function ->
+      val filteredFunctions = when (codeGenConfig.operationGenerationLevel) {
+        OperationGenerationLevel.ALL -> room.functions
+        OperationGenerationLevel.EXPLICIT -> room.functions.filter {
+          it.enableRawOperationGeneration
+        }
+
+        OperationGenerationLevel.AUTOMATIC -> room.functions.filter {
+          it.enableRawOperationGeneration
+        }
+
+        OperationGenerationLevel.DISABLED -> emptyList()
+      }
+      filteredFunctions.forEach { function ->
         val existingFunctions = generatedClasses.getOrDefault(
           function.name,
           mutableListOf(),

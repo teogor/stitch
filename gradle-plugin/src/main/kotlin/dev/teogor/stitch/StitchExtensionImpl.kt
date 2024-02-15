@@ -16,6 +16,7 @@
 
 package dev.teogor.stitch
 
+import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.api.StitchExtension
 
 /**
@@ -43,7 +44,27 @@ abstract class StitchExtensionImpl : StitchExtension {
    *
    * By default, this is set to `true`.
    */
-  override var generateOperations: Boolean = true
+  override var enableOperationGeneration: Boolean = true
+
+  /**
+   * Defines the level of generation for Stitch operation classes.
+   *
+   * This property offers more fine-grained control over how operation classes are generated.
+   * You can choose from the following options:
+   *
+   * - **[OperationGenerationLevel.ALL]:** Generate operations for all methods in DAOs.
+   * - **[OperationGenerationLevel.EXPLICIT]:** Generate operations only for methods annotated
+   * with [dev.teogor.stitch.RawOperation].
+   * - **[OperationGenerationLevel.AUTOMATIC]:** Use heuristics or rules to automatically choose
+   * whether to generate for each method.
+   * - **[OperationGenerationLevel.DISABLED]:** Do not generate any operation classes, even for
+   * annotated methods.
+   *
+   * By default, this is set to [OperationGenerationLevel.EXPLICIT].
+   *
+   * @return The desired level of operation generation.
+   */
+  override var operationGenerationLevel: OperationGenerationLevel = OperationGenerationLevel.EXPLICIT
 
   /**
    * Specifies the base package name for generated code or artifacts.
