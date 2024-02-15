@@ -133,7 +133,7 @@ class StitchModuleOutputWriter(
                                     .addAnnotation(DAGGER_PROVIDES)
                                     .returns(
                                         ClassName(
-                                            "${roomModel.getPackageName()}.repository",
+                                            "${roomModel.getPackageName()}.data.repository",
                                             "${roomModel.name}Repository",
                                         ),
                                     )
@@ -149,7 +149,7 @@ class StitchModuleOutputWriter(
                                     .addStatement(
                                         "return %T(dao)",
                                         ClassName(
-                                            "${roomModel.getPackageName()}.repository.impl",
+                                            "${roomModel.getPackageName()}.data.repository.impl",
                                             "${roomModel.name}RepositoryImpl",
                                         ),
                                     )

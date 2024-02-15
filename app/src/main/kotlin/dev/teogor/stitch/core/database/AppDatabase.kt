@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.data
+package dev.teogor.stitch.core.database
 
-// import dev.teogor.stitch.data.dao.GameWithBoardDao
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import dev.teogor.stitch.data.converters.Converters
-import dev.teogor.stitch.data.converters.DurationConverter
-import dev.teogor.stitch.data.converters.ZonedDateTimeConverter
-import dev.teogor.stitch.data.dao.SavedGameDao
-import dev.teogor.stitch.data.dao.TestingKindDao
-import dev.teogor.stitch.data.model.SavedGame
-import dev.teogor.stitch.data.model.TestingKind
+import dev.teogor.stitch.core.database.util.Converters
+import dev.teogor.stitch.core.database.util.DurationConverter
+import dev.teogor.stitch.core.database.util.ZonedDateTimeConverter
+import dev.teogor.stitch.core.database.dao.SavedGameDao
+import dev.teogor.stitch.core.database.dao.TestingKindDao
+import dev.teogor.stitch.core.database.model.SavedGame
+import dev.teogor.stitch.core.database.model.TestingKind
 
 @Database(
     entities = [

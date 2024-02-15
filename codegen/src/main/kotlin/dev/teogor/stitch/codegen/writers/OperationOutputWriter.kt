@@ -77,7 +77,7 @@ class OperationOutputWriter(
             generatedClasses.forEach { (baseName, invokeFunctions) ->
                 val className = "${room.name}${baseName.titleCase()}Operation"
                 fileBuilder(
-                    packageName = "${room.getPackageName()}.operations",
+                    packageName = "${room.getPackageName()}.database.operation",
                     fileName = className,
                 ) {
                     addType(
@@ -88,7 +88,7 @@ class OperationOutputWriter(
                                     PropertySpec.builder(
                                         "repository",
                                         ClassName(
-                                            "${room.getPackageName()}.repository",
+                                            "${room.getPackageName()}.data.repository",
                                             "${room.name}Repository",
                                         ),
                                     )
@@ -101,7 +101,7 @@ class OperationOutputWriter(
                                         .addParameter(
                                             "repository",
                                             ClassName(
-                                                "${room.getPackageName()}.repository",
+                                                "${room.getPackageName()}.data.repository",
                                                 "${room.name}Repository",
                                             ),
                                         )

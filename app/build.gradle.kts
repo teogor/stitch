@@ -25,7 +25,7 @@ plugins {
 ksp {
   arg("stitch.addDocumentation", "true")
   arg("stitch.generateOperations", "true")
-  arg("stitch.generatedPackageName", "dev.teogor.stitch.database")
+  arg("stitch.generatedPackageName", "dev.teogor.stitch")
 }
 
 android {

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.data.converters
+package dev.teogor.stitch.core.database.util
 
 import androidx.room.TypeConverter
-import dev.teogor.stitch.data.model.Difficulty
-import dev.teogor.stitch.data.model.GameType
-import dev.teogor.stitch.data.model.SudokuEventType
+import dev.teogor.stitch.core.database.model.Difficulty
+import dev.teogor.stitch.core.database.model.GameType
+import dev.teogor.stitch.core.database.model.SudokuEventType
 
 object Converters {
     @TypeConverter

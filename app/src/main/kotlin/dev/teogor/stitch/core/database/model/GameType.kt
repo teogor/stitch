@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.data.model
+package dev.teogor.stitch.core.database.model
 
 // TODO get box size and row/col size
 

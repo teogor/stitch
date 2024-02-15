@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.data.dao
+package dev.teogor.stitch.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -22,7 +22,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import dev.teogor.stitch.data.model.SavedGame
+import dev.teogor.stitch.core.database.model.SavedGame
 import kotlinx.coroutines.flow.Flow
 
 @Dao
