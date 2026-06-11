@@ -228,9 +228,7 @@ class Processor(
     return emptyList()
   }
 
-  private fun Resolver.findAnnotations(
-    kClass: KClass<*>,
-  ) = getSymbolsWithAnnotation(
+  private fun Resolver.findAnnotations(kClass: KClass<*>) = getSymbolsWithAnnotation(
     kClass.qualifiedName.toString(),
   )
 

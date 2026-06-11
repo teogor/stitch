@@ -35,10 +35,7 @@ class RepositoryImplOutputWriter(
   codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(
-    roomModel: RoomModel,
-    repositoryType: TypeName,
-  ) {
+  fun write(roomModel: RoomModel, repositoryType: TypeName) {
     fileBuilder(
       packageName = "${roomModel.getPackageName()}.data.repository.impl",
       fileName = "${roomModel.name}RepositoryImpl",

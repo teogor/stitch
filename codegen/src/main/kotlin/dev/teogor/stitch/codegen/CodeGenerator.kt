@@ -33,10 +33,7 @@ class CodeGenerator(
   override val codeGenConfig: CodeGenConfig,
 ) : ServiceLocatorAccessor {
 
-  fun generate(
-    databaseModels: Sequence<DatabaseModel>,
-    roomModels: List<RoomModel>,
-  ) {
+  fun generate(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
     roomModels.filter { it.hasDao }.forEach { roomModel ->
       val repositoryType = repositoryOutputWriter.write(roomModel)
       repositoryImplOutputWriter.write(roomModel, repositoryType)

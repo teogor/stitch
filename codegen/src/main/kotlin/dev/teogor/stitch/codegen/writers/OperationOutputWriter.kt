@@ -40,10 +40,7 @@ class OperationOutputWriter(
   codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(
-    databaseModels: Sequence<DatabaseModel>,
-    roomModels: List<RoomModel>,
-  ) {
+  fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
     roomModels.forEach { room ->
       val generatedClasses = mutableMapOf<String, MutableList<FunSpec>>()
 

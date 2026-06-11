@@ -40,10 +40,7 @@ class StitchModuleOutputWriter(
   codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(
-    databaseModels: Sequence<DatabaseModel>,
-    roomModels: List<RoomModel>,
-  ) {
+  fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
     val packageName = roomModels.first().getPackageName()
     fileBuilder(
       packageName = "$packageName.di",
