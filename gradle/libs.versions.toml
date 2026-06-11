@@ -21,8 +21,7 @@ activity-compose = "1.13.0"
 compose-bom = "2026.05.01"
 room = "3.0.0-alpha06"
 sqlite = "2.7.0-alpha06"
-hilt = "2.59.2"
-hiltExt = "1.2.0"
+metro = "1.2.0"
 kotlin-poet = "2.3.0"
 gradle-publish = "2.1.1"
 build-config = "6.0.10"
@@ -50,11 +49,7 @@ room-common = { group = "androidx.room3", name = "room3-common", version.ref = "
 room-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room" }
 sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
-hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
+metro-runtime = { group = "dev.zacsweers.metro", name = "runtime", version.ref = "metro" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
@@ -69,7 +64,7 @@ stitch-kotlin-library = { id = "stitch.kotlin.library" }
 stitch-gradle-plugin = { id = "stitch.gradle.plugin" }
 
 # External plugins
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -25,7 +25,7 @@ import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.Operation
 import dev.teogor.stitch.OperationSignature
 import dev.teogor.stitch.api.OperationGenerationLevel
-import dev.teogor.stitch.codegen.commons.JAVAX_INJECT
+import dev.teogor.stitch.codegen.commons.METRO_INJECT
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.titleCase
 import dev.teogor.stitch.codegen.commons.writeWith
@@ -118,7 +118,7 @@ class OperationOutputWriter(
                         "${room.name}Repository",
                       ),
                     )
-                    .addAnnotation(JAVAX_INJECT)
+                    .addAnnotation(METRO_INJECT)
                     .build(),
                 )
                 invokeFunctions.forEach { addFunction(it) }

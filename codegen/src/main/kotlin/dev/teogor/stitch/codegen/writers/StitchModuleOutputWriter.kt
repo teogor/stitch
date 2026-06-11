@@ -21,11 +21,11 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeSpec
-import dev.teogor.stitch.codegen.commons.DAGGER_INSTALL_IN
-import dev.teogor.stitch.codegen.commons.DAGGER_MODULE
-import dev.teogor.stitch.codegen.commons.DAGGER_PROVIDES
-import dev.teogor.stitch.codegen.commons.DAGGER_SINGLETON_COMPONENT
-import dev.teogor.stitch.codegen.commons.JAVAX_INJECT_SINGLETON
+import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
+import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
+import dev.teogor.stitch.codegen.commons.METRO_PROVIDES
+import dev.teogor.stitch.codegen.commons.METRO_SINGLE_IN
+import dev.teogor.stitch.codegen.commons.STITCH_SCOPE
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.shortName
 import dev.teogor.stitch.codegen.commons.writeWith
@@ -48,10 +48,10 @@ class StitchModuleOutputWriter(
     ) {
       addType(
         TypeSpec.objectBuilder("StitchModule")
-          .addAnnotation(DAGGER_MODULE)
+          .addAnnotation(METRO_BINDING_CONTAINER)
           .addAnnotation(
-            AnnotationSpec.builder(DAGGER_INSTALL_IN)
-              .addMember("%T::class", DAGGER_SINGLETON_COMPONENT)
+            AnnotationSpec.builder(METRO_CONTRIBUTES_TO)
+              .addMember("%T::class", STITCH_SCOPE)
               .build(),
           )
           .addDocumentation(
@@ -65,7 +65,7 @@ class StitchModuleOutputWriter(
           .apply {
             addFunction(
               FunSpec.builder("provideAppDatabase")
-                .addAnnotation(DAGGER_PROVIDES)
+                .addAnnotation(METRO_PROVIDES)
                 .addParameter("app", ClassName("android.app", "Application"))
                 .returns(databaseModels.first().type)
                 .addDocumentation(
@@ -101,8 +101,12 @@ class StitchModuleOutputWriter(
                     @see [${database.type.shortName}]
                       """.trimIndent(),
                     )
-                    .addAnnotation(JAVAX_INJECT_SINGLETON)
-                    .addAnnotation(DAGGER_PROVIDES)
+                    .addAnnotation(
+                      AnnotationSpec.builder(METRO_SINGLE_IN)
+                        .addMember("%T::class", STITCH_SCOPE)
+                        .build(),
+                    )
+                    .addAnnotation(METRO_PROVIDES)
                     .returns(
                       ClassName(
                         "${roomModel.packageName}.dao",
@@ -131,8 +135,12 @@ class StitchModuleOutputWriter(
                     @see [${roomModel.name}Repository]
                     """.trimIndent(),
                   )
-                  .addAnnotation(JAVAX_INJECT_SINGLETON)
-                  .addAnnotation(DAGGER_PROVIDES)
+                  .addAnnotation(
+                    AnnotationSpec.builder(METRO_SINGLE_IN)
+                      .addMember("%T::class", STITCH_SCOPE)
+                      .build(),
+                  )
+                  .addAnnotation(METRO_PROVIDES)
                   .returns(
                     ClassName(
                       "${roomModel.getPackageName()}.data.repository",

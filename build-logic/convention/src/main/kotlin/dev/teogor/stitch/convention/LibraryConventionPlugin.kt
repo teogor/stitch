@@ -18,13 +18,13 @@ class LibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<JavaPluginExtension> {
-                sourceCompatibility = JavaVersion.VERSION_11
-                targetCompatibility = JavaVersion.VERSION_11
+                sourceCompatibility = JavaVersion.VERSION_21
+                targetCompatibility = JavaVersion.VERSION_21
             }
 
             tasks.withType<KotlinCompile>().configureEach {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_11)
+                    jvmTarget.set(JvmTarget.JVM_21)
                 }
             }
         }
