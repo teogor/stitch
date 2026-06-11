@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.dao
+package dev.teogor.stitch.core.data.dao
 
 import androidx.room3.Dao
 import androidx.room3.Delete
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
-import com.zeoowl.beatifyd.core.data.model.BlackListStoreEntity
 import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.core.data.model.BlackListStoreEntity
 
 @Dao
 @ExplicitEntities(

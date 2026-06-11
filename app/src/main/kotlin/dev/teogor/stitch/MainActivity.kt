@@ -26,19 +26,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.teogor.stitch.ui.theme.StitchTheme
+import dev.teogor.stitch.ui.theme.stitchTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      StitchTheme {
+      stitchTheme {
         // A surface container using the 'background' color from the theme
         Surface(
           modifier = Modifier.fillMaxSize(),
           color = MaterialTheme.colorScheme.background,
         ) {
-          Greeting("Android")
+          greeting("Android")
         }
       }
     }
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun greeting(name: String, modifier: Modifier = Modifier) {
   Text(
     text = "Hello $name!",
     modifier = modifier,
@@ -55,8 +55,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-  StitchTheme {
-    Greeting("Android")
+fun greetingPreview() {
+  stitchTheme {
+    greeting("Android")
   }
 }

@@ -115,6 +115,7 @@ subprojects {
               "unary-op-spacing," +
               "no-trailing-spaces," +
               "no-wildcard-imports," +
+              "standard:function-naming,standard:property-naming," +
               "max-line-length",
           ),
         )

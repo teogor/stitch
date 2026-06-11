@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.model
+package dev.teogor.stitch.core.data.model
 
-import androidx.room3.Entity
-import androidx.room3.PrimaryKey
+import androidx.room3.Embedded
+import androidx.room3.Relation
 
-@Entity
-data class BlackListStoreEntity(
-  @PrimaryKey val path: String,
+data class PlaylistWithSongs(
+  @Embedded val playlist: Playlist,
+  @Relation(
+    parentColumns = ["playlist_id"],
+    entityColumns = ["playlist_creator_id"],
+  )
+  val songs: List<Song>,
 )

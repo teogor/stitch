@@ -32,7 +32,6 @@ import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.RoomModel
-import dev.teogor.stitch.codegen.servicelocator.OutputWriter
 
 class OperationOutputWriter(
   private val codeOutputStreamMaker: CodeOutputStreamMaker,

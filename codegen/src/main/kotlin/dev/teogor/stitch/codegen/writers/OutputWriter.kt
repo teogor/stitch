@@ -14,24 +14,14 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.codegen.servicelocator
+package dev.teogor.stitch.codegen.writers
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeSpec
 import dev.teogor.stitch.codegen.commons.titleCase
-import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.RoomModel
-import dev.teogor.stitch.codegen.writers.OperationOutputWriter
-import dev.teogor.stitch.codegen.writers.RepositoryImplOutputWriter
-import dev.teogor.stitch.codegen.writers.RepositoryOutputWriter
-import dev.teogor.stitch.codegen.writers.StitchModuleOutputWriter
-
-internal interface ServiceLocatorAccessor {
-  val codeOutputStreamMaker: CodeOutputStreamMaker
-  val codeGenConfig: CodeGenConfig
-}
 
 abstract class OutputWriter(
   internal val codeGenConfig: CodeGenConfig,
@@ -82,27 +72,3 @@ abstract class OutputWriter(
     }
   }
 }
-
-internal val ServiceLocatorAccessor.repositoryOutputWriter
-  get() = RepositoryOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
-
-internal val ServiceLocatorAccessor.repositoryImplOutputWriter
-  get() = RepositoryImplOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
-
-internal val ServiceLocatorAccessor.operationOutputWriter
-  get() = OperationOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
-
-internal val ServiceLocatorAccessor.stitchModuleOutputWriter
-  get() = StitchModuleOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )

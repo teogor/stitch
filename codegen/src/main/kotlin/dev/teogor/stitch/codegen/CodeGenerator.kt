@@ -22,16 +22,35 @@ import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.RoomModel
-import dev.teogor.stitch.codegen.servicelocator.ServiceLocatorAccessor
-import dev.teogor.stitch.codegen.servicelocator.operationOutputWriter
-import dev.teogor.stitch.codegen.servicelocator.repositoryImplOutputWriter
-import dev.teogor.stitch.codegen.servicelocator.repositoryOutputWriter
-import dev.teogor.stitch.codegen.servicelocator.stitchModuleOutputWriter
+import dev.teogor.stitch.codegen.writers.OperationOutputWriter
+import dev.teogor.stitch.codegen.writers.RepositoryImplOutputWriter
+import dev.teogor.stitch.codegen.writers.RepositoryOutputWriter
+import dev.teogor.stitch.codegen.writers.StitchModuleOutputWriter
 
 class CodeGenerator(
-  override val codeOutputStreamMaker: CodeOutputStreamMaker,
-  override val codeGenConfig: CodeGenConfig,
-) : ServiceLocatorAccessor {
+  private val codeOutputStreamMaker: CodeOutputStreamMaker,
+  private val codeGenConfig: CodeGenConfig,
+) {
+
+  private val repositoryOutputWriter = RepositoryOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
+
+  private val repositoryImplOutputWriter = RepositoryImplOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
+
+  private val operationOutputWriter = OperationOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
+
+  private val stitchModuleOutputWriter = StitchModuleOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
 
   fun generate(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
     roomModels.filter { it.hasDao }.forEach { roomModel ->

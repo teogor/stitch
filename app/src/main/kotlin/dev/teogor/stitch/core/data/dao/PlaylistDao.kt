@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.dao
+package dev.teogor.stitch.core.data.dao
 
 import androidx.room3.Dao
 import androidx.room3.Delete
@@ -23,10 +23,10 @@ import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
 import androidx.room3.RewriteQueriesToDropUnusedColumns
 import androidx.room3.Transaction
-import com.zeoowl.beatifyd.core.data.model.Playlist
-import com.zeoowl.beatifyd.core.data.model.PlaylistWithSongs
-import com.zeoowl.beatifyd.core.data.model.Song
 import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.core.data.model.Playlist
+import dev.teogor.stitch.core.data.model.PlaylistWithSongs
+import dev.teogor.stitch.core.data.model.Song
 import kotlinx.coroutines.flow.Flow
 
 @Dao

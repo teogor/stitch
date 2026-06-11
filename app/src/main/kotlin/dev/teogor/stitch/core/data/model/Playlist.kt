@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.dao
+package dev.teogor.stitch.core.data.model
 
-import androidx.room3.Dao
-import androidx.room3.Delete
-import androidx.room3.Insert
-import androidx.room3.Query
-import androidx.room3.Update
-import com.zeoowl.beatifyd.core.data.model.Lyrics
+import androidx.room3.ColumnInfo
+import androidx.room3.Entity
+import androidx.room3.PrimaryKey
 
-@Dao
-interface LyricsDao {
-  @Query("SELECT * FROM Lyrics WHERE songId =:songId LIMIT 1")
-  fun lyricsWithSongId(songId: Int): Lyrics?
+@Entity
+class Playlist(
+  @PrimaryKey(autoGenerate = true)
+  @ColumnInfo(name = "playlist_id")
+  val playListId: Long = 0,
 
-  @Insert
-  fun insertLyrics(lyricsEntity: Lyrics)
-
-  @Delete
-  fun deleteLyrics(lyricsEntity: Lyrics)
-
-  @Update
-  fun updateLyrics(lyricsEntity: Lyrics)
-}
+  @ColumnInfo(name = "playlist_name")
+  val playlistName: String,
+)
