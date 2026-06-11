@@ -14,7 +14,7 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 **Stitch offers a tapestry of benefits:**
 
 * **Automatic Code Generation:** Say goodbye to repetitive boilerplate! Stitch generates Repositories, Repository Implementations, and Operations based on your Room DAOs and entities.
-* **Seamless Hilt Integration:** Enjoy a smooth blend of dependency injection with automatically created Hilt modules, ensuring your code remains clean and organized.
+* **Seamless Metro Integration:** Enjoy a smooth blend of dependency injection with automatically created Metro binding containers, ensuring your code remains clean and organized.
 * **Tailored to Your Needs:** Customize generated code to perfectly fit your project's unique requirements, ensuring a truly bespoke solution.
 * **Asynchronous Agility:** Embrace the power of coroutines with Stitch's efficient data handling, keeping your app responsive and nimble.
 * **KSP-powered Efficiency:** Leverage the magic of Kotlin Symbol Processing for accurate and optimized code generation, ensuring seamless integration.
@@ -35,7 +35,7 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
     * Customizing base class or interface for repositories.
     * Specifying naming conventions for generated components.
     * Excluding specific entities or DAOs from generation.
-* **Dependency Injection Integration:** Stitch seamlessly integrates with Hilt, automatically generating modules for injected repository instances.
+* **Dependency Injection Integration:** Stitch seamlessly integrates with Metro, automatically generating binding containers for injected repository instances.
 * **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
 * **Efficient KSP Integration:** Leverages Kotlin Symbol Processing for accurate and optimized code generation based on your project's specific setup.
 
