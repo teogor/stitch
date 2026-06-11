@@ -73,4 +73,38 @@ abstract class StitchExtensionImpl : StitchExtension {
    * placed in the root package.
    */
   override var generatedPackageName: String = ""
+
+  /**
+   * The suffix to append to the generated repository interfaces.
+   *
+   * By default, this is set to `"Repository"`.
+   */
+  override var repositorySuffix: String = "Repository"
+
+  /**
+   * The suffix to append to the generated operation classes.
+   *
+   * By default, this is set to `"Operation"`.
+   */
+  override var operationSuffix: String = "Operation"
+
+  /**
+   * Optional package name override for generated repository interfaces.
+   */
+  override var repositoryPackage: String? = null
+
+  /**
+   * Optional package name override for generated repository implementations.
+   */
+  override var repositoryImplPackage: String? = null
+
+  /**
+   * Optional package name override for generated operation classes.
+   */
+  override var operationPackage: String? = null
+
+  /**
+   * Optional package name override for the generated DI module.
+   */
+  override var diPackage: String? = null
 }
