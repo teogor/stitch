@@ -40,7 +40,7 @@ import dev.teogor.stitch.core.data.model.Song
     Playlist::class,
     Song::class,
   ],
-  version = 2,
+  version = 1,
 )
 @TypeConverters
 abstract class BeatifydDatabase : RoomDatabase() {
