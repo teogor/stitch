@@ -14,33 +14,21 @@
  * limitations under the License.
  */
 plugins {
-  id("java-library")
-  alias(libs.plugins.jetbrains.kotlin.jvm)
-  alias(libs.plugins.winds)
-}
-
-java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
-  }
+  alias(libs.plugins.stitch.kotlin.library)
 }
 
 dependencies {
-  api(project(mapOf("path" to ":common")))
-  api(project(mapOf("path" to ":gradle-plugin-api")))
+  api(project(":common"))
+  api(project(":gradle-plugin-api"))
 
   api(libs.kotlin.poet)
   api(libs.kotlin.poet.ksp)
 }
 
 winds {
-  mavenPublish {
-    displayName = "Stitch Codegen"
-    name = "codegen"
+  moduleMetadata {
+    artifactDescriptor {
+      name = "codegen"
+    }
   }
 }

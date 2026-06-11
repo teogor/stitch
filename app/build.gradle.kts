@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 plugins {
-  alias(libs.plugins.android.application)
-  alias(libs.plugins.jetbrains.kotlin.android)
-  alias(libs.plugins.ceres.android.room)
-  alias(libs.plugins.ceres.android.hilt)
+  alias(libs.plugins.stitch.android.application)
+  alias(libs.plugins.hilt)
   alias(libs.plugins.ksp)
 }
 
@@ -30,12 +28,9 @@ ksp {
 
 android {
   namespace = "dev.teogor.stitch"
-  compileSdk = 34
 
   defaultConfig {
     applicationId = "dev.teogor.stitch"
-    minSdk = 24
-    targetSdk = 34
     versionCode = 1
     versionName = "1.0.0"
 
@@ -47,26 +42,7 @@ android {
 
   buildTypes {
     release {
-      isMinifyEnabled = false
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-    }
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-  }
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
-  }
-  buildFeatures {
-    compose = true
-  }
-  composeOptions {
-    kotlinCompilerExtensionVersion = "1.5.8"
-  }
-  packaging {
-    resources {
-      excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
   }
 }
@@ -84,6 +60,14 @@ dependencies {
   implementation(libs.androidx.ui.graphics)
   implementation(libs.androidx.ui.tooling.preview)
   implementation(libs.androidx.material3)
+
+  implementation(libs.room.runtime)
+  implementation(libs.room.ktx)
+  ksp(libs.room.compiler)
+
+  implementation(libs.hilt.android)
+  ksp(libs.hilt.compiler)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
