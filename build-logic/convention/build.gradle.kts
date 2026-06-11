@@ -26,7 +26,7 @@ dependencies {
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${buildLibs.findVersion("kotlin").get().requiredVersion}")
     compileOnly("org.jetbrains.kotlin:compose-compiler-gradle-plugin:${buildLibs.findVersion("kotlin").get().requiredVersion}")
     compileOnly("com.google.devtools.ksp:symbol-processing-gradle-plugin:${buildLibs.findVersion("ksp").get().requiredVersion}")
-    compileOnly("com.google.dagger:hilt-android-gradle-plugin:${buildLibs.findVersion("hilt").get().requiredVersion}")
+    compileOnly("dev.zacsweers.metro:dev.zacsweers.metro.gradle.plugin:${buildLibs.findVersion("metro").get().requiredVersion}")
     compileOnly("dev.teogor.winds:dev.teogor.winds.gradle.plugin:${buildLibs.findVersion("winds").get().requiredVersion}")
 }
 
