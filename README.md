@@ -28,6 +28,11 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 
 ## Features:
 
+* **Inventory Demo App:** A comprehensive demonstration of Stitch capabilities including:
+    * Automatic Repository Generation for Products and Categories.
+    * Custom `@RawOperation` for product search.
+    * Type-safe entity mapping with `@ExplicitEntities`.
+    * Clean MVVM architecture using generated components.
 * **Automatic Generation:** Stitch generates essential code components based on your Room DAOs and entities, including:
     * **Repositories:** Provide a high-level interface for interacting with your data.
     * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
