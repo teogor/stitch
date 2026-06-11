@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import dev.teogor.stitch.core.database.AppDatabase
 import dev.teogor.stitch.core.ui.InventoryViewModel
+import dev.teogor.stitch.core.ui.inventoryScreen
 import dev.teogor.stitch.data.repository.impl.InventoryCategoryRepositoryImpl
 import dev.teogor.stitch.data.repository.impl.InventoryProductRepositoryImpl
 import dev.teogor.stitch.ui.theme.stitchTheme

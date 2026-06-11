@@ -4,6 +4,30 @@ Thank you for your interest in contributing to Stitch! To maintain high code qua
 
 ## Technical Requirements (SOP)
 
+These requirements apply to all contributors. If you are using an AI agent for development, provide the following prompt in your planning session to ensure compliance:
+
+### AI Planning Prompt
+```md
+### Technical Requirements (Follow Strictly)
+1. **Isolated Branches:** Every distinct feature or cleanup task must have its own branch. Switch branches for unrelated tasks. Never work on `main`.
+2. **Incremental Implementation:**
+   - Implement in small, logical steps.
+   - Update `task.artifact.md` and `implementation_plan.artifact.md` after every step.
+   - Commit after every step.
+   - **Important:** If a step changes code that requires documentation, update the docs (README, etc.) in the *same* commit.
+3. **Quality Gates (Run after every commit/step):**
+   - `./gradlew spotlessApply`
+   - `./gradlew apiDump`
+   - `./gradlew :app:kspDebugKotlin` (to verify Stitch generation)
+4. **Finalization:** Push the branch and create a GitHub PR with a descriptive title and body before moving to the next task or merging.
+5. **Task/Plan Integration:** These technical steps (spotless, apiDump, branch creation) must be explicitly listed as line items in the `task.artifact.md` and `implementation_plan.artifact.md` that you generate.
+
+### The Job
+[Describe your idea or feature request here]
+```
+
+## Workflow Details
+
 ### 1. Isolated Branches
 - **Branch per Task:** Every distinct feature, cleanup, or bug fix must have its own dedicated branch (e.g., `feature/x`, `cleanup/y`, `docs/z`).
 - **No `main` Commits:** Never work directly on the `main` branch. All changes must be merged via Pull Requests.
