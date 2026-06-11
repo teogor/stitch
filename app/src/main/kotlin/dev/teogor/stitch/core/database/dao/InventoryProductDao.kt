@@ -24,33 +24,33 @@ import androidx.room3.Query
 import androidx.room3.Update
 import dev.teogor.stitch.ExplicitEntities
 import dev.teogor.stitch.RawOperation
-import dev.teogor.stitch.core.database.model.Category
-import dev.teogor.stitch.core.database.model.Product
+import dev.teogor.stitch.core.database.model.InventoryProduct
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 @ExplicitEntities(
   entities = [
-    Category::class,
+    InventoryProduct::class,
   ],
 )
-interface ProductDao {
-  @Query("SELECT * FROM products")
-  fun getAll(): Flow<List<Product>>
+interface InventoryProductDao {
+  @RawOperation
+  @Query("SELECT * FROM inventory_products")
+  fun getAll(): Flow<List<InventoryProduct>>
 
-  @Query("SELECT * FROM products WHERE id = :id")
-  suspend fun getById(id: Long): Product?
+  @Query("SELECT * FROM inventory_products WHERE id = :id")
+  suspend fun getById(id: Long): InventoryProduct?
 
   @RawOperation
-  @Query("SELECT * FROM products WHERE name LIKE '%' || :query || '%'")
-  fun searchProducts(query: String): Flow<List<Product>>
+  @Query("SELECT * FROM inventory_products WHERE name LIKE '%' || :query || '%'")
+  fun searchProducts(query: String): Flow<List<InventoryProduct>>
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  suspend fun insert(product: Product): Long
+  suspend fun insert(product: InventoryProduct): Long
 
   @Update
-  suspend fun update(product: Product)
+  suspend fun update(product: InventoryProduct)
 
   @Delete
-  suspend fun delete(product: Product)
+  suspend fun delete(product: InventoryProduct)
 }

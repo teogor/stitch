@@ -18,32 +18,13 @@ package dev.teogor.stitch.core.database.model
 
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity
-import androidx.room3.ForeignKey
-import androidx.room3.Index
 import androidx.room3.PrimaryKey
 
-@Entity(
-  tableName = "products",
-  foreignKeys = [
-    ForeignKey(
-      entity = Category::class,
-      parentColumns = ["id"],
-      childColumns = ["category_id"],
-      onDelete = ForeignKey.CASCADE,
-    ),
-  ],
-  indices = [Index(value = ["category_id"])],
-)
-data class Product(
+@Entity(tableName = "inventory_categories")
+data class InventoryCategory(
   @PrimaryKey(autoGenerate = true)
   @ColumnInfo(name = "id")
   val id: Long = 0,
   @ColumnInfo(name = "name")
   val name: String,
-  @ColumnInfo(name = "category_id")
-  val categoryId: Long,
-  @ColumnInfo(name = "price")
-  val price: Double,
-  @ColumnInfo(name = "quantity")
-  val quantity: Int,
 )

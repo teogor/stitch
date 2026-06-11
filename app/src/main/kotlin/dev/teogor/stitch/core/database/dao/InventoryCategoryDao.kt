@@ -22,23 +22,31 @@ import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
 import androidx.room3.Update
-import dev.teogor.stitch.core.database.model.Category
+import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.RawOperation
+import dev.teogor.stitch.core.database.model.InventoryCategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface CategoryDao {
-  @Query("SELECT * FROM categories")
-  fun getAll(): Flow<List<Category>>
+@ExplicitEntities(
+  entities = [
+    InventoryCategory::class,
+  ],
+)
+interface InventoryCategoryDao {
+  @RawOperation
+  @Query("SELECT * FROM inventory_categories")
+  fun getAll(): Flow<List<InventoryCategory>>
 
-  @Query("SELECT * FROM categories WHERE id = :id")
-  suspend fun getById(id: Long): Category?
+  @Query("SELECT * FROM inventory_categories WHERE id = :id")
+  suspend fun getById(id: Long): InventoryCategory?
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  suspend fun insert(category: Category): Long
+  suspend fun insert(category: InventoryCategory): Long
 
   @Update
-  suspend fun update(category: Category)
+  suspend fun update(category: InventoryCategory)
 
   @Delete
-  suspend fun delete(category: Category)
+  suspend fun delete(category: InventoryCategory)
 }
