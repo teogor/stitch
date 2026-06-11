@@ -25,6 +25,7 @@ class StitchSchemaArgProvider(
   private val enableOperationGeneration: Boolean,
   private val generatedPackageName: String,
   private val operationGenerationLevel: OperationGenerationLevel,
+  private val enableMetro: Boolean,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
@@ -32,6 +33,7 @@ class StitchSchemaArgProvider(
     "stitch.enableOperationGeneration=$enableOperationGeneration",
     "stitch.generatedPackageName=$generatedPackageName",
     "stitch.operationGenerationLevel=$operationGenerationLevel",
+    "stitch.enableMetro=$enableMetro",
   )
 
   companion object {
@@ -40,6 +42,7 @@ class StitchSchemaArgProvider(
       enableOperationGeneration = stitchExtension.enableOperationGeneration,
       generatedPackageName = stitchExtension.generatedPackageName,
       operationGenerationLevel = stitchExtension.operationGenerationLevel,
+      enableMetro = stitchExtension.enableMetro,
     )
   }
 }
