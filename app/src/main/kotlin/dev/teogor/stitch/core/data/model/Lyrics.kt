@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.model
+package dev.teogor.stitch.core.data.model
 
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey

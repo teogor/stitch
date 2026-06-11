@@ -14,18 +14,34 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data.model
+package dev.teogor.stitch.core.data.model
 
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 
 @Entity
-class Playlist(
-  @PrimaryKey(autoGenerate = true)
-  @ColumnInfo(name = "playlist_id")
-  val playListId: Long = 0,
-
-  @ColumnInfo(name = "playlist_name")
-  val playlistName: String,
+data class History(
+  @PrimaryKey val id: Long,
+  val title: String,
+  @ColumnInfo(name = "track_number")
+  val trackNumber: Int,
+  val year: Int,
+  val duration: Long,
+  val data: String,
+  @ColumnInfo(name = "date_modified")
+  val dateModified: Long,
+  @ColumnInfo(name = "album_id")
+  val albumId: Long,
+  @ColumnInfo(name = "album_name")
+  val albumName: String,
+  @ColumnInfo(name = "artist_id")
+  val artistId: Long,
+  @ColumnInfo(name = "artist_name")
+  val artistName: String,
+  val composer: String?,
+  @ColumnInfo(name = "album_artist")
+  val albumArtist: String?,
+  @ColumnInfo(name = "time_played")
+  val timePlayed: Long,
 )

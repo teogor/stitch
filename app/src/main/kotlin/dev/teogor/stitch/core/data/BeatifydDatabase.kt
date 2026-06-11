@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zeoowl.beatifyd.core.data
+package dev.teogor.stitch.core.data
 
 import android.content.Context
 import androidx.room3.Database
@@ -22,15 +22,15 @@ import androidx.room3.Room
 import androidx.room3.RoomDatabase
 import androidx.room3.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.zeoowl.beatifyd.core.data.dao.BlackListStoreDao
-import com.zeoowl.beatifyd.core.data.dao.HistoryDao
-import com.zeoowl.beatifyd.core.data.dao.LyricsDao
-import com.zeoowl.beatifyd.core.data.dao.PlaylistDao
-import com.zeoowl.beatifyd.core.data.model.BlackListStoreEntity
-import com.zeoowl.beatifyd.core.data.model.History
-import com.zeoowl.beatifyd.core.data.model.Lyrics
-import com.zeoowl.beatifyd.core.data.model.Playlist
-import com.zeoowl.beatifyd.core.data.model.Song
+import dev.teogor.stitch.core.data.dao.BlackListStoreDao
+import dev.teogor.stitch.core.data.dao.HistoryDao
+import dev.teogor.stitch.core.data.dao.LyricsDao
+import dev.teogor.stitch.core.data.dao.PlaylistDao
+import dev.teogor.stitch.core.data.model.BlackListStoreEntity
+import dev.teogor.stitch.core.data.model.History
+import dev.teogor.stitch.core.data.model.Lyrics
+import dev.teogor.stitch.core.data.model.Playlist
+import dev.teogor.stitch.core.data.model.Song
 
 @Database(
   entities = [
@@ -43,7 +43,7 @@ import com.zeoowl.beatifyd.core.data.model.Song
   version = 2,
 )
 @TypeConverters
-abstract class AppDatabase : RoomDatabase() {
+abstract class BeatifydDatabase : RoomDatabase() {
 
   abstract fun blackListStoreDao(): BlackListStoreDao
 
@@ -54,18 +54,18 @@ abstract class AppDatabase : RoomDatabase() {
   abstract fun playlistDao(): PlaylistDao
 
   companion object {
-    private var INSTANCE: AppDatabase? = null
+    private var INSTANCE: BeatifydDatabase? = null
 
     fun getInstance(context: Context): AppDatabase {
       if (INSTANCE == null) {
-        INSTANCE = Room.databaseBuilder<AppDatabase>(
+        INSTANCE = Room.databaseBuilder<BeatifydDatabase>(
           context = context,
           name = "main_database",
         ).setDriver(BundledSQLiteDriver())
           .build()
       }
 
-      return INSTANCE as AppDatabase
+      return INSTANCE as BeatifydDatabase
     }
   }
 }
