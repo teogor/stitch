@@ -79,4 +79,46 @@ interface StitchExtension {
    * @return The base package name for generated code.
    */
   var generatedPackageName: String
+
+  /**
+   * The suffix to append to the generated repository interfaces.
+   *
+   * By default, this is set to `"Repository"`.
+   */
+  var repositorySuffix: String
+
+  /**
+   * The suffix to append to the generated operation classes.
+   *
+   * By default, this is set to `"Operation"`.
+   */
+  var operationSuffix: String
+
+  /**
+   * Optional package name override for generated repository interfaces.
+   *
+   * If not specified, the repository will be placed in `${basePackage}.data.repository`.
+   */
+  var repositoryPackage: String?
+
+  /**
+   * Optional package name override for generated repository implementations.
+   *
+   * If not specified, the implementation will be placed in `${basePackage}.data.repository.impl`.
+   */
+  var repositoryImplPackage: String?
+
+  /**
+   * Optional package name override for generated operation classes.
+   *
+   * If not specified, the operations will be placed in `${basePackage}.database.operation`.
+   */
+  var operationPackage: String?
+
+  /**
+   * Optional package name override for the generated DI module.
+   *
+   * If not specified, the module will be placed in `${basePackage}.di`.
+   */
+  var diPackage: String?
 }
