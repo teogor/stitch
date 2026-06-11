@@ -18,31 +18,27 @@ package dev.teogor.stitch.codegen.commons
 
 import com.squareup.kotlinpoet.ClassName
 
-val DAGGER_MODULE = ClassName(
-  packageName = "dagger",
-  "Module",
+val METRO_BINDING_CONTAINER = ClassName(
+  packageName = "dev.zacsweers.metro",
+  "BindingContainer",
 )
-val DAGGER_PROVIDES = ClassName(
-  packageName = "dagger",
+val METRO_PROVIDES = ClassName(
+  packageName = "dev.zacsweers.metro",
   "Provides",
 )
-val DAGGER_INSTALL_IN = ClassName(
-  packageName = "dagger.hilt",
-  "InstallIn",
+val METRO_CONTRIBUTES_TO = ClassName(
+  packageName = "dev.zacsweers.metro",
+  "ContributesTo",
 )
-val DAGGER_APPLICATION_CONTEXT = ClassName(
-  packageName = "dagger.hilt.android.qualifiers",
-  "ApplicationContext",
+val STITCH_SCOPE = ClassName(
+  packageName = "dev.teogor.stitch.di",
+  "StitchScope",
 )
-val DAGGER_SINGLETON_COMPONENT = ClassName(
-  packageName = "dagger.hilt.components",
-  "SingletonComponent",
-)
-val JAVAX_INJECT_SINGLETON = ClassName(
-  packageName = "javax.inject",
+val METRO_SINGLETON = ClassName(
+  packageName = "dev.zacsweers.metro",
   "Singleton",
 )
-val JAVAX_INJECT = ClassName(
-  packageName = "javax.inject",
+val METRO_INJECT = ClassName(
+  packageName = "dev.zacsweers.metro",
   "Inject",
 )
