@@ -22,10 +22,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import dev.teogor.stitch.core.database.AppDatabase
+import dev.teogor.stitch.core.ui.InventoryScreen
+import dev.teogor.stitch.core.ui.InventoryViewModel
+import dev.teogor.stitch.data.repository.impl.InventoryCategoryRepositoryImpl
+import dev.teogor.stitch.data.repository.impl.InventoryProductRepositoryImpl
 import dev.teogor.stitch.ui.theme.stitchTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,30 +36,21 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     setContent {
       stitchTheme {
-        // A surface container using the 'background' color from the theme
+        val db = remember { AppDatabase.getInstance(applicationContext) }
+        val viewModel = remember {
+          InventoryViewModel(
+            productRepository = InventoryProductRepositoryImpl(db.inventoryProductDao()),
+            categoryRepository = InventoryCategoryRepositoryImpl(db.inventoryCategoryDao()),
+          )
+        }
+
         Surface(
           modifier = Modifier.fillMaxSize(),
           color = MaterialTheme.colorScheme.background,
         ) {
-          greeting("Android")
+          InventoryScreen(viewModel)
         }
       }
     }
-  }
-}
-
-@Composable
-fun greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier,
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun greetingPreview() {
-  stitchTheme {
-    greeting("Android")
   }
 }
