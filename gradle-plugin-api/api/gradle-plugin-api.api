@@ -4,6 +4,7 @@ public final class dev/teogor/stitch/api/OperationGenerationLevel : java/lang/En
 	public static final field Companion Ldev/teogor/stitch/api/OperationGenerationLevel$Companion;
 	public static final field DISABLED Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public static final field EXPLICIT Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public static fun values ()[Ldev/teogor/stitch/api/OperationGenerationLevel;
 }
@@ -14,12 +15,26 @@ public final class dev/teogor/stitch/api/OperationGenerationLevel$Companion {
 
 public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun getAddDocumentation ()Z
+	public abstract fun getDiPackage ()Ljava/lang/String;
+	public abstract fun getEnableMetro ()Z
 	public abstract fun getEnableOperationGeneration ()Z
 	public abstract fun getGeneratedPackageName ()Ljava/lang/String;
 	public abstract fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public abstract fun getOperationPackage ()Ljava/lang/String;
+	public abstract fun getOperationSuffix ()Ljava/lang/String;
+	public abstract fun getRepositoryImplPackage ()Ljava/lang/String;
+	public abstract fun getRepositoryPackage ()Ljava/lang/String;
+	public abstract fun getRepositorySuffix ()Ljava/lang/String;
 	public abstract fun setAddDocumentation (Z)V
+	public abstract fun setDiPackage (Ljava/lang/String;)V
+	public abstract fun setEnableMetro (Z)V
 	public abstract fun setEnableOperationGeneration (Z)V
 	public abstract fun setGeneratedPackageName (Ljava/lang/String;)V
 	public abstract fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V
+	public abstract fun setOperationPackage (Ljava/lang/String;)V
+	public abstract fun setOperationSuffix (Ljava/lang/String;)V
+	public abstract fun setRepositoryImplPackage (Ljava/lang/String;)V
+	public abstract fun setRepositoryPackage (Ljava/lang/String;)V
+	public abstract fun setRepositorySuffix (Ljava/lang/String;)V
 }
 

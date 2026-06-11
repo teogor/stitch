@@ -1,8 +1,6 @@
-public final class dev/teogor/stitch/codegen/CodeGenerator : dev/teogor/stitch/codegen/servicelocator/ServiceLocatorAccessor {
+public final class dev/teogor/stitch/codegen/CodeGenerator {
 	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
 	public final fun generate (Lkotlin/sequences/Sequence;Ljava/util/List;)V
-	public fun getCodeGenConfig ()Ldev/teogor/stitch/codegen/model/CodeGenConfig;
-	public fun getCodeOutputStreamMaker ()Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;
 }
 
 public final class dev/teogor/stitch/codegen/commons/ConstantsKt {
@@ -189,7 +187,12 @@ public final class dev/teogor/stitch/codegen/model/RoomModel {
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class dev/teogor/stitch/codegen/servicelocator/OutputWriter {
+public final class dev/teogor/stitch/codegen/writers/OperationOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {
+	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
+	public final fun write (Lkotlin/sequences/Sequence;Ljava/util/List;)V
+}
+
+public abstract class dev/teogor/stitch/codegen/writers/OutputWriter {
 	public fun <init> (Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
 	public final fun addDocumentation (Lcom/squareup/kotlinpoet/FunSpec$Builder;Lcom/squareup/kotlinpoet/CodeBlock;)Lcom/squareup/kotlinpoet/FunSpec$Builder;
 	public final fun addDocumentation (Lcom/squareup/kotlinpoet/FunSpec$Builder;Ljava/lang/String;[Ljava/lang/Object;)Lcom/squareup/kotlinpoet/FunSpec$Builder;
@@ -205,22 +208,17 @@ public abstract class dev/teogor/stitch/codegen/servicelocator/OutputWriter {
 	public final fun getRepositoryPackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
 }
 
-public final class dev/teogor/stitch/codegen/writers/OperationOutputWriter : dev/teogor/stitch/codegen/servicelocator/OutputWriter {
-	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
-	public final fun write (Lkotlin/sequences/Sequence;Ljava/util/List;)V
-}
-
-public final class dev/teogor/stitch/codegen/writers/RepositoryImplOutputWriter : dev/teogor/stitch/codegen/servicelocator/OutputWriter {
+public final class dev/teogor/stitch/codegen/writers/RepositoryImplOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {
 	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
 	public final fun write (Ldev/teogor/stitch/codegen/model/RoomModel;Lcom/squareup/kotlinpoet/TypeName;)V
 }
 
-public final class dev/teogor/stitch/codegen/writers/RepositoryOutputWriter : dev/teogor/stitch/codegen/servicelocator/OutputWriter {
+public final class dev/teogor/stitch/codegen/writers/RepositoryOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {
 	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
 	public final fun write (Ldev/teogor/stitch/codegen/model/RoomModel;)Lcom/squareup/kotlinpoet/TypeName;
 }
 
-public final class dev/teogor/stitch/codegen/writers/StitchModuleOutputWriter : dev/teogor/stitch/codegen/servicelocator/OutputWriter {
+public final class dev/teogor/stitch/codegen/writers/StitchModuleOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {
 	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
 	public final fun write (Lkotlin/sequences/Sequence;Ljava/util/List;)V
 }

@@ -25,8 +25,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import dev.teogor.stitch.core.database.AppDatabase
-import dev.teogor.stitch.core.ui.InventoryScreen
 import dev.teogor.stitch.core.ui.InventoryViewModel
+import dev.teogor.stitch.core.ui.inventoryScreen
 import dev.teogor.stitch.data.repository.impl.InventoryCategoryRepositoryImpl
 import dev.teogor.stitch.data.repository.impl.InventoryProductRepositoryImpl
 import dev.teogor.stitch.ui.theme.stitchTheme
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
           modifier = Modifier.fillMaxSize(),
           color = MaterialTheme.colorScheme.background,
         ) {
-          InventoryScreen(viewModel)
+          inventoryScreen(viewModel)
         }
       }
     }
