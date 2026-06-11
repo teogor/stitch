@@ -49,18 +49,18 @@ abstract class AppDatabase : RoomDatabase() {
   abstract fun savedGameDao(): SavedGameDao
 
   companion object {
-    private var INSTANCE: AppDatabase? = null
+    private var instance: AppDatabase? = null
 
     fun getInstance(context: Context): AppDatabase {
-      if (INSTANCE == null) {
-        INSTANCE = Room.databaseBuilder<AppDatabase>(
+      if (instance == null) {
+        instance = Room.databaseBuilder<AppDatabase>(
           context = context,
           name = "main_database",
         ).setDriver(BundledSQLiteDriver())
           .build()
       }
 
-      return INSTANCE as AppDatabase
+      return instance as AppDatabase
     }
   }
 }

@@ -21,8 +21,8 @@ import androidx.room3.Delete
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
-import dev.teogor.stitch.core.data.model.BlackListStoreEntity
 import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.core.data.model.BlackListStoreEntity
 
 @Dao
 @ExplicitEntities(

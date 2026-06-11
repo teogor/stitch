@@ -54,18 +54,18 @@ abstract class BeatifydDatabase : RoomDatabase() {
   abstract fun playlistDao(): PlaylistDao
 
   companion object {
-    private var INSTANCE: BeatifydDatabase? = null
+    private var instance: BeatifydDatabase? = null
 
     fun getInstance(context: Context): BeatifydDatabase {
-      if (INSTANCE == null) {
-        INSTANCE = Room.databaseBuilder<BeatifydDatabase>(
+      if (instance == null) {
+        instance = Room.databaseBuilder<BeatifydDatabase>(
           context = context,
           name = "main_database",
         ).setDriver(BundledSQLiteDriver())
           .build()
       }
 
-      return INSTANCE as BeatifydDatabase
+      return instance as BeatifydDatabase
     }
   }
 }

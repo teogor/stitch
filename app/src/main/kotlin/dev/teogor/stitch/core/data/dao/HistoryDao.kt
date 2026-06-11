@@ -19,8 +19,8 @@ package dev.teogor.stitch.core.data.dao
 import androidx.room3.Dao
 import androidx.room3.Query
 import androidx.room3.Upsert
-import dev.teogor.stitch.core.data.model.History
 import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.core.data.model.History
 import kotlinx.coroutines.flow.Flow
 
 @Dao

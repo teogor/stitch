@@ -35,7 +35,6 @@ import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.RoomModel
-import dev.teogor.stitch.codegen.writers.OutputWriter
 
 class StitchModuleOutputWriter(
   private val codeOutputStreamMaker: CodeOutputStreamMaker,
@@ -86,7 +85,11 @@ class StitchModuleOutputWriter(
                   .addAnnotation(METRO_PROVIDES)
                   .addParameter(
                     "databaseBuilder",
-                    ClassName("androidx.room3", "RoomDatabase", "Builder").parameterizedBy(databaseModel.type),
+                    ClassName(
+                      "androidx.room3",
+                      "RoomDatabase",
+                      "Builder",
+                    ).parameterizedBy(databaseModel.type),
                   )
                   .returns(databaseModel.type)
                   .addDocumentation(
@@ -96,7 +99,7 @@ class StitchModuleOutputWriter(
                   @param databaseBuilder The Room database builder.
 
                   @return The created [$databaseName] instance.
-                  """.trimIndent(),
+                    """.trimIndent(),
                   )
                   .addStatement(
                     "return databaseBuilder.build()",
