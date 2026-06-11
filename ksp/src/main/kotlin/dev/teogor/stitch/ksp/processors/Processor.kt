@@ -87,164 +87,18 @@ class Processor(
       return emptyList()
     }
 
+    val databaseModelMapper = DatabaseModelMapper()
     val databaseModels = annotatedDatabases.map { database ->
-      val annotation = database.annotations.find {
-        it.shortName.asString() == Database::class.simpleName
-      }!!
-      val entities = (
-        annotation.arguments.find {
-          it.name!!.getShortName() == "entities"
-        }?.value as? List<KSType>
-        )?.map {
-        (it.declaration as KSClassDeclaration).toClassName()
-      } ?: emptyList()
-
-      val views = (
-        annotation.arguments.find {
-          it.name!!.getShortName() == "views"
-        }?.value as? List<KSType>
-        )?.map {
-        (it.declaration as KSClassDeclaration).toClassName()
-      } ?: emptyList()
-
-      val functions = database.getDeclaredFunctions().toList().map { function ->
-        val fieldName = function.simpleName.asString()
-        val fieldType = function.returnType?.resolve().let {
-          it?.toTypeName() ?: UNIT
-        }
-        val parameters = function.parameters.map { parameter ->
-          ParameterKind(
-            name = parameter.toString(),
-            type = parameter.type.toTypeName(),
-          )
-        }
-        val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-        FunctionKind(
-          name = fieldName,
-          returnType = fieldType,
-          parameters = parameters,
-          isSuspend = isSuspend,
-        )
-      }
-      DatabaseModel(
-        entities = entities,
-        views = views,
-        type = database.toClassName(),
-        functions = functions,
-      )
+      databaseModelMapper.map(database)
     }
 
+    val roomModelMapper = RoomModelMapper(annotatedDao)
     val roomModels = (annotatedEntities + annotatedViews)
+      .mapNotNull { entity ->
+        roomModelMapper.map(entity)
+      }
       .toList()
-      .filter {
-        annotatedDao.firstOrNull {
-          it.simpleName.asString().startsWith(it.simpleName.asString())
-        } != null
-      }
-      .map { entity ->
-        val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
-        annotatedDao.forEach { daoClass ->
-          val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
-          if (explicitEntities != null) {
-            val entities = explicitEntities
-              .findArgumentValue<ArrayList<KSType>>("entities")
-              ?.toList()
-            daoToEntitiesMap[daoClass] = entities ?: emptyList()
-          }
-        }
-        val matchingDaoKeys = daoToEntitiesMap.keys.filter { daoClass ->
-          daoToEntitiesMap[daoClass]?.any { entityTest ->
-            entityTest.declaration.closestClassDeclaration() == entity
-          } ?: false
-        }
-
-        val matchingEntityClass = matchingDaoKeys.firstOrNull()
-
-        val potentialDao = annotatedDao.firstOrNull {
-          it.simpleName.asString().startsWith(
-            entity.simpleName.asString(),
-          )
-        }
-        val dao = when {
-          matchingEntityClass != null -> {
-            matchingEntityClass
-          }
-
-          potentialDao != null -> potentialDao
-          else -> null
-        }
-        Pair(
-          entity,
-          dao,
-        )
-      }
-      // todo better handling for multiple DAOs
-      .distinctBy { it.second }
-      .map { (entity, dao) ->
-        val fields = entity.primaryConstructor?.parameters?.map { parameter ->
-          val fieldName = parameter.name!!.asString()
-          val fieldType = parameter.type.resolve()
-          FieldKind(
-            name = fieldName,
-            type = ClassName(
-              fieldType.declaration.packageName.asString(),
-              fieldType.declaration.simpleName.asString(),
-            ),
-            isEmbedded = parameter.isAnnotationPresent(Embedded::class),
-            isRelation = parameter.isAnnotationPresent(Relation::class),
-          )
-        } ?: emptyList()
-
-        val functions = dao?.getDeclaredFunctions()?.toList()?.map { function ->
-          val rawOperation = function.getAnnotationsByType(RawOperation::class)
-            .firstOrNull()
-          val fieldName = function.simpleName.asString()
-          val fieldType = function.returnType?.resolve().let {
-            it?.toTypeName() ?: UNIT
-          }
-          val parameters = function.parameters.map { parameter ->
-            ParameterKind(
-              name = parameter.toString(),
-              type = parameter.type.toTypeName(),
-            )
-          }
-          val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-
-          val operationType = when {
-            function.isAnnotationPresent(Query::class) -> OperationType.QUERY
-            function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
-            function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
-            function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
-            function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
-            function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
-            else -> OperationType.QUERY
-          }
-
-          FunctionKind(
-            name = fieldName,
-            returnType = fieldType,
-            parameters = parameters,
-            isSuspend = isSuspend,
-            operationType = operationType,
-            isTransaction = function.isAnnotationPresent(Transaction::class),
-            enableRawOperationGeneration = rawOperation?.generate ?: false,
-          )
-        } ?: emptyList()
-        RoomModel(
-          name = getCommonBase(
-            entity.simpleName.asString(),
-            dao?.simpleName?.asString() ?: "",
-          ),
-          packageName = findCommonBase(
-            string1 = entity.packageName.asString(),
-            string2 = dao?.packageName?.asString() ?: entity.packageName.asString(),
-          ),
-          fields = fields,
-          functions = functions,
-          entity = entity.toClassName(),
-          dao = dao?.toClassName(),
-        )
-      }
+      .distinctBy { it.dao }
 
     CodeGenerator(
       codeOutputStreamMaker = KspCodeOutputStreamMaker(
