@@ -15,7 +15,7 @@
  */
 plugins {
   alias(libs.plugins.stitch.android.application)
-  alias(libs.plugins.hilt)
+  alias(libs.plugins.metro)
   alias(libs.plugins.ksp)
 }
 
@@ -65,8 +65,7 @@ dependencies {
   ksp(libs.room.compiler)
   implementation(libs.sqlite.bundled)
 
-  implementation(libs.hilt.android)
-  ksp(libs.hilt.compiler)
+  implementation(libs.metro.runtime)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
