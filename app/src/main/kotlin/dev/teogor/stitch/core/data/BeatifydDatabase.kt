@@ -56,7 +56,7 @@ abstract class BeatifydDatabase : RoomDatabase() {
   companion object {
     private var INSTANCE: BeatifydDatabase? = null
 
-    fun getInstance(context: Context): AppDatabase {
+    fun getInstance(context: Context): BeatifydDatabase {
       if (INSTANCE == null) {
         INSTANCE = Room.databaseBuilder<BeatifydDatabase>(
           context = context,
