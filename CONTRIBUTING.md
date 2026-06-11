@@ -1,36 +1,30 @@
-# How to become a contributor and submit your own code
+# Contributing to Stitch 🪡
 
-## Contributor License Agreements
+Thank you for your interest in contributing to Stitch! To maintain high code quality and a clean project history, we follow a strict technical workflow.
 
-We'd love to accept your sample apps and patches! Before we can take them, we
-have to jump a couple of legal hurdles.
+## Technical Requirements (SOP)
 
-Please fill out either the individual or corporate Contributor License Agreement
-(CLA).
+### 1. Isolated Branches
+- **Branch per Task:** Every distinct feature, cleanup, or bug fix must have its own dedicated branch (e.g., `feature/x`, `cleanup/y`, `docs/z`).
+- **No `main` Commits:** Never work directly on the `main` branch. All changes must be merged via Pull Requests.
 
-* If you are an individual writing original source code and you're sure you
-  own the intellectual property, then you'll need to sign
-  an [individual CLA](https://developers.google.com/open-source/cla/individual).
-* If you work for a company that wants to allow you to contribute your work,
-  then you'll need to sign
-  a [corporate CLA](https://developers.google.com/open-source/cla/corporate).
+### 2. Incremental Implementation
+- **Atomic Steps:** Implement changes in small, logical increments.
+- **Continuous Documentation:** If a change affects functionality, update the relevant documentation (e.g., `README.md`, `DEMO.md`) in the **same commit** as the code change.
+- **Commit Often:** Use descriptive commit messages with standard prefixes (e.g., `feat:`, `fix:`, `docs:`, `chore:`).
 
-Follow either of the two links above to access the appropriate CLA and
-instructions for how to sign and return it. Once we receive it, we'll be able to
-accept your pull requests.
+### 3. Quality Gates
+After every step or commit, the following commands **must** be run to ensure project integrity:
+- `./gradlew spotlessApply`: Ensures code style compliance.
+- `./gradlew apiDump`: Verifies binary compatibility and API consistency across library modules.
+- `./gradlew :app:kspDebugKotlin`: Verifies that Stitch KSP code generation is working correctly.
+- `./gradlew :app:assembleDebug`: Ensures the project compiles successfully.
 
-## Contributing A Patch
+### 4. Finalization & Pull Requests
+- **Remote Push:** Push your branch to the remote repository once the task is complete and all quality gates pass.
+- **PR Creation:** Create a Pull Request with a descriptive title and a body explaining the changes.
+- **Clean Cleanup:** Once a PR is merged, the feature branch should be deleted.
 
-1. Submit an issue describing your proposed change to the repo in question.
-1. The repo owner will respond to your issue promptly.
-1. If your proposed change is accepted, and you haven't already done so, sign a
-   Contributor License Agreement (see details above).
-1. Fork the desired repo, develop and test your code changes.
-1. Ensure that your code adheres to the existing style in the sample to which
-   you are contributing. Refer to the
-   [Google Cloud Platform Samples Style Guide](https://github.com/GoogleCloudPlatform/Template/wiki/style.html)
-   for the
-   recommended coding standards for this organization.
-1. Ensure that your code has an appropriate set of unit tests which all pass.
-1. Submit a pull request.
-
+## Development Setup
+- Ensure you have the Android SDK installed.
+- Stitch uses Kotlin Symbol Processing (KSP) extensively. Always run a build or KSP task after modifying DAOs or Entities to see the generated code.

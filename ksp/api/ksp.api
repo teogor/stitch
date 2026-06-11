@@ -30,6 +30,11 @@ public final class dev/teogor/stitch/ksp/processors/ConfigParser {
 public final class dev/teogor/stitch/ksp/processors/ConfigParser$Companion {
 }
 
+public final class dev/teogor/stitch/ksp/processors/DatabaseModelMapper {
+	public fun <init> ()V
+	public final fun map (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
+}
+
 public final class dev/teogor/stitch/ksp/processors/KspToCodeGenDestinationsMapper : dev/teogor/stitch/ksp/commons/KSFileSourceMapper {
 	public fun <init> (Lcom/google/devtools/ksp/processing/Resolver;)V
 	public fun mapToKSFile (Ljava/lang/String;)Lcom/google/devtools/ksp/symbol/KSFile;
@@ -40,6 +45,11 @@ public final class dev/teogor/stitch/ksp/processors/Processor : com/google/devto
 	public fun finish ()V
 	public fun onError ()V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
+}
+
+public final class dev/teogor/stitch/ksp/processors/RoomModelMapper {
+	public fun <init> (Lkotlin/sequences/Sequence;)V
+	public final fun map (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Ldev/teogor/stitch/codegen/model/RoomModel;
 }
 
 public final class dev/teogor/stitch/ksp/processors/WrongConfigurationSetup : java/lang/RuntimeException {

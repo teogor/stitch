@@ -47,7 +47,7 @@ import dev.teogor.stitch.core.database.model.InventoryProduct
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InventoryScreen(viewModel: InventoryViewModel) {
+fun inventoryScreen(viewModel: InventoryViewModel) {
   val products by viewModel.products.collectAsState()
   val searchQuery by viewModel.searchQuery.collectAsState()
 
@@ -73,7 +73,7 @@ fun InventoryScreen(viewModel: InventoryViewModel) {
 
       Spacer(modifier = Modifier.padding(8.dp))
 
-      AddProductSection(onAddProduct = { name, price ->
+      addProductSection(onAddProduct = { name, price ->
         viewModel.addProduct(name, 1L, price, 10) // Simplified for demo
       })
 
@@ -84,7 +84,7 @@ fun InventoryScreen(viewModel: InventoryViewModel) {
 
       LazyColumn {
         items(products) { product ->
-          ProductItem(
+          productItem(
             product = product,
             onDelete = { viewModel.deleteProduct(product) },
           )
@@ -95,7 +95,7 @@ fun InventoryScreen(viewModel: InventoryViewModel) {
 }
 
 @Composable
-fun AddProductSection(onAddProduct: (String, Double) -> Unit) {
+fun addProductSection(onAddProduct: (String, Double) -> Unit) {
   var name by remember { mutableStateOf("") }
   var price by remember { mutableStateOf("") }
 
@@ -133,7 +133,7 @@ fun AddProductSection(onAddProduct: (String, Double) -> Unit) {
 }
 
 @Composable
-fun ProductItem(product: InventoryProduct, onDelete: () -> Unit) {
+fun productItem(product: InventoryProduct, onDelete: () -> Unit) {
   Row(
     modifier = Modifier
       .fillMaxWidth()

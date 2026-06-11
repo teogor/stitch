@@ -1,35 +1,38 @@
-public final class dev/teogor/stitch/BuildConfig {
-	public static final field INSTANCE Ldev/teogor/stitch/BuildConfig;
-	public static final field NAME Ljava/lang/String;
-	public static final field VERSION Ljava/lang/String;
-}
-
 public final class dev/teogor/stitch/Plugin : org/gradle/api/Plugin {
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
 	public fun apply (Lorg/gradle/api/Project;)V
 }
 
-public final class dev/teogor/stitch/Plugin$apply$1$1$inlined$sam$i$org_gradle_api_Action$0 : org/gradle/api/Action {
-	public fun <init> (Lkotlin/jvm/functions/Function1;)V
-	public final synthetic fun execute (Ljava/lang/Object;)V
-}
-
 public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/api/StitchExtension {
 	public fun <init> ()V
 	public fun getAddDocumentation ()Z
+	public fun getDiPackage ()Ljava/lang/String;
+	public fun getEnableMetro ()Z
 	public fun getEnableOperationGeneration ()Z
 	public fun getGeneratedPackageName ()Ljava/lang/String;
 	public fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public fun getOperationPackage ()Ljava/lang/String;
+	public fun getOperationSuffix ()Ljava/lang/String;
+	public fun getRepositoryImplPackage ()Ljava/lang/String;
+	public fun getRepositoryPackage ()Ljava/lang/String;
+	public fun getRepositorySuffix ()Ljava/lang/String;
 	public fun setAddDocumentation (Z)V
+	public fun setDiPackage (Ljava/lang/String;)V
+	public fun setEnableMetro (Z)V
 	public fun setEnableOperationGeneration (Z)V
 	public fun setGeneratedPackageName (Ljava/lang/String;)V
 	public fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V
+	public fun setOperationPackage (Ljava/lang/String;)V
+	public fun setOperationSuffix (Ljava/lang/String;)V
+	public fun setRepositoryImplPackage (Ljava/lang/String;)V
+	public fun setRepositoryPackage (Ljava/lang/String;)V
+	public fun setRepositorySuffix (Ljava/lang/String;)V
 }
 
 public final class dev/teogor/stitch/StitchSchemaArgProvider : org/gradle/process/CommandLineArgumentProvider {
 	public static final field Companion Ldev/teogor/stitch/StitchSchemaArgProvider$Companion;
-	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;)V
+	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V
 	public synthetic fun asArguments ()Ljava/lang/Iterable;
 	public fun asArguments ()Ljava/util/List;
 }
