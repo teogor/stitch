@@ -86,11 +86,7 @@ class StitchModuleOutputWriter(
                   .addAnnotation(METRO_PROVIDES)
                   .addParameter(
                     "databaseBuilder",
-                    ClassName(
-                      "androidx.room",
-                      "RoomDatabase",
-                      "Builder",
-                    ).parameterizedBy(databaseModel.type),
+                    ClassName("androidx.room3", "RoomDatabase", "Builder").parameterizedBy(databaseModel.type),
                   )
                   .returns(databaseModel.type)
                   .addDocumentation(
@@ -100,7 +96,7 @@ class StitchModuleOutputWriter(
                   @param databaseBuilder The Room database builder.
 
                   @return The created [$databaseName] instance.
-                    """.trimIndent(),
+                  """.trimIndent(),
                   )
                   .addStatement(
                     "return databaseBuilder.build()",
