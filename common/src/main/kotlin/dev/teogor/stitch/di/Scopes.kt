@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-  alias(libs.plugins.stitch.kotlin.library)
-}
 
-dependencies {
-  api(libs.room.common)
-  api(libs.metro.runtime)
-}
+package dev.teogor.stitch.di
 
-winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "common"
-    }
-  }
-}
+/**
+ * A scope marker used for Stitch-related dependency injection.
+ */
+abstract class StitchScope private constructor()
