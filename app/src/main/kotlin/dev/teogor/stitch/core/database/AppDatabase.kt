@@ -22,8 +22,12 @@ import androidx.room3.Room
 import androidx.room3.RoomDatabase
 import androidx.room3.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import dev.teogor.stitch.core.database.dao.InventoryCategoryDao
+import dev.teogor.stitch.core.database.dao.InventoryProductDao
 import dev.teogor.stitch.core.database.dao.SavedGameDao
 import dev.teogor.stitch.core.database.dao.TestingKindDao
+import dev.teogor.stitch.core.database.model.InventoryCategory
+import dev.teogor.stitch.core.database.model.InventoryProduct
 import dev.teogor.stitch.core.database.model.SavedGame
 import dev.teogor.stitch.core.database.model.TestingKind
 import dev.teogor.stitch.core.database.util.Converters
@@ -34,6 +38,8 @@ import dev.teogor.stitch.core.database.util.ZonedDateTimeConverter
   entities = [
     TestingKind::class,
     SavedGame::class,
+    InventoryProduct::class,
+    InventoryCategory::class,
   ],
   version = 1,
 )
@@ -47,6 +53,10 @@ abstract class AppDatabase : RoomDatabase() {
   abstract fun testingKindDao(): TestingKindDao
 
   abstract fun savedGameDao(): SavedGameDao
+
+  abstract fun inventoryProductDao(): InventoryProductDao
+
+  abstract fun inventoryCategoryDao(): InventoryCategoryDao
 
   companion object {
     private var instance: AppDatabase? = null
