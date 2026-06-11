@@ -6,13 +6,12 @@ public final class dev/teogor/stitch/codegen/CodeGenerator : dev/teogor/stitch/c
 }
 
 public final class dev/teogor/stitch/codegen/commons/ConstantsKt {
-	public static final fun getDAGGER_APPLICATION_CONTEXT ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getDAGGER_INSTALL_IN ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getDAGGER_MODULE ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getDAGGER_PROVIDES ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getDAGGER_SINGLETON_COMPONENT ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getJAVAX_INJECT ()Lcom/squareup/kotlinpoet/ClassName;
-	public static final fun getJAVAX_INJECT_SINGLETON ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getMETRO_BINDING_CONTAINER ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getMETRO_CONTRIBUTES_TO ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getMETRO_INJECT ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getMETRO_PROVIDES ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getMETRO_SINGLE_IN ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getSTITCH_SCOPE ()Lcom/squareup/kotlinpoet/ClassName;
 }
 
 public final class dev/teogor/stitch/codegen/commons/UtilsKt {
@@ -52,68 +51,106 @@ public final class dev/teogor/stitch/codegen/facades/Logger$Companion {
 }
 
 public final class dev/teogor/stitch/codegen/model/CodeGenConfig {
-	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;)V
+	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V
 	public final fun component1 ()Z
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()Z
 	public final fun component2 ()Z
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ldev/teogor/stitch/api/OperationGenerationLevel;
-	public final fun copy (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
-	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/CodeGenConfig;ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/CodeGenConfig;ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddDocumentation ()Z
+	public final fun getDiPackage ()Ljava/lang/String;
+	public final fun getEnableMetro ()Z
 	public final fun getEnableOperationGeneration ()Z
 	public final fun getGeneratedPackageName ()Ljava/lang/String;
 	public final fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
+	public final fun getOperationPackage ()Ljava/lang/String;
+	public final fun getOperationSuffix ()Ljava/lang/String;
+	public final fun getRepositoryImplPackage ()Ljava/lang/String;
+	public final fun getRepositoryPackage ()Ljava/lang/String;
+	public final fun getRepositorySuffix ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/teogor/stitch/codegen/model/DatabaseModel {
-	public fun <init> (Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;)V
+	public fun <init> (Ljava/util/List;Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/util/List;
-	public final fun component2 ()Lcom/squareup/kotlinpoet/TypeName;
-	public final fun component3 ()Ljava/util/List;
-	public final fun copy (Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
-	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/DatabaseModel;Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Lcom/squareup/kotlinpoet/TypeName;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/DatabaseModel;Ljava/util/List;Ljava/util/List;Lcom/squareup/kotlinpoet/TypeName;Ljava/util/List;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEntities ()Ljava/util/List;
 	public final fun getFunctions ()Ljava/util/List;
 	public final fun getType ()Lcom/squareup/kotlinpoet/TypeName;
+	public final fun getViews ()Ljava/util/List;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/teogor/stitch/codegen/model/FieldKind {
-	public fun <init> (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;)V
+	public fun <init> (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;ZZ)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Lcom/squareup/kotlinpoet/TypeName;
-	public final fun copy (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;)Ldev/teogor/stitch/codegen/model/FieldKind;
-	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/FieldKind;Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/FieldKind;
+	public final fun component3 ()Z
+	public final fun component4 ()Z
+	public final fun copy (Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;ZZ)Ldev/teogor/stitch/codegen/model/FieldKind;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/FieldKind;Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeName;ZZILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/FieldKind;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getName ()Ljava/lang/String;
 	public final fun getType ()Lcom/squareup/kotlinpoet/TypeName;
 	public fun hashCode ()I
+	public final fun isEmbedded ()Z
+	public final fun isRelation ()Z
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/teogor/stitch/codegen/model/FunctionKind {
-	public fun <init> (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Z)V
-	public synthetic fun <init> (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Ldev/teogor/stitch/codegen/model/OperationType;ZZ)V
+	public synthetic fun <init> (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Ldev/teogor/stitch/codegen/model/OperationType;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Z
 	public final fun component3 ()Lcom/squareup/kotlinpoet/TypeName;
 	public final fun component4 ()Ljava/util/List;
-	public final fun component5 ()Z
-	public final fun copy (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Z)Ldev/teogor/stitch/codegen/model/FunctionKind;
-	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/FunctionKind;Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;ZILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/FunctionKind;
+	public final fun component5 ()Ldev/teogor/stitch/codegen/model/OperationType;
+	public final fun component6 ()Z
+	public final fun component7 ()Z
+	public final fun copy (Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Ldev/teogor/stitch/codegen/model/OperationType;ZZ)Ldev/teogor/stitch/codegen/model/FunctionKind;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/FunctionKind;Ljava/lang/String;ZLcom/squareup/kotlinpoet/TypeName;Ljava/util/List;Ldev/teogor/stitch/codegen/model/OperationType;ZZILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/FunctionKind;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEnableRawOperationGeneration ()Z
 	public final fun getName ()Ljava/lang/String;
+	public final fun getOperationType ()Ldev/teogor/stitch/codegen/model/OperationType;
 	public final fun getParameters ()Ljava/util/List;
 	public final fun getReturnType ()Lcom/squareup/kotlinpoet/TypeName;
 	public fun hashCode ()I
 	public final fun isSuspend ()Z
+	public final fun isTransaction ()Z
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/codegen/model/OperationType : java/lang/Enum {
+	public static final field DELETE Ldev/teogor/stitch/codegen/model/OperationType;
+	public static final field INSERT Ldev/teogor/stitch/codegen/model/OperationType;
+	public static final field QUERY Ldev/teogor/stitch/codegen/model/OperationType;
+	public static final field RAW_QUERY Ldev/teogor/stitch/codegen/model/OperationType;
+	public static final field UPDATE Ldev/teogor/stitch/codegen/model/OperationType;
+	public static final field UPSERT Ldev/teogor/stitch/codegen/model/OperationType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/teogor/stitch/codegen/model/OperationType;
+	public static fun values ()[Ldev/teogor/stitch/codegen/model/OperationType;
 }
 
 public final class dev/teogor/stitch/codegen/model/ParameterKind {
@@ -158,7 +195,14 @@ public abstract class dev/teogor/stitch/codegen/servicelocator/OutputWriter {
 	public final fun addDocumentation (Lcom/squareup/kotlinpoet/FunSpec$Builder;Ljava/lang/String;[Ljava/lang/Object;)Lcom/squareup/kotlinpoet/FunSpec$Builder;
 	public final fun addDocumentation (Lcom/squareup/kotlinpoet/TypeSpec$Builder;Lcom/squareup/kotlinpoet/CodeBlock;)Lcom/squareup/kotlinpoet/TypeSpec$Builder;
 	public final fun addDocumentation (Lcom/squareup/kotlinpoet/TypeSpec$Builder;Ljava/lang/String;[Ljava/lang/Object;)Lcom/squareup/kotlinpoet/TypeSpec$Builder;
-	public final fun getPackageName (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getBasePackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getDiPackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getOperationName (Ldev/teogor/stitch/codegen/model/RoomModel;Ljava/lang/String;)Ljava/lang/String;
+	public final fun getOperationPackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getRepositoryImplName (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getRepositoryImplPackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getRepositoryName (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
+	public final fun getRepositoryPackage (Ldev/teogor/stitch/codegen/model/RoomModel;)Ljava/lang/String;
 }
 
 public final class dev/teogor/stitch/codegen/writers/OperationOutputWriter : dev/teogor/stitch/codegen/servicelocator/OutputWriter {

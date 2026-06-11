@@ -37,6 +37,8 @@ public final class dev/teogor/stitch/ksp/processors/KspToCodeGenDestinationsMapp
 
 public final class dev/teogor/stitch/ksp/processors/Processor : com/google/devtools/ksp/processing/SymbolProcessor {
 	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/util/Map;)V
+	public fun finish ()V
+	public fun onError ()V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
 

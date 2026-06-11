@@ -80,7 +80,9 @@ class RepositoryOutputWriter(
 
                       if (function.isTransaction) {
                         appendLine()
-                        appendLine("Note: This operation is executed within a database transaction.")
+                        appendLine(
+                          "Note: This operation is executed within a database transaction.",
+                        )
                       }
 
                       if (function.parameters.isNotEmpty()) {
