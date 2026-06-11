@@ -16,14 +16,14 @@
 
 package com.zeoowl.beatifyd.core.data.model
 
-import androidx.room.Embedded
-import androidx.room.Relation
+import androidx.room3.Embedded
+import androidx.room3.Relation
 
 data class PlaylistWithSongs(
   @Embedded val playlist: Playlist,
   @Relation(
-    parentColumn = "playlist_id",
-    entityColumn = "playlist_creator_id",
+    parentColumns = ["playlist_id"],
+    entityColumns = ["playlist_creator_id"],
   )
   val songs: List<Song>,
 )

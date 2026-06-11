@@ -16,9 +16,9 @@
 
 package com.zeoowl.beatifyd.core.data.dao
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room3.Dao
+import androidx.room3.Query
+import androidx.room3.Upsert
 import com.zeoowl.beatifyd.core.data.model.History
 import dev.teogor.stitch.ExplicitEntities
 import kotlinx.coroutines.flow.Flow
@@ -38,7 +38,7 @@ interface HistoryDao {
   suspend fun upsertSongInHistory(history: History)
 
   @Query("DELETE FROM History WHERE id= :songId")
-  fun deleteSongInHistory(songId: Long)
+  suspend fun deleteSongInHistory(songId: Long)
 
   @Query("SELECT * FROM History ORDER BY time_played DESC LIMIT $HISTORY_LIMIT")
   fun historySongs(): Flow<List<History>>
