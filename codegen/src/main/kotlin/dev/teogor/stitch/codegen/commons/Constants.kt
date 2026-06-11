@@ -34,9 +34,9 @@ val STITCH_SCOPE = ClassName(
   packageName = "dev.teogor.stitch.di",
   "StitchScope",
 )
-val METRO_SINGLETON = ClassName(
+val METRO_SINGLE_IN = ClassName(
   packageName = "dev.zacsweers.metro",
-  "Singleton",
+  "SingleIn",
 )
 val METRO_INJECT = ClassName(
   packageName = "dev.zacsweers.metro",

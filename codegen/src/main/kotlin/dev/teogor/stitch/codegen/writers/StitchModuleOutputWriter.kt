@@ -24,7 +24,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
 import dev.teogor.stitch.codegen.commons.METRO_PROVIDES
-import dev.teogor.stitch.codegen.commons.METRO_SINGLETON
+import dev.teogor.stitch.codegen.commons.METRO_SINGLE_IN
 import dev.teogor.stitch.codegen.commons.STITCH_SCOPE
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.shortName
@@ -101,7 +101,11 @@ class StitchModuleOutputWriter(
                     @see [${database.type.shortName}]
                       """.trimIndent(),
                     )
-                    .addAnnotation(METRO_SINGLETON)
+                    .addAnnotation(
+                      AnnotationSpec.builder(METRO_SINGLE_IN)
+                        .addMember("%T::class", STITCH_SCOPE)
+                        .build(),
+                    )
                     .addAnnotation(METRO_PROVIDES)
                     .returns(
                       ClassName(
@@ -131,7 +135,11 @@ class StitchModuleOutputWriter(
                     @see [${roomModel.name}Repository]
                     """.trimIndent(),
                   )
-                  .addAnnotation(METRO_SINGLETON)
+                  .addAnnotation(
+                    AnnotationSpec.builder(METRO_SINGLE_IN)
+                      .addMember("%T::class", STITCH_SCOPE)
+                      .build(),
+                  )
                   .addAnnotation(METRO_PROVIDES)
                   .returns(
                     ClassName(
