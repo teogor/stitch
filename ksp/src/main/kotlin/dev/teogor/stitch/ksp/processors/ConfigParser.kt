@@ -33,6 +33,12 @@ class ConfigParser(
     private const val ENABLE_OPERATION_GENERATION = "$PREFIX.enableOperationGeneration"
     private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
     private const val OPERATION_GENERATION_LEVEL = "$PREFIX.operationGenerationLevel"
+    private const val REPOSITORY_SUFFIX = "$PREFIX.repositorySuffix"
+    private const val OPERATION_SUFFIX = "$PREFIX.operationSuffix"
+    private const val REPOSITORY_PACKAGE = "$PREFIX.repositoryPackage"
+    private const val REPOSITORY_IMPL_PACKAGE = "$PREFIX.repositoryImplPackage"
+    private const val OPERATION_PACKAGE = "$PREFIX.operationPackage"
+    private const val DI_PACKAGE = "$PREFIX.diPackage"
     private const val ENABLE_METRO = "$PREFIX.enableMetro"
   }
 
@@ -41,6 +47,12 @@ class ConfigParser(
     val enableOperationGeneration = parseBoolean(ENABLE_OPERATION_GENERATION) ?: true
     val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
     val operationGenerationLevel = getOperationGenerationLevel()
+    val repositorySuffix = options[REPOSITORY_SUFFIX]?.trim() ?: "Repository"
+    val operationSuffix = options[OPERATION_SUFFIX]?.trim() ?: "Operation"
+    val repositoryPackage = options[REPOSITORY_PACKAGE]?.trim()
+    val repositoryImplPackage = options[REPOSITORY_IMPL_PACKAGE]?.trim()
+    val operationPackage = options[OPERATION_PACKAGE]?.trim()
+    val diPackage = options[DI_PACKAGE]?.trim()
     val enableMetro = parseBoolean(ENABLE_METRO) ?: true
 
     return CodeGenConfig(
@@ -48,6 +60,12 @@ class ConfigParser(
       enableOperationGeneration = enableOperationGeneration,
       generatedPackageName = generatedPackageName,
       operationGenerationLevel = operationGenerationLevel,
+      repositorySuffix = repositorySuffix,
+      operationSuffix = operationSuffix,
+      repositoryPackage = repositoryPackage,
+      repositoryImplPackage = repositoryImplPackage,
+      operationPackage = operationPackage,
+      diPackage = diPackage,
       enableMetro = enableMetro,
     )
   }

@@ -25,6 +25,12 @@ class StitchSchemaArgProvider(
   private val enableOperationGeneration: Boolean,
   private val generatedPackageName: String,
   private val operationGenerationLevel: OperationGenerationLevel,
+  private val repositorySuffix: String,
+  private val operationSuffix: String,
+  private val repositoryPackage: String?,
+  private val repositoryImplPackage: String?,
+  private val operationPackage: String?,
+  private val diPackage: String?,
   private val enableMetro: Boolean,
 ) : CommandLineArgumentProvider {
 
@@ -33,7 +39,14 @@ class StitchSchemaArgProvider(
     "stitch.enableOperationGeneration=$enableOperationGeneration",
     "stitch.generatedPackageName=$generatedPackageName",
     "stitch.operationGenerationLevel=$operationGenerationLevel",
+    "stitch.repositorySuffix=$repositorySuffix",
+    "stitch.operationSuffix=$operationSuffix",
     "stitch.enableMetro=$enableMetro",
+  ) + listOfNotNull(
+    repositoryPackage?.let { "stitch.repositoryPackage=$it" },
+    repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
+    operationPackage?.let { "stitch.operationPackage=$it" },
+    diPackage?.let { "stitch.diPackage=$it" },
   )
 
   companion object {
@@ -42,6 +55,12 @@ class StitchSchemaArgProvider(
       enableOperationGeneration = stitchExtension.enableOperationGeneration,
       generatedPackageName = stitchExtension.generatedPackageName,
       operationGenerationLevel = stitchExtension.operationGenerationLevel,
+      repositorySuffix = stitchExtension.repositorySuffix,
+      operationSuffix = stitchExtension.operationSuffix,
+      repositoryPackage = stitchExtension.repositoryPackage,
+      repositoryImplPackage = stitchExtension.repositoryImplPackage,
+      operationPackage = stitchExtension.operationPackage,
+      diPackage = stitchExtension.diPackage,
       enableMetro = stitchExtension.enableMetro,
     )
   }

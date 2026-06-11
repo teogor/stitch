@@ -36,26 +36,28 @@ class RepositoryImplOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(roomModel: RoomModel, repositoryType: TypeName) {
+    val repositoryImplName = roomModel.getRepositoryImplName()
+    val repositoryImplPackage = roomModel.getRepositoryImplPackage()
     fileBuilder(
-      packageName = "${roomModel.getPackageName()}.data.repository.impl",
-      fileName = "${roomModel.name}RepositoryImpl",
+      packageName = repositoryImplPackage,
+      fileName = repositoryImplName,
     ) {
       addType(
-        TypeSpec.classBuilder("${roomModel.name}RepositoryImpl")
+        TypeSpec.classBuilder(repositoryImplName)
           .addSuperinterface(repositoryType)
           .addDocumentation(
             """
-            Implementation of the [${roomModel.name}Repository] interface, providing access
+            Implementation of the [${roomModel.getRepositoryName()}] interface, providing access
             to [${roomModel.name}] data using a [${roomModel.dao!!.shortName}].
 
             **Constructor:**
 
             - **dao**: [${roomModel.dao.shortName}] The data access object used to interact with the database.
 
-            Generated based on [${roomModel.name}Repository]
+            Generated based on [${roomModel.getRepositoryName()}]
 
             @see [${roomModel.name}]
-            @see [${roomModel.name}Repository]
+            @see [${roomModel.getRepositoryName()}]
             @see [${roomModel.dao.shortName}]
             """.trimIndent(),
           )
