@@ -27,7 +27,6 @@ import dev.teogor.stitch.OperationSignature
 import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.codegen.commons.METRO_INJECT
 import dev.teogor.stitch.codegen.commons.fileBuilder
-import dev.teogor.stitch.codegen.commons.titleCase
 import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
@@ -88,9 +87,12 @@ class OperationOutputWriter(
       }
 
       generatedClasses.forEach { (baseName, invokeFunctions) ->
-        val className = "${room.name}${baseName.titleCase()}Operation"
+        val className = room.getOperationName(baseName)
+        val operationPackage = room.getOperationPackage()
+        val repositoryPackage = room.getRepositoryPackage()
+        val repositoryName = room.getRepositoryName()
         fileBuilder(
-          packageName = "${room.getPackageName()}.database.operation",
+          packageName = operationPackage,
           fileName = className,
         ) {
           addType(
@@ -101,8 +103,8 @@ class OperationOutputWriter(
                   PropertySpec.builder(
                     "repository",
                     ClassName(
-                      "${room.getPackageName()}.data.repository",
-                      "${room.name}Repository",
+                      repositoryPackage,
+                      repositoryName,
                     ),
                   )
                     .initializer("repository")
@@ -114,11 +116,15 @@ class OperationOutputWriter(
                     .addParameter(
                       "repository",
                       ClassName(
-                        "${room.getPackageName()}.data.repository",
-                        "${room.name}Repository",
+                        repositoryPackage,
+                        repositoryName,
                       ),
                     )
-                    .addAnnotation(METRO_INJECT)
+                    .apply {
+                      if (codeGenConfig.enableMetro) {
+                        addAnnotation(METRO_INJECT)
+                      }
+                    }
                     .build(),
                 )
                 invokeFunctions.forEach { addFunction(it) }

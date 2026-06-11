@@ -36,12 +36,14 @@ class RepositoryOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(roomModel: RoomModel): TypeName {
+    val repositoryName = roomModel.getRepositoryName()
+    val repositoryPackage = roomModel.getRepositoryPackage()
     fileBuilder(
-      packageName = "${roomModel.getPackageName()}.data.repository",
-      fileName = "${roomModel.name}Repository",
+      packageName = repositoryPackage,
+      fileName = repositoryName,
     ) {
       addType(
-        TypeSpec.interfaceBuilder("${roomModel.name}Repository")
+        TypeSpec.interfaceBuilder(repositoryName)
           .addDocumentation(
             """
             Interface for accessing and managing [${roomModel.name}] data.
@@ -115,8 +117,8 @@ class RepositoryOutputWriter(
     }.writeWith(codeOutputStreamMaker)
 
     return ClassName(
-      "${roomModel.getPackageName()}.data.repository",
-      "${roomModel.name}Repository",
+      repositoryPackage,
+      repositoryName,
     )
   }
 }

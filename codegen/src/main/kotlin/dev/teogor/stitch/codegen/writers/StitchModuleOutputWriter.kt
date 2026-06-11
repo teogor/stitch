@@ -42,9 +42,13 @@ class StitchModuleOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
-    val packageName = roomModels.first().getPackageName()
+    if (!codeGenConfig.enableMetro) {
+      return
+    }
+    val firstRoom = roomModels.first()
+    val packageName = firstRoom.getDiPackage()
     fileBuilder(
-      packageName = "$packageName.di",
+      packageName = packageName,
       fileName = "StitchModule",
     ) {
       addType(
@@ -138,15 +142,15 @@ class StitchModuleOutputWriter(
                 )
               }
               addFunction(
-                FunSpec.builder("provide${roomModel.name}Repository")
+                FunSpec.builder("provide${roomModel.getRepositoryName()}")
                   .addDocumentation(
                     """
-                    Provides the [${roomModel.name}Repository] using the provided DAO.
+                    Provides the [${roomModel.getRepositoryName()}] using the provided DAO.
 
                     @param dao The [${roomModel.name}Dao] instance.
 
                     @see [${roomModel.name}Dao]
-                    @see [${roomModel.name}Repository]
+                    @see [${roomModel.getRepositoryName()}]
                     """.trimIndent(),
                   )
                   .addAnnotation(
@@ -157,8 +161,8 @@ class StitchModuleOutputWriter(
                   .addAnnotation(METRO_PROVIDES)
                   .returns(
                     ClassName(
-                      "${roomModel.getPackageName()}.data.repository",
-                      "${roomModel.name}Repository",
+                      roomModel.getRepositoryPackage(),
+                      roomModel.getRepositoryName(),
                     ),
                   )
                   .addParameter(
@@ -173,8 +177,8 @@ class StitchModuleOutputWriter(
                   .addStatement(
                     "return %T(dao)",
                     ClassName(
-                      "${roomModel.getPackageName()}.data.repository.impl",
-                      "${roomModel.name}RepositoryImpl",
+                      roomModel.getRepositoryImplPackage(),
+                      roomModel.getRepositoryImplName(),
                     ),
                   )
                   .build(),
