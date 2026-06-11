@@ -28,6 +28,7 @@ import dev.teogor.stitch.codegen.commons.METRO_SINGLE_IN
 import dev.teogor.stitch.codegen.commons.STITCH_SCOPE
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.shortName
+import dev.teogor.stitch.codegen.commons.titleCase
 import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
@@ -63,26 +64,39 @@ class StitchModuleOutputWriter(
             """.trimIndent(),
           )
           .apply {
-            addFunction(
-              FunSpec.builder("provideAppDatabase")
-                .addAnnotation(METRO_PROVIDES)
-                .addParameter("app", ClassName("android.app", "Application"))
-                .returns(databaseModels.first().type)
-                .addDocumentation(
-                  """
-                  Provides an instance of the [${databaseModels.first().type.shortName}] for dependency injection.
+            databaseModels.forEach { databaseModel ->
+              val databaseName = databaseModel.type.let {
+                if (it is ClassName) {
+                  val packageNameParts = it.packageName.split(".")
+                  val uniquePrefix = packageNameParts.takeLast(2).joinToString("") { part ->
+                    part.titleCase()
+                  }
+                  "$uniquePrefix${it.simpleName}"
+                } else {
+                  it.shortName
+                }
+              }
+              addFunction(
+                FunSpec.builder("provide$databaseName")
+                  .addAnnotation(METRO_PROVIDES)
+                  .addParameter("app", ClassName("android.app", "Application"))
+                  .returns(databaseModel.type)
+                  .addDocumentation(
+                    """
+                  Provides an instance of the [$databaseName] for dependency injection.
 
                   @param app The application context for accessing the database.
 
-                  @return The created [${databaseModels.first().type.shortName}] instance.
+                  @return The created [$databaseName] instance.
                   """.trimIndent(),
-                )
-                .addStatement(
-                  "return %T.getInstance(context = app)",
-                  databaseModels.first().type,
-                )
-                .build(),
-            )
+                  )
+                  .addStatement(
+                    "return %T.getInstance(context = app)",
+                    databaseModel.type,
+                  )
+                  .build(),
+              )
+            }
             roomModels.filter { it.hasDao }.forEach { roomModel ->
               val database = databaseModels.firstOrNull {
                 it.entities.contains(roomModel.entity)
