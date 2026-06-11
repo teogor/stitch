@@ -19,7 +19,7 @@ plugins {
 
 dependencies {
   api(libs.room.common)
-  api(libs.metro.runtime)
+  compileOnly(libs.metro.runtime)
 }
 
 winds {
