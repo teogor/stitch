@@ -25,6 +25,7 @@ import androidx.room3.Relation
 import androidx.room3.Transaction
 import androidx.room3.Update
 import androidx.room3.Upsert
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getDeclaredFunctions
@@ -52,6 +53,7 @@ class RoomModelMapper(
   private val annotatedDao: Sequence<KSClassDeclaration>,
 ) {
 
+  @OptIn(KspExperimental::class)
   fun map(entity: KSClassDeclaration): RoomModel? {
     val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
     annotatedDao.forEach { daoClass ->
