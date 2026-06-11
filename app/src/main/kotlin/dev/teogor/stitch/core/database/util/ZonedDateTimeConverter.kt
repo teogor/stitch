@@ -16,7 +16,7 @@
 
 package dev.teogor.stitch.core.database.util
 
-import androidx.room.TypeConverter
+import androidx.room3.TypeConverter
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime

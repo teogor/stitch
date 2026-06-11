@@ -17,10 +17,11 @@
 package dev.teogor.stitch.core.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room3.Database
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
+import androidx.room3.TypeConverters
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import dev.teogor.stitch.core.database.dao.SavedGameDao
 import dev.teogor.stitch.core.database.dao.TestingKindDao
 import dev.teogor.stitch.core.database.model.SavedGame
@@ -52,11 +53,11 @@ abstract class AppDatabase : RoomDatabase() {
 
     fun getInstance(context: Context): AppDatabase {
       if (INSTANCE == null) {
-        INSTANCE = Room.databaseBuilder(
-          context,
-          AppDatabase::class.java,
-          "main_database",
-        ).build()
+        INSTANCE = Room.databaseBuilder<AppDatabase>(
+          context = context,
+          name = "main_database",
+        ).setDriver(BundledSQLiteDriver())
+          .build()
       }
 
       return INSTANCE as AppDatabase

@@ -16,13 +16,13 @@
 
 package com.zeoowl.beatifyd.core.data.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.RewriteQueriesToDropUnusedColumns
-import androidx.room.Transaction
+import androidx.room3.Dao
+import androidx.room3.Delete
+import androidx.room3.Insert
+import androidx.room3.OnConflictStrategy
+import androidx.room3.Query
+import androidx.room3.RewriteQueriesToDropUnusedColumns
+import androidx.room3.Transaction
 import com.zeoowl.beatifyd.core.data.model.Playlist
 import com.zeoowl.beatifyd.core.data.model.PlaylistWithSongs
 import com.zeoowl.beatifyd.core.data.model.Song
@@ -43,7 +43,7 @@ interface PlaylistDao {
   suspend fun renamePlaylist(playlistId: Long, name: String)
 
   @Query("SELECT * FROM Playlist WHERE playlist_name = :name")
-  fun playlist(name: String): List<Playlist>
+  suspend fun playlist(name: String): List<Playlist>
 
   @Query("SELECT * FROM Playlist")
   suspend fun playlists(): List<Playlist>
@@ -87,7 +87,7 @@ interface PlaylistDao {
   fun favoritesSongsLiveData(playlistName: String): Flow<List<Song>>
 
   @Query("SELECT * FROM Song WHERE playlist_creator_id= :playlistId")
-  fun favoritesSongs(playlistId: Long): List<Song>
+  suspend fun favoritesSongs(playlistId: Long): List<Song>
 
   @Query("SELECT EXISTS(SELECT * FROM Playlist WHERE playlist_id = :playlistId)")
   fun checkPlaylistExists(playlistId: Long): Flow<Boolean>

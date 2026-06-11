@@ -19,7 +19,8 @@ espresso-core = "3.6.1"
 lifecycle = "2.11.0-rc01"
 activity-compose = "1.13.0"
 compose-bom = "2025.02.00"
-room = "2.7.0-alpha13"
+room = "3.0.0-alpha06"
+sqlite = "2.7.0-alpha06"
 hilt = "2.59.2"
 hiltExt = "1.2.0"
 kotlin-poet = "2.3.0"
@@ -45,10 +46,10 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-room-common = { group = "androidx.room", name = "room-common", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-common = { group = "androidx.room3", name = "room3-common", version.ref = "room" }
+room-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room" }
+room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room" }
+sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

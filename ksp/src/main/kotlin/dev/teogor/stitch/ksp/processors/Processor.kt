@@ -16,9 +16,9 @@
 
 package dev.teogor.stitch.ksp.processors
 
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Entity
+import androidx.room3.Dao
+import androidx.room3.Database
+import androidx.room3.Entity
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.getAnnotationsByType

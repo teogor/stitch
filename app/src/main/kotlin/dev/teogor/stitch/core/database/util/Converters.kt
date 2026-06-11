@@ -16,7 +16,7 @@
 
 package dev.teogor.stitch.core.database.util
 
-import androidx.room.TypeConverter
+import androidx.room3.TypeConverter
 import dev.teogor.stitch.core.database.model.Difficulty
 import dev.teogor.stitch.core.database.model.GameType
 import dev.teogor.stitch.core.database.model.SudokuEventType
