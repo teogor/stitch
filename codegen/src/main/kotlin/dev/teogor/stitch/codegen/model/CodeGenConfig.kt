@@ -29,4 +29,5 @@ data class CodeGenConfig(
   val repositoryImplPackage: String?,
   val operationPackage: String?,
   val diPackage: String?,
+  val enableMetro: Boolean,
 )

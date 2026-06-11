@@ -36,6 +36,7 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
   * Overriding package names for all generated artifacts (Repositories, Implementations, Operations, DI Modules).
   * Customizing base class or interface for repositories.
   * Excluding specific entities or DAOs from generation.
+  * **Opt-out of Metro:** Use Stitch without Metro by disabling it in your configuration.
 * **Dependency Injection Integration:** Stitch seamlessly integrates with Metro, automatically generating binding containers for injected repository instances.
 * **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
 * **Efficient KSP Integration:** Leverages Kotlin Symbol Processing for accurate and optimized code generation based on your project's specific setup.

@@ -41,6 +41,9 @@ class StitchModuleOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
+    if (!codeGenConfig.enableMetro) {
+      return
+    }
     val firstRoom = roomModels.first()
     val packageName = firstRoom.getDiPackage()
     fileBuilder(

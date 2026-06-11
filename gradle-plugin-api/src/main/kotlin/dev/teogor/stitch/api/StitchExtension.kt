@@ -121,4 +121,15 @@ interface StitchExtension {
    * If not specified, the module will be placed in `${basePackage}.di`.
    */
   var diPackage: String?
+
+  /**
+   * Controls whether to integrate with Metro for dependency injection.
+   *
+   * When enabled (default), Stitch will generate Metro-specific annotations and
+   * binding containers. If disabled, Stitch will generate vanilla code without
+   * Metro dependencies.
+   *
+   * @return `true` if Metro integration is enabled, `false` otherwise.
+   */
+  var enableMetro: Boolean
 }

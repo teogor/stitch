@@ -107,4 +107,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * Optional package name override for the generated DI module.
    */
   override var diPackage: String? = null
+
+  /**
+   * Controls whether to integrate with Metro for dependency injection.
+   *
+   * By default, this is set to `true`.
+   */
+  override var enableMetro: Boolean = true
 }
