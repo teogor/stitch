@@ -23,4 +23,10 @@ data class CodeGenConfig(
   val enableOperationGeneration: Boolean,
   val generatedPackageName: String?,
   val operationGenerationLevel: OperationGenerationLevel,
+  val repositorySuffix: String,
+  val operationSuffix: String,
+  val repositoryPackage: String?,
+  val repositoryImplPackage: String?,
+  val operationPackage: String?,
+  val diPackage: String?,
 )
