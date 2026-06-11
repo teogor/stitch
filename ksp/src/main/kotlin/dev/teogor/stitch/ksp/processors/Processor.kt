@@ -18,11 +18,22 @@ package dev.teogor.stitch.ksp.processors
 
 import androidx.room3.Dao
 import androidx.room3.Database
+import androidx.room3.DatabaseView
+import androidx.room3.Delete
+import androidx.room3.Embedded
 import androidx.room3.Entity
+import androidx.room3.Insert
+import androidx.room3.Query
+import androidx.room3.RawQuery
+import androidx.room3.Relation
+import androidx.room3.Transaction
+import androidx.room3.Update
+import androidx.room3.Upsert
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.isAnnotationPresent
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
@@ -43,6 +54,7 @@ import dev.teogor.stitch.codegen.facades.Logger
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.FieldKind
 import dev.teogor.stitch.codegen.model.FunctionKind
+import dev.teogor.stitch.codegen.model.OperationType
 import dev.teogor.stitch.codegen.model.ParameterKind
 import dev.teogor.stitch.codegen.model.RoomModel
 import dev.teogor.stitch.ksp.codegen.KspCodeOutputStreamMaker
@@ -63,22 +75,16 @@ class Processor(
 
     val annotatedDao = resolver.getDao()
     val annotatedEntities = resolver.getEntities()
+    val annotatedViews = resolver.getViews()
     val annotatedDatabases = resolver.getDatabases()
 
     if (
       !annotatedDao.iterator().hasNext() &&
       !annotatedEntities.iterator().hasNext() &&
+      !annotatedViews.iterator().hasNext() &&
       !annotatedDatabases.iterator().hasNext()
     ) {
       return emptyList()
-    }
-
-    val sourceFiles = annotatedDao.mapNotNull {
-      it.containingFile
-    } + annotatedEntities.mapNotNull {
-      it.containingFile
-    } + annotatedDatabases.mapNotNull {
-      it.containingFile
     }
 
     val databaseModels = annotatedDatabases.map { database ->
@@ -86,12 +92,21 @@ class Processor(
         it.shortName.asString() == Database::class.simpleName
       }!!
       val entities = (
-        annotation.arguments.first {
+        annotation.arguments.find {
           it.name!!.getShortName() == "entities"
-        }.value as List<KSType>
-        ).map {
+        }?.value as? List<KSType>
+        )?.map {
         (it.declaration as KSClassDeclaration).toClassName()
-      }
+      } ?: emptyList()
+
+      val views = (
+        annotation.arguments.find {
+          it.name!!.getShortName() == "views"
+        }?.value as? List<KSType>
+        )?.map {
+        (it.declaration as KSClassDeclaration).toClassName()
+      } ?: emptyList()
+
       val functions = database.getDeclaredFunctions().toList().map { function ->
         val fieldName = function.simpleName.asString()
         val fieldType = function.returnType?.resolve().let {
@@ -113,12 +128,13 @@ class Processor(
       }
       DatabaseModel(
         entities = entities,
+        views = views,
         type = database.toClassName(),
         functions = functions,
       )
     }
 
-    val roomModels = annotatedEntities
+    val roomModels = (annotatedEntities + annotatedViews)
       .toList()
       .filter {
         annotatedDao.firstOrNull {
@@ -165,17 +181,20 @@ class Processor(
       // todo better handling for multiple DAOs
       .distinctBy { it.second }
       .map { (entity, dao) ->
-        val fields = entity.primaryConstructor!!.parameters.map { parameter ->
+        val fields = entity.primaryConstructor?.parameters?.map { parameter ->
           val fieldName = parameter.name!!.asString()
           val fieldType = parameter.type.resolve()
           FieldKind(
-            fieldName,
-            ClassName(
+            name = fieldName,
+            type = ClassName(
               fieldType.declaration.packageName.asString(),
               fieldType.declaration.simpleName.asString(),
             ),
+            isEmbedded = parameter.isAnnotationPresent(Embedded::class),
+            isRelation = parameter.isAnnotationPresent(Relation::class),
           )
-        }
+        } ?: emptyList()
+
         val functions = dao?.getDeclaredFunctions()?.toList()?.map { function ->
           val rawOperation = function.getAnnotationsByType(RawOperation::class)
             .firstOrNull()
@@ -190,11 +209,24 @@ class Processor(
             )
           }
           val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+
+          val operationType = when {
+            function.isAnnotationPresent(Query::class) -> OperationType.QUERY
+            function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
+            function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
+            function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
+            function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
+            function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
+            else -> OperationType.QUERY
+          }
+
           FunctionKind(
             name = fieldName,
             returnType = fieldType,
             parameters = parameters,
             isSuspend = isSuspend,
+            operationType = operationType,
+            isTransaction = function.isAnnotationPresent(Transaction::class),
             enableRawOperationGeneration = rawOperation?.generate ?: false,
           )
         } ?: emptyList()
@@ -238,6 +270,10 @@ class Processor(
 
   private fun Resolver.getEntities(): Sequence<KSClassDeclaration> {
     return findAnnotations(Entity::class).filterIsInstance<KSClassDeclaration>()
+  }
+
+  private fun Resolver.getViews(): Sequence<KSClassDeclaration> {
+    return findAnnotations(DatabaseView::class).filterIsInstance<KSClassDeclaration>()
   }
 
   private fun Resolver.getDatabases(): Sequence<KSClassDeclaration> {
