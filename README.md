@@ -18,6 +18,7 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 * **Tailored to Your Needs:** Customize generated code to perfectly fit your project's unique requirements, ensuring a truly bespoke solution.
 * **Asynchronous Agility:** Embrace the power of coroutines with Stitch's efficient data handling, keeping your app responsive and nimble.
 * **KSP-powered Efficiency:** Leverage the magic of Kotlin Symbol Processing for accurate and optimized code generation, ensuring seamless integration.
+* **Robust Multi-Database Support:** Efficiently handle projects with multiple Room databases with unique DI provider generation.
 
 **Who is Stitch for?**
 
