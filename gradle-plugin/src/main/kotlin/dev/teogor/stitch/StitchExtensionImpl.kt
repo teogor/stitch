@@ -73,4 +73,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * placed in the root package.
    */
   override var generatedPackageName: String = ""
+
+  /**
+   * Controls whether to integrate with Metro for dependency injection.
+   *
+   * By default, this is set to `true`.
+   */
+  override var enableMetro: Boolean = true
 }

@@ -118,7 +118,11 @@ class OperationOutputWriter(
                         "${room.name}Repository",
                       ),
                     )
-                    .addAnnotation(METRO_INJECT)
+                    .apply {
+                      if (codeGenConfig.enableMetro) {
+                        addAnnotation(METRO_INJECT)
+                      }
+                    }
                     .build(),
                 )
                 invokeFunctions.forEach { addFunction(it) }

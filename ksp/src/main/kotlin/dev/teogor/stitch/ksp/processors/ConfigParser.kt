@@ -33,6 +33,7 @@ class ConfigParser(
     private const val ENABLE_OPERATION_GENERATION = "$PREFIX.enableOperationGeneration"
     private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
     private const val OPERATION_GENERATION_LEVEL = "$PREFIX.operationGenerationLevel"
+    private const val ENABLE_METRO = "$PREFIX.enableMetro"
   }
 
   fun parse(): CodeGenConfig {
@@ -40,12 +41,14 @@ class ConfigParser(
     val enableOperationGeneration = parseBoolean(ENABLE_OPERATION_GENERATION) ?: true
     val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
     val operationGenerationLevel = getOperationGenerationLevel()
+    val enableMetro = parseBoolean(ENABLE_METRO) ?: true
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
       enableOperationGeneration = enableOperationGeneration,
       generatedPackageName = generatedPackageName,
       operationGenerationLevel = operationGenerationLevel,
+      enableMetro = enableMetro,
     )
   }
 
