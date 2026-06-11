@@ -23,11 +23,7 @@ import java.nio.charset.StandardCharsets
 
 interface CodeOutputStreamMaker {
 
-  fun makeFile(
-    name: String,
-    packageName: String,
-    vararg sourceIds: String,
-  ): OutputStream
+  fun makeFile(name: String, packageName: String, vararg sourceIds: String): OutputStream
 }
 
 fun CodeOutputStreamMaker.writeTo(

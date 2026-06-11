@@ -38,35 +38,25 @@ abstract class OutputWriter(
 
   fun RoomModel.getPackageName() = codeGenConfig.generatedPackageName ?: packageName
 
-  fun FunSpec.Builder.addDocumentation(
-    format: String,
-    vararg args: Any,
-  ) = this.apply {
+  fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
       addKdoc(format, args)
     }
   }
 
-  fun FunSpec.Builder.addDocumentation(
-    block: CodeBlock,
-  ) = this.apply {
+  fun FunSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
     if (codeGenConfig.addDocumentation) {
       addKdoc(block)
     }
   }
 
-  fun TypeSpec.Builder.addDocumentation(
-    format: String,
-    vararg args: Any,
-  ) = this.apply {
+  fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
       addKdoc(format, args)
     }
   }
 
-  fun TypeSpec.Builder.addDocumentation(
-    block: CodeBlock,
-  ) = this.apply {
+  fun TypeSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
     if (codeGenConfig.addDocumentation) {
       addKdoc(block)
     }
