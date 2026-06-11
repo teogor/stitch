@@ -23,4 +23,5 @@ data class CodeGenConfig(
   val enableOperationGeneration: Boolean,
   val generatedPackageName: String?,
   val operationGenerationLevel: OperationGenerationLevel,
+  val enableMetro: Boolean,
 )
