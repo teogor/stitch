@@ -22,18 +22,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -75,7 +69,6 @@ fun InventoryScreen(viewModel: InventoryViewModel) {
         onValueChange = { viewModel.updateSearchQuery(it) },
         label = { Text("Search Products") },
         modifier = Modifier.fillMaxWidth(),
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
       )
 
       Spacer(modifier = Modifier.padding(8.dp))
@@ -87,7 +80,7 @@ fun InventoryScreen(viewModel: InventoryViewModel) {
       Spacer(modifier = Modifier.padding(8.dp))
 
       Text("Products", style = MaterialTheme.typography.titleLarge)
-      Divider()
+      HorizontalDivider()
 
       LazyColumn {
         items(products) { product ->
@@ -133,7 +126,6 @@ fun AddProductSection(onAddProduct: (String, Double) -> Unit) {
         },
         modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
       ) {
-        Icon(Icons.Default.Add, contentDescription = null)
         Text("Add Product")
       }
     }
@@ -153,7 +145,7 @@ fun ProductItem(product: InventoryProduct, onDelete: () -> Unit) {
       Text("Price: \$${product.price}", style = MaterialTheme.typography.bodyMedium)
     }
     IconButton(onClick = onDelete) {
-      Icon(Icons.Default.Delete, contentDescription = "Delete")
+      Text("DEL") // Simplified delete button
     }
   }
 }
