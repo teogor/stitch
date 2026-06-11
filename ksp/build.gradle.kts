@@ -14,33 +14,26 @@
  * limitations under the License.
  */
 plugins {
-  alias(libs.plugins.jetbrains.kotlin.jvm)
-  alias(libs.plugins.winds)
-}
-
-java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  alias(libs.plugins.stitch.kotlin.library)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-
-  kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.toString()
+  compilerOptions {
+    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
   }
 }
 
 dependencies {
-  api(project(mapOf("path" to ":common")))
-  implementation(project(mapOf("path" to ":codegen")))
+  api(project(":common"))
+  implementation(project(":codegen"))
 
   implementation(libs.ksp.api)
 }
 
 winds {
-  mavenPublish {
-    displayName = "Stitch KSP"
-    name = "ksp"
+  moduleMetadata {
+    artifactDescriptor {
+      name = "ksp"
+    }
   }
 }

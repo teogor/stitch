@@ -1,12 +1,13 @@
-import com.vanniktech.maven.publish.SonatypeHost
-import dev.teogor.winds.api.MavenPublish
-import dev.teogor.winds.api.getValue
-import dev.teogor.winds.api.model.Developer
-import dev.teogor.winds.api.model.LicenseType
-import dev.teogor.winds.api.model.createVersion
-import dev.teogor.winds.api.provider.Scm
-import dev.teogor.winds.gradle.utils.afterWindsPluginConfiguration
-import dev.teogor.winds.gradle.utils.attachTo
+import dev.teogor.winds.api.ArtifactIdFormat
+import dev.teogor.winds.api.License
+import dev.teogor.winds.api.NameFormat
+import dev.teogor.winds.api.Person
+import dev.teogor.winds.api.Scm
+import dev.teogor.winds.api.TicketSystem
+import dev.teogor.winds.ktx.createVersion
+import dev.teogor.winds.ktx.person
+import dev.teogor.winds.ktx.scm
+import dev.teogor.winds.ktx.ticketSystem
 import org.jetbrains.dokka.gradle.DokkaPlugin
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -14,10 +15,9 @@ plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.jetbrains.kotlin.android) apply false
   alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+  alias(libs.plugins.jetbrains.compose.compiler) apply false
   alias(libs.plugins.hilt) apply false
   alias(libs.plugins.ksp) apply false
-  alias(libs.plugins.ceres.android.hilt) apply false
-  alias(libs.plugins.ceres.android.room) apply false
 
   alias(libs.plugins.winds) apply true
   alias(libs.plugins.vanniktech.maven) apply true
@@ -27,89 +27,62 @@ plugins {
 }
 
 winds {
-  buildFeatures {
-    mavenPublish = true
-
+  features {
+    mavenPublishing = true
     docsGenerator = true
   }
 
-  mavenPublish {
-    displayName = "Stitch"
-    name = "stitch"
-
-    canBePublished = false
-
+  moduleMetadata {
+    name = "Stitch"
     description =
       "\uD83E\uDEA1 Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations."
+    yearCreated = 2024
 
-    groupId = "dev.teogor.stitch"
-    artifactIdElements = 1
-    url = "https://source.teogor.dev/stitch"
+    websiteUrl = "https://source.teogor.dev/stitch"
+    apiDocsUrl = "https://source.teogor.dev/stitch"
 
-    version = createVersion(1, 0, 0) {
-      alphaRelease(2)
-    }
-
-    inceptionYear = 2024
-
-    sourceControlManagement(
-      Scm.Git(
-        owner = "teogor",
-        repo = "stitch",
-      ),
-    )
-
-    addLicense(LicenseType.APACHE_2_0)
-
-    addDeveloper(TeogorDeveloper())
-  }
-
-  docsGenerator {
-    name = "Stitch"
-    identifier = "stitch"
-    alertOnDependentModules = true
-  }
-}
-
-afterWindsPluginConfiguration { winds ->
-  // TODO winds
-  //  required by dokka
-  group = winds.mavenPublish.groupId ?: "undefined"
-  version = winds.mavenPublish.version ?: "undefined"
-
-  if (!plugins.hasPlugin("com.gradle.plugin-publish")) {
-    val mavenPublish: MavenPublish by winds
-    if (mavenPublish.canBePublished) {
-      mavenPublishing {
-        publishToMavenCentral(SonatypeHost.S01)
-        signAllPublications()
-
-        @Suppress("UnstableApiUsage")
-        pom {
-          coordinates(
-            groupId = mavenPublish.groupId!!,
-            artifactId = mavenPublish.artifactId!!,
-            version = mavenPublish.version!!.toString(),
-          )
-          mavenPublish attachTo this
-        }
+    artifactDescriptor {
+      group = "dev.teogor.stitch"
+      name = "stitch"
+      version = createVersion(1, 0, 0) {
+        alphaRelease(2)
       }
+      nameFormat = NameFormat.FULL
+      artifactIdFormat = ArtifactIdFormat.MODULE_NAME_ONLY
+    }
+
+    scm<Scm.GitHub> {
+      owner = "teogor"
+      repository = "stitch"
+    }
+
+    ticketSystem<TicketSystem.GitHub> {
+      owner = "teogor"
+      repository = "stitch"
+    }
+
+    licensedUnder(License.Apache2())
+
+    person<Person.DeveloperContributor> {
+      id = "teogor"
+      name = "Teodor Grigor"
+      email = "open-source@teogor.dev"
+      url = "https://teogor.dev"
+      roles = listOf("Code Owner", "Developer", "Designer", "Maintainer")
+      timezone = "UTC+2"
+      organization = "Teogor"
+      organizationUrl = "https://github.com/teogor"
     }
   }
+
+  publishing {
+    enabled = false
+    enablePublicationSigning = true
+    optInForVanniktechPlugin = true
+    cascade = true
+    automaticPublishing = true
+  }
 }
-
-data class TeogorDeveloper(
-  override val id: String = "teogor",
-  override val name: String = "Teodor Grigor",
-  override val email: String = "open-source@teogor.dev",
-  override val url: String = "https://teogor.dev",
-  override val roles: List<String> = listOf("Code Owner", "Developer", "Designer", "Maintainer"),
-  override val timezone: String = "UTC+2",
-  override val organization: String = "Teogor",
-  override val organizationUrl: String = "https://github.com/teogor",
-) : Developer
-
-val ktlintVersion = "0.50.0"
 
 val excludedProjects = listOf(
   project.name,
@@ -122,7 +95,7 @@ subprojects {
     kotlin {
       target("**/*.kt")
       targetExclude("**/build/**/*.kt")
-      ktlint(ktlintVersion)
+      ktlint("1.2.1")
         .editorConfigOverride(
           mapOf(
             "ij_kotlin_allow_trailing_comma" to "true",

@@ -1,33 +1,41 @@
 [versions]
-agp = "8.2.2"
-kotlin = "1.9.22"
-core-ktx = "1.12.0"
+# Project versions
+stitch = "1.0.0-alpha02"
+winds = "1.0.3"
+vanniktech-maven-plugin = "0.36.0"
+
+# Build configurations
+agp = "9.2.1"
+kotlin = "2.4.0"
+android-compileSdk = "37"
+android-minSdk = "24"
+android-targetSdk = "36"
+
+# Dependencies
+core-ktx = "1.15.0"
 junit = "4.13.2"
-junit-version = "1.1.5"
-espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.7.0"
-activity-compose = "1.8.2"
-compose-bom = "2024.02.00"
-ceres = "1.0.0-alpha04"
-ksp = "1.9.22-1.0.17"
-room = "2.6.1"
-hilt = "2.50"
-hiltExt = "1.1.0"
-kotlin-poet = "1.14.2"
-gradle-publish = "1.1.0"
-build-config = "3.1.0"
-winds = "1.0.0-alpha04"
-api-validator = "0.14.0"
-dokka = "1.9.10"
-spotless = "6.25.0"
-vanniktech-maven-plugin = "0.27.0"
+junit-version = "1.2.1"
+espresso-core = "3.6.1"
+lifecycle = "2.11.0-rc01"
+activity-compose = "1.13.0"
+compose-bom = "2025.02.00"
+room = "2.7.0-alpha13"
+hilt = "2.59.2"
+hiltExt = "1.2.0"
+kotlin-poet = "2.3.0"
+gradle-publish = "1.3.1"
+build-config = "5.5.2"
+api-validator = "0.17.0"
+dokka = "2.0.0"
+spotless = "7.0.2"
+ksp = "2.3.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit-version" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -54,13 +62,18 @@ kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-p
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
+# Convention plugins (from build-logic — no version needed)
+stitch-android-application = { id = "stitch.android.application" }
+stitch-kotlin-library = { id = "stitch.kotlin.library" }
+stitch-gradle-plugin = { id = "stitch.gradle.plugin" }
+
+# External plugins
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ceres-android-hilt = { id = "dev.teogor.ceres.android.hilt", version.ref = "ceres" }
-ceres-android-room = { id = "dev.teogor.ceres.android.room", version.ref = "ceres" }
+jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 build-config = { id = "com.github.gmazzo.buildconfig", version.ref = "build-config" }
 gradle-publish = { id = "com.gradle.plugin-publish", version.ref = "gradle-publish" }
 winds = { id = "dev.teogor.winds", version.ref = "winds" }

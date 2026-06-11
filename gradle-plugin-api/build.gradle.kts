@@ -13,22 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
   `kotlin-dsl`
-  alias(libs.plugins.winds)
-}
-
-val javaVersion = JavaVersion.VERSION_11
-java {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
-}
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-  jvmTarget = javaVersion.toString()
+  alias(libs.plugins.stitch.gradle.plugin)
 }
 
 dependencies {
@@ -37,8 +24,9 @@ dependencies {
 }
 
 winds {
-  mavenPublish {
-    displayName = "Stitch Gradle Plugin API"
-    name = "gradle-plugin-api"
+  moduleMetadata {
+    artifactDescriptor {
+      name = "gradle-plugin-api"
+    }
   }
 }
