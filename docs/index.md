@@ -14,6 +14,8 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 **Stitch offers a tapestry of benefits:**
 
 * **Automatic Code Generation:** Say goodbye to repetitive boilerplate! Stitch generates Repositories, Repository Implementations, and Operations based on your Room DAOs and entities.
+* **Full Room3 Support:** Seamlessly syncs with Room3 (KMP Room), supporting `@Upsert`, `@RawQuery`, `@Transaction`, and `@DatabaseView`.
+* **KMP-Ready DI:** Generates platform-agnostic dependency injection modules using `RoomDatabase.Builder`, making it perfect for Kotlin Multiplatform projects.
 * **Seamless Metro Integration:** Enjoy a smooth blend of dependency injection with automatically created Metro binding containers, ensuring your code remains clean and organized.
 * **Tailored to Your Needs:** Customize generated code to perfectly fit your project's unique requirements, ensuring a truly bespoke solution.
 * **Asynchronous Agility:** Embrace the power of coroutines with Stitch's efficient data handling, keeping your app responsive and nimble.
@@ -29,9 +31,10 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
 ## Features:
 
 * **Automatic Generation:** Stitch generates essential code components based on your Room DAOs and entities, including:
-  * **Repositories:** Provide a high-level interface for interacting with your data.
-  * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
+  * **Repositories:** Provide a high-level interface for interacting with your data, now with full support for `@Upsert` and `@RawQuery`.
+  * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs, including transactional support.
   * **Operations:** Represent specific data access actions with clear signatures.
+* **Kotlin Multiplatform (KMP) Ready:** Stitch is designed for the future of Android development, providing KMP-friendly DI generation and full compatibility with the latest Room3 features.
 * **Flexible Customization:** Configure generated code to match your project's needs with options like:
   * Customizing suffixes for repositories and operations (e.g., `DataRepository`, `Action`).
   * Overriding package names for all generated artifacts (Repositories, Implementations, Operations, DI Modules).
