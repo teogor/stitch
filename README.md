@@ -32,8 +32,9 @@ Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin 
     * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
     * **Operations:** Represent specific data access actions with clear signatures.
 * **Flexible Customization:** Configure generated code to match your project's needs with options like:
+    * Customizing suffixes for repositories and operations (e.g., `DataRepository`, `Action`).
+    * Overriding package names for all generated artifacts (Repositories, Implementations, Operations, DI Modules).
     * Customizing base class or interface for repositories.
-    * Specifying naming conventions for generated components.
     * Excluding specific entities or DAOs from generation.
 * **Dependency Injection Integration:** Stitch seamlessly integrates with Metro, automatically generating binding containers for injected repository instances.
 * **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
