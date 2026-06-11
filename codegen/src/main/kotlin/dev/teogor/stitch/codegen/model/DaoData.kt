@@ -20,6 +20,7 @@ import com.squareup.kotlinpoet.TypeName
 
 data class DatabaseModel(
   val entities: List<TypeName>,
+  val views: List<TypeName> = emptyList(),
   val type: TypeName,
   val functions: List<FunctionKind>,
 )
@@ -38,6 +39,8 @@ data class RoomModel(
 data class FieldKind(
   val name: String,
   val type: TypeName,
+  val isEmbedded: Boolean = false,
+  val isRelation: Boolean = false,
 )
 
 data class FunctionKind(
@@ -45,8 +48,19 @@ data class FunctionKind(
   val isSuspend: Boolean,
   val returnType: TypeName,
   val parameters: List<ParameterKind>,
+  val operationType: OperationType = OperationType.QUERY,
+  val isTransaction: Boolean = false,
   val enableRawOperationGeneration: Boolean = false,
 )
+
+enum class OperationType {
+  QUERY,
+  INSERT,
+  UPDATE,
+  DELETE,
+  UPSERT,
+  RAW_QUERY,
+}
 
 data class ParameterKind(
   val name: String,
