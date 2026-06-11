@@ -20,6 +20,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
@@ -45,7 +46,7 @@ class StitchModuleOutputWriter(
     if (!codeGenConfig.enableMetro) {
       return
     }
-    val firstRoom = roomModels.first()
+    val firstRoom = roomModels.firstOrNull() ?: return
     val packageName = firstRoom.getDiPackage()
     fileBuilder(
       packageName = packageName,
@@ -83,40 +84,78 @@ class StitchModuleOutputWriter(
               addFunction(
                 FunSpec.builder("provide$databaseName")
                   .addAnnotation(METRO_PROVIDES)
-                  .addParameter("app", ClassName("android.app", "Application"))
+                  .addParameter(
+                    "databaseBuilder",
+                    ClassName("androidx.room3", "RoomDatabase", "Builder").parameterizedBy(databaseModel.type),
+                  )
                   .returns(databaseModel.type)
                   .addDocumentation(
                     """
                   Provides an instance of the [$databaseName] for dependency injection.
 
-                  @param app The application context for accessing the database.
+                  @param databaseBuilder The Room database builder.
 
                   @return The created [$databaseName] instance.
                   """.trimIndent(),
                   )
                   .addStatement(
-                    "return %T.getInstance(context = app)",
-                    databaseModel.type,
+                    "return databaseBuilder.build()",
                   )
                   .build(),
               )
             }
             roomModels.filter { it.hasDao }.forEach { roomModel ->
               val database = databaseModels.firstOrNull {
-                it.entities.contains(roomModel.entity)
-              } ?: databaseModels.first()
-              val function = database.functions.firstOrNull { it.returnType == roomModel.dao }
-              if (function != null) {
+                it.entities.contains(roomModel.entity) || it.views.contains(roomModel.entity)
+              } ?: databaseModels.firstOrNull()
+
+              if (database != null) {
+                val function = database.functions.firstOrNull { it.returnType == roomModel.dao }
+                if (function != null) {
+                  addFunction(
+                    FunSpec.builder("provide${roomModel.name}Dao")
+                      .addDocumentation(
+                        """
+                      Provides the [${roomModel.name}Dao] instance.
+
+                      @param db The [${database.type.shortName}] instance.
+
+                      @see [${roomModel.name}Dao]
+                      @see [${database.type.shortName}]
+                        """.trimIndent(),
+                      )
+                      .addAnnotation(
+                        AnnotationSpec.builder(METRO_SINGLE_IN)
+                          .addMember("%T::class", STITCH_SCOPE)
+                          .build(),
+                      )
+                      .addAnnotation(METRO_PROVIDES)
+                      .returns(
+                        ClassName(
+                          "${roomModel.packageName}.dao",
+                          "${roomModel.name}Dao",
+                        ),
+                      )
+                      .addParameter(
+                        ParameterSpec.builder(
+                          "db",
+                          database.type,
+                        ).build(),
+                      )
+                      .addStatement("return db.${function.name}()")
+                      .build(),
+                  )
+                }
                 addFunction(
-                  FunSpec.builder("provide${roomModel.name}Dao")
+                  FunSpec.builder("provide${roomModel.getRepositoryName()}")
                     .addDocumentation(
                       """
-                    Provides the [${roomModel.name}Dao] instance.
+                      Provides the [${roomModel.getRepositoryName()}] using the provided DAO.
 
-                    @param db The [${database.type.shortName}] instance.
+                      @param dao The [${roomModel.name}Dao] instance.
 
-                    @see [${roomModel.name}Dao]
-                    @see [${database.type.shortName}]
+                      @see [${roomModel.name}Dao]
+                      @see [${roomModel.getRepositoryName()}]
                       """.trimIndent(),
                     )
                     .addAnnotation(
@@ -127,62 +166,29 @@ class StitchModuleOutputWriter(
                     .addAnnotation(METRO_PROVIDES)
                     .returns(
                       ClassName(
-                        "${roomModel.packageName}.dao",
-                        "${roomModel.name}Dao",
+                        roomModel.getRepositoryPackage(),
+                        roomModel.getRepositoryName(),
                       ),
                     )
                     .addParameter(
                       ParameterSpec.builder(
-                        "db",
-                        database.type,
+                        "dao",
+                        ClassName(
+                          "${roomModel.packageName}.dao",
+                          "${roomModel.name}Dao",
+                        ),
                       ).build(),
                     )
-                    .addStatement("return db.${function.name}()")
+                    .addStatement(
+                      "return %T(dao)",
+                      ClassName(
+                        roomModel.getRepositoryImplPackage(),
+                        roomModel.getRepositoryImplName(),
+                      ),
+                    )
                     .build(),
                 )
               }
-              addFunction(
-                FunSpec.builder("provide${roomModel.getRepositoryName()}")
-                  .addDocumentation(
-                    """
-                    Provides the [${roomModel.getRepositoryName()}] using the provided DAO.
-
-                    @param dao The [${roomModel.name}Dao] instance.
-
-                    @see [${roomModel.name}Dao]
-                    @see [${roomModel.getRepositoryName()}]
-                    """.trimIndent(),
-                  )
-                  .addAnnotation(
-                    AnnotationSpec.builder(METRO_SINGLE_IN)
-                      .addMember("%T::class", STITCH_SCOPE)
-                      .build(),
-                  )
-                  .addAnnotation(METRO_PROVIDES)
-                  .returns(
-                    ClassName(
-                      roomModel.getRepositoryPackage(),
-                      roomModel.getRepositoryName(),
-                    ),
-                  )
-                  .addParameter(
-                    ParameterSpec.builder(
-                      "dao",
-                      ClassName(
-                        "${roomModel.packageName}.dao",
-                        "${roomModel.name}Dao",
-                      ),
-                    ).build(),
-                  )
-                  .addStatement(
-                    "return %T(dao)",
-                    ClassName(
-                      roomModel.getRepositoryImplPackage(),
-                      roomModel.getRepositoryImplName(),
-                    ),
-                  )
-                  .build(),
-              )
             }
           }
           .build(),
