@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.kmpLibraryAll
+
 plugins {
-  alias(libs.plugins.stitch.kotlin.multiplatform)
+  alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  sourceSets {
-    commonMain.dependencies {
-      api(project(":common"))
-      implementation(project(":codegen"))
-    }
-    jvmMain {
-      compilerOptions {
-        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+  kmpLibraryAll(project, "StitchKsp") {
+    sourceSets {
+      commonMain.dependencies {
+        api(project(":common"))
+        implementation(project(":codegen"))
       }
-      dependencies {
-        implementation(libs.ksp.api)
+      jvmMain {
+        compilerOptions {
+          freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+        }
+        dependencies {
+          implementation(libs.ksp.api)
+        }
       }
     }
   }

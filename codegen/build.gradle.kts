@@ -13,19 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.kmpLibraryAll
+
 plugins {
-  alias(libs.plugins.stitch.kotlin.multiplatform)
+  alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  sourceSets {
-    commonMain.dependencies {
-      api(project(":common"))
-    }
-    jvmMain.dependencies {
-      api(project(":gradle-plugin-api"))
-      api(libs.kotlin.poet)
-      api(libs.kotlin.poet.ksp)
+  kmpLibraryAll(project, "StitchCodegen") {
+    sourceSets {
+      commonMain.dependencies {
+        api(project(":common"))
+      }
+      jvmMain.dependencies {
+        api(project(":gradle-plugin-api"))
+        api(libs.kotlin.poet)
+        api(libs.kotlin.poet.ksp)
+      }
     }
   }
 }

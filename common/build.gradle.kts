@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.kmpLibraryAll
+
 plugins {
-  alias(libs.plugins.stitch.kotlin.multiplatform)
+  alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  sourceSets {
-    commonMain.dependencies {
-      api(libs.room.common)
-      compileOnly(libs.metro.runtime)
+  kmpLibraryAll(project, "StitchCommon") {
+    sourceSets {
+      commonMain.dependencies {
+        api(libs.room.common)
+        compileOnly(libs.metro.runtime)
+      }
     }
   }
 }

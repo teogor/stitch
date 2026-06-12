@@ -14,9 +14,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  */
 @OptIn(ExperimentalWasmDsl::class)
 fun KotlinMultiplatformExtension.kmpLibraryAll(
+    project: Project,
     frameworkBaseName: String,
     configure: KotlinMultiplatformExtension.() -> Unit = {},
 ) {
+    // Register Android Target with defaults
+    androidTarget(project)
+
     // iOS
     listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
         iosTarget.binaries.framework {
