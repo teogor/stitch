@@ -14,33 +14,20 @@
  * limitations under the License.
  */
 import dev.teogor.stitch.convention.kmpLibraryAll
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
   alias(libs.plugins.stitch.kotlin.multiplatform)
 }
 
 kotlin {
-  kmpLibraryAll("StitchCodegen") {
-    android {
-      namespace = "dev.teogor.stitch.codegen"
-      compileSdk = libs.versions.android.compileSdk.get().toInt()
-      minSdk = libs.versions.android.minSdk.get().toInt()
-
-      compilerOptions {
-        jvmTarget = JvmTarget.JVM_21
-      }
+  sourceSets {
+    commonMain.dependencies {
+      api(project(":common"))
     }
-
-    sourceSets {
-      commonMain.dependencies {
-        api(project(":common"))
-      }
-      jvmMain.dependencies {
-        api(project(":gradle-plugin-api"))
-        api(libs.kotlin.poet)
-        api(libs.kotlin.poet.ksp)
-      }
+    jvmMain.dependencies {
+      api(project(":gradle-plugin-api"))
+      api(libs.kotlin.poet)
+      api(libs.kotlin.poet.ksp)
     }
   }
 }
