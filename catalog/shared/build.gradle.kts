@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.androidTarget
 import dev.teogor.stitch.convention.kmpLibraryAll
 
 plugins {
@@ -25,9 +26,34 @@ kotlin {
   kmpLibraryAll(project, "CatalogShared") {
     sourceSets {
       commonMain.dependencies {
-        // Compose Multiplatform dependencies from version catalog
-        // Note: These should be available in libs.versions.toml
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.material3)
+        implementation(libs.compose.ui)
+        implementation(libs.compose.components.resources)
+        implementation(libs.compose.uiToolingPreview)
+        implementation(libs.androidx.lifecycle.viewmodelCompose)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+      }
+      commonTest.dependencies {
+        implementation(libs.jetbrains.kotlin.test)
+      }
+      androidMain.dependencies {
+        implementation(libs.androidx.ui.tooling.preview)
+      }
+      jsMain.dependencies {
+        implementation(libs.wrappers.browser)
       }
     }
   }
+
+  androidTarget(project) {
+    withHostTest {
+      isIncludeAndroidResources = true
+    }
+  }
+}
+
+dependencies {
+  add("androidRuntimeClasspath", libs.androidx.ui.tooling)
 }
