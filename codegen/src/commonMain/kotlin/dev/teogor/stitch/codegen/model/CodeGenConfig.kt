@@ -18,6 +18,7 @@ package dev.teogor.stitch.codegen.model
 
 import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
+import dev.teogor.stitch.api.Visibility
 
 data class CodeGenConfig(
   val addDocumentation: Boolean,
@@ -35,4 +36,5 @@ data class CodeGenConfig(
   val diFramework: DiFramework,
   val injectAnnotation: String?,
   val repositoryBaseClass: String?,
+  val visibility: Visibility,
 )
