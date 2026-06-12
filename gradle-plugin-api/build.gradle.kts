@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+  api(project(":common"))
   api(libs.android.gradle.plugin)
   api(libs.kotlin.gradle.plugin)
 }

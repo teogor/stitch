@@ -8,26 +8,23 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
- * Convention plugin for KMP library modules.
+ * Convention plugin for KMP application modules.
+ * Currently declared but not applied to any module.
  */
 @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
-class KmpLibraryConventionPlugin : Plugin<Project> {
+class KmpApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
                 apply("org.jetbrains.kotlin.multiplatform")
-                apply("com.android.kotlin.multiplatform.library")
+                apply("com.android.application")
                 apply("dev.teogor.winds")
             }
-
-            configureStitchExtension()
 
             extensions.configure<KotlinMultiplatformExtension> {
                 applyDefaultHierarchyTemplate()
 
-                sourceSets.getByName("commonTest").dependencies {
-                    implementation(target.versionCatalog.requireLibrary("jetbrains-kotlin-test"))
-                }
+                // Default configurations can be added here as needed
             }
         }
     }

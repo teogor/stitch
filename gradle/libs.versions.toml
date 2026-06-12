@@ -59,7 +59,8 @@ kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-p
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
-stitch-kotlin-multiplatform = { id = "stitch.kotlin.multiplatform" }
+stitch-kmp-application = { id = "stitch.kmp.application" }
+stitch-kmp-library = { id = "stitch.kmp.library" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 # Convention plugins (from build-logic — no version needed)
