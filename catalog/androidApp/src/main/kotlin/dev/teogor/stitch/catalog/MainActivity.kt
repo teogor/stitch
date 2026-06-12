@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun appAndroidPreview() {
+@Suppress("ktlint:standard:function-naming")
+fun AppAndroidPreview() {
   App()
 }
