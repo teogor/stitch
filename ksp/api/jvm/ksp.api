@@ -21,39 +21,39 @@ public abstract interface class dev/teogor/stitch/ksp/commons/KSFileSourceMapper
 	public abstract fun mapToKSFile (Ljava/lang/String;)Lcom/google/devtools/ksp/symbol/KSFile;
 }
 
-public final class dev/teogor/stitch/ksp/processors/ConfigParser {
-	public static final field Companion Ldev/teogor/stitch/ksp/processors/ConfigParser$Companion;
+public final class dev/teogor/stitch/ksp/data/config/ConfigParser {
+	public static final field Companion Ldev/teogor/stitch/ksp/data/config/ConfigParser$Companion;
 	public fun <init> (Ljava/util/Map;)V
 	public final fun parse ()Ldev/teogor/stitch/codegen/model/CodeGenConfig;
 }
 
-public final class dev/teogor/stitch/ksp/processors/ConfigParser$Companion {
+public final class dev/teogor/stitch/ksp/data/config/ConfigParser$Companion {
 }
 
-public final class dev/teogor/stitch/ksp/processors/DatabaseModelMapper {
+public final class dev/teogor/stitch/ksp/data/config/WrongConfigurationSetup : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/teogor/stitch/ksp/data/mapper/DatabaseModelMapper {
 	public fun <init> ()V
 	public final fun map (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Ldev/teogor/stitch/codegen/model/DatabaseModel;
 }
 
-public final class dev/teogor/stitch/ksp/processors/KspToCodeGenDestinationsMapper : dev/teogor/stitch/ksp/commons/KSFileSourceMapper {
+public final class dev/teogor/stitch/ksp/data/mapper/KspToCodeGenDestinationsMapper : dev/teogor/stitch/ksp/commons/KSFileSourceMapper {
 	public fun <init> (Lcom/google/devtools/ksp/processing/Resolver;)V
 	public fun mapToKSFile (Ljava/lang/String;)Lcom/google/devtools/ksp/symbol/KSFile;
 }
 
-public final class dev/teogor/stitch/ksp/processors/Processor : com/google/devtools/ksp/processing/SymbolProcessor {
-	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/util/Map;)V
-	public fun finish ()V
-	public fun onError ()V
-	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
-}
-
-public final class dev/teogor/stitch/ksp/processors/RoomModelMapper {
+public final class dev/teogor/stitch/ksp/data/mapper/RoomModelMapper {
 	public fun <init> (Lkotlin/sequences/Sequence;)V
 	public final fun map (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;)Ldev/teogor/stitch/codegen/model/RoomModel;
 }
 
-public final class dev/teogor/stitch/ksp/processors/WrongConfigurationSetup : java/lang/RuntimeException {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+public final class dev/teogor/stitch/ksp/presentation/Processor : com/google/devtools/ksp/processing/SymbolProcessor {
+	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/util/Map;)V
+	public fun finish ()V
+	public fun onError ()V
+	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.ksp.processors
+package dev.teogor.stitch.ksp.data.mapper
 
 import androidx.room3.Delete
 import androidx.room3.Embedded

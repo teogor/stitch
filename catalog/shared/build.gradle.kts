@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.api.DiFramework
+import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.convention.androidTarget
 import dev.teogor.stitch.convention.kmpLibraryAll
 
@@ -37,6 +39,8 @@ kotlin {
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
 
+        implementation(libs.room.common)
+        implementation(libs.room.runtime)
         implementation(project(":common"))
       }
       androidMain.dependencies {
@@ -71,6 +75,6 @@ dependencies {
 
 stitch {
   generatedPackageName = "dev.teogor.stitch.catalog.generated"
-  diFramework = dev.teogor.stitch.api.DiFramework.METRO
-  operationGenerationLevel = dev.teogor.stitch.api.OperationGenerationLevel.ALL
+  diFramework = DiFramework.METRO
+  operationGenerationLevel = OperationGenerationLevel.ALL
 }

@@ -1,0 +1,21 @@
+# Task Management
+
+- [x] Research Room KMP and JetBrains Examples
+- [x] Update implementation plan with clean architecture, naming conventions, and Room KMP best practices
+- [ ] Refactor `stitch-ksp` internal structure
+    - [ ] Move `RoomModelMapper.kt` and `DatabaseModelMapper.kt` to `dev.teogor.stitch.ksp.data.mapper`
+    - [ ] Move `Processor.kt` to `dev.teogor.stitch.ksp.presentation`
+    - [ ] Update `ProcessorProvider.kt` imports
+    - [ ] Run quality gates for `ksp` module
+- [ ] Refactor `catalog` module to follow Clean Architecture
+    - [ ] Create `data/database`, `data/repository`, `data/mapper` packages
+    - [ ] Create `domain/model`, `domain/repository`, `domain/usecase` packages
+    - [ ] Create `presentation/model`, `presentation/ui`, `presentation/mapper` packages
+    - [ ] Implement `NoteEntity`, `NoteModel`, `NoteUi`
+    - [ ] Implement `NoteRepository` and `NoteRepositoryImpl`
+    - [ ] Implement Use Cases (`GetNotesUseCase`, etc.)
+    - [ ] Implement `NoteViewModel` and update `App.kt`
+    - [ ] Run quality gates for `catalog` module
+- [ ] Verify implementation
+    - [ ] Run Desktop app and verify functionality
+    - [ ] Verify KSP generation with new architecture

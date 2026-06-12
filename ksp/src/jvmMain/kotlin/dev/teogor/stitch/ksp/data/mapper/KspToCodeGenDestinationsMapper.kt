@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.ksp
+package dev.teogor.stitch.ksp.data.mapper
 
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
-import dev.teogor.stitch.ksp.presentation.Processor
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSFile
+import dev.teogor.stitch.ksp.commons.KSFileSourceMapper
 
-class ProcessorProvider : SymbolProcessorProvider {
-  override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-    return Processor(
-      environment.codeGenerator,
-      environment.logger,
-      environment.options,
-    )
+class KspToCodeGenDestinationsMapper(
+  private val resolver: Resolver,
+) : KSFileSourceMapper {
+  private val sourceFilesById = mutableMapOf<String, KSFile?>()
+
+  override fun mapToKSFile(sourceId: String): KSFile? {
+    return sourceFilesById[sourceId]
   }
 }

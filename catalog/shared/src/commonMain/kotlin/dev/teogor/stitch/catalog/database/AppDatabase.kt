@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 teogor (Teodor Grigor)
+ * Copyright 2026 teogor (Teodor Grigor)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.ksp.processors
+package dev.teogor.stitch.catalog.database
 
-import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.KSFile
-import dev.teogor.stitch.ksp.commons.KSFileSourceMapper
+import androidx.room3.ConstructedBy
+import androidx.room3.Database
+import androidx.room3.RoomDatabase
+import androidx.room3.RoomDatabaseConstructor
 
-class KspToCodeGenDestinationsMapper(
-  private val resolver: Resolver,
-) : KSFileSourceMapper {
-  private val sourceFilesById = mutableMapOf<String, KSFile?>()
-
-  override fun mapToKSFile(sourceId: String): KSFile? {
-    return sourceFilesById[sourceId]
-  }
+@Database(entities = [Note::class], version = 1)
+@ConstructedBy(AppDatabaseConstructor::class)
+abstract class AppDatabase : RoomDatabase() {
+  abstract fun noteDao(): NoteDao
 }
+
+expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>

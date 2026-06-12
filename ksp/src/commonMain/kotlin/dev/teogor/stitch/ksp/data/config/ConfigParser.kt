@@ -16,7 +16,7 @@
 
 @file:Suppress("SameParameterValue")
 
-package dev.teogor.stitch.ksp.processors
+package dev.teogor.stitch.ksp.data.config
 
 import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.ksp.processors
+package dev.teogor.stitch.ksp.presentation
 
 import androidx.room3.Dao
 import androidx.room3.Database
@@ -32,6 +32,10 @@ import dev.teogor.stitch.codegen.CodeGenerator
 import dev.teogor.stitch.codegen.facades.Logger
 import dev.teogor.stitch.ksp.codegen.KspCodeOutputStreamMaker
 import dev.teogor.stitch.ksp.codegen.KspLogger
+import dev.teogor.stitch.ksp.data.config.ConfigParser
+import dev.teogor.stitch.ksp.data.mapper.DatabaseModelMapper
+import dev.teogor.stitch.ksp.data.mapper.KspToCodeGenDestinationsMapper
+import dev.teogor.stitch.ksp.data.mapper.RoomModelMapper
 import kotlin.reflect.KClass
 
 class Processor(
