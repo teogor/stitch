@@ -17,6 +17,7 @@ public final class dev/teogor/stitch/codegen/commons/UtilsKt {
 	public static final fun findCommonBase (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getCommonBase (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 	public static final fun getShortName (Lcom/squareup/kotlinpoet/TypeName;)Ljava/lang/String;
+	public static final fun mapTo (Lcom/squareup/kotlinpoet/TypeName;Ldev/teogor/stitch/codegen/model/RoomModel;)Lcom/squareup/kotlinpoet/TypeName;
 	public static final fun sanitizePackageName (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun titleCase (Ljava/lang/String;)Ljava/lang/String;
 	public static final fun toSnakeCase (Ljava/lang/String;)Ljava/lang/String;
