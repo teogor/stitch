@@ -247,7 +247,7 @@ public abstract class dev/teogor/stitch/codegen/writers/OutputWriter {
 
 public final class dev/teogor/stitch/codegen/writers/RepositoryImplOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {
 	public fun <init> (Ldev/teogor/stitch/codegen/facades/CodeOutputStreamMaker;Ldev/teogor/stitch/codegen/model/CodeGenConfig;)V
-	public final fun write (Ldev/teogor/stitch/codegen/model/RoomModel;Lcom/squareup/kotlinpoet/TypeName;)V
+	public final fun write (Ldev/teogor/stitch/codegen/model/RoomModel;Lcom/squareup/kotlinpoet/TypeName;Lcom/squareup/kotlinpoet/TypeName;)V
 }
 
 public final class dev/teogor/stitch/codegen/writers/RepositoryOutputWriter : dev/teogor/stitch/codegen/writers/OutputWriter {

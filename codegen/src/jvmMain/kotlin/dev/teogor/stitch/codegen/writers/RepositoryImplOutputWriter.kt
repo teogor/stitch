@@ -18,10 +18,12 @@ package dev.teogor.stitch.codegen.writers
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.mapTo
@@ -36,7 +38,7 @@ class RepositoryImplOutputWriter(
   codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(roomModel: RoomModel, repositoryType: TypeName) {
+  fun write(roomModel: RoomModel, repositoryType: TypeName, databaseType: TypeName?) {
     val repositoryImplName = roomModel.getRepositoryImplName()
     val repositoryImplPackage = roomModel.getRepositoryImplPackage()
     fileBuilder(
@@ -45,6 +47,10 @@ class RepositoryImplOutputWriter(
     ) {
       if (roomModel.functions.any { it.returnType != it.returnType.mapTo(roomModel) }) {
         addImport("kotlinx.coroutines.flow", "map")
+      }
+      if (databaseType != null) {
+        addImport("androidx.room3", "useWriterConnection")
+        addImport("androidx.room3", "immediateTransaction")
       }
       addType(
         TypeSpec.classBuilder(repositoryImplName)
@@ -69,8 +75,11 @@ class RepositoryImplOutputWriter(
           .apply {
             primaryConstructor(
               FunSpec.constructorBuilder()
-                .addParameter("dao", roomModel.dao)
+                .addParameter("dao", roomModel.dao!!)
                 .apply {
+                  databaseType?.let {
+                    addParameter("db", it)
+                  }
                   roomModel.mapper?.let { mapper ->
                     addParameter("mapper", mapper)
                   }
@@ -83,6 +92,14 @@ class RepositoryImplOutputWriter(
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
             )
+            databaseType?.let {
+              addProperty(
+                PropertySpec.builder("db", it)
+                  .initializer("db")
+                  .addModifiers(KModifier.PRIVATE)
+                  .build(),
+              )
+            }
             roomModel.mapper?.let { mapper ->
               addProperty(
                 PropertySpec.builder("mapper", mapper)
@@ -170,6 +187,35 @@ class RepositoryImplOutputWriter(
                       addModifiers(KModifier.SUSPEND)
                     }
                   }
+                  .build(),
+              )
+            }
+
+            if (databaseType != null) {
+              addFunction(
+                FunSpec.builder("transaction")
+                  .addModifiers(KModifier.OVERRIDE)
+                  .addModifiers(KModifier.SUSPEND)
+                  .addTypeVariable(TypeVariableName("R"))
+                  .addParameter(
+                    "block",
+                    LambdaTypeName.get(
+                      receiver = repositoryType,
+                      returnType = TypeVariableName("R"),
+                    ).copy(suspending = true),
+                  )
+                  .returns(TypeVariableName("R"))
+                  .addDocumentation(
+                    """
+                    Executes the given block within a database transaction.
+
+                    @param block The block of code to execute within the transaction.
+                    @return The result of the transaction block.
+                    """.trimIndent(),
+                  )
+                  .addStatement(
+                    "return db.useWriterConnection { it.immediateTransaction { this@$repositoryImplName.block() } }",
+                  )
                   .build(),
               )
             }

@@ -63,7 +63,10 @@ class CodeGenerator(
     roomModels.filter { it.hasDao }.forEach { roomModel ->
       val repositoryType = repositoryOutputWriter.write(roomModel)
       if (codeGenConfig.enableRepositoryImplGeneration) {
-        repositoryImplOutputWriter.write(roomModel, repositoryType)
+        val database = databaseModels.firstOrNull {
+          it.entities.contains(roomModel.entity) || it.views.contains(roomModel.entity)
+        } ?: databaseModels.firstOrNull()
+        repositoryImplOutputWriter.write(roomModel, repositoryType, database?.type)
       }
     }
 

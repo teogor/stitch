@@ -39,8 +39,8 @@ class MainActivity : ComponentActivity() {
         val db = remember { AppDatabase.getInstance(applicationContext) }
         val viewModel = remember {
           InventoryViewModel(
-            productRepository = InventoryProductRepositoryImpl(db.inventoryProductDao()),
-            categoryRepository = InventoryCategoryRepositoryImpl(db.inventoryCategoryDao()),
+            productRepository = InventoryProductRepositoryImpl(db.inventoryProductDao(), db),
+            categoryRepository = InventoryCategoryRepositoryImpl(db.inventoryCategoryDao(), db),
           )
         }
 
