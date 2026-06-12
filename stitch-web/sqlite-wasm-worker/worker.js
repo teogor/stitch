@@ -13,7 +13,7 @@ let nextStatementId = 0;
 function openRequest(id, requestData) {
     try {
         const newDatabaseId = nextDatabaseId++;
-        const newDatabase = new sqlite3.oo1.DB(requestData.fileName || ':memory:', 'ct');
+        const newDatabase = new sqlite3.oo1.OpfsDb(requestData.fileName);
         databases.set(newDatabaseId, newDatabase);
         postMessage({'id': id, data: {'databaseId': newDatabaseId}});
     } catch (error) {
@@ -59,10 +59,8 @@ function stepRequest(id, requestData) {
         };
         statement.reset();
         statement.clearBindings();
-        if (requestData.bindings) {
-            for (let i = 0; i < requestData.bindings.length; i++) {
-                statement.bind(i + 1, requestData.bindings[i]);
-            }
+        for (let i = 0; i < requestData.bindings.length; i++) {
+            statement.bind(i + 1, requestData.bindings[i]);
         }
         while (statement.step()) {
             if (!resultData.columnTypes.length) {
@@ -106,7 +104,6 @@ function closeRequest(id, requestData) {
             postMessage({'id': id, error: error.message});
         }
     }
-    postMessage({'id': id, data: {}});
 }
 
 const commandMap = {
@@ -118,10 +115,11 @@ const commandMap = {
 
 function handleMessage(e) {
     const requestMsg = e.data;
-    if (!requestMsg || typeof requestMsg !== 'object' || !('id' in requestMsg)) {
+    if (!Object.hasOwn(requestMsg, 'data') || requestMsg.data == null) {
+        postMessage({'id': requestMsg.id, 'error': "Invalid request, missing 'data'."});
         return;
     }
-    if (!requestMsg.data || !requestMsg.data.cmd) {
+    if (!Object.hasOwn(requestMsg.data, 'cmd') || requestMsg.data.cmd == null) {
         postMessage({'id': requestMsg.id, 'error': "Invalid request, missing 'cmd'."});
         return;
     }
@@ -130,7 +128,7 @@ function handleMessage(e) {
     if (requestHandler) {
         requestHandler(requestMsg.id, requestMsg.data);
     } else {
-        postMessage({'id': requestMsg.id, 'error': "Invalid request, unknown command: '" + command + "'."});
+        postMessage({'id': requestMsg.id, 'error': "Unknown command: '" + command + "'."});
     }
 }
 

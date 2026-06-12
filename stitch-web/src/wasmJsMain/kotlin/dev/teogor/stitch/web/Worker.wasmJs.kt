@@ -23,9 +23,9 @@ import org.w3c.dom.Worker
 /**
  * [wasmJs] implementation of [createSQLiteWebDriver].
  */
-@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
-actual fun createSQLiteWebDriver(): SQLiteDriver = WebWorkerSQLiteDriver(jsWorker())
+@OptIn(ExperimentalWasmJsInterop::class)
+actual fun createSQLiteWebDriver(): SQLiteDriver = WebWorkerSQLiteDriver(createSQLiteWorker())
 
-@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
-private fun jsWorker(): Worker =
-  js("new Worker('stitch-sqlite-worker/worker.js', { type: 'module' })")
+@OptIn(ExperimentalWasmJsInterop::class)
+@JsFun("() => new Worker(new URL('sqlite-wasm-worker/worker.js', import.meta.url), { type: 'module' })")
+private external fun createSQLiteWorker(): Worker
