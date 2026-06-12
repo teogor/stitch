@@ -43,12 +43,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.teogor.stitch.core.database.model.InventoryCategory
 import dev.teogor.stitch.core.database.model.InventoryProduct
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun inventoryScreen(viewModel: InventoryViewModel) {
   val products by viewModel.products.collectAsState()
+  val categories by viewModel.categories.collectAsState()
   val searchQuery by viewModel.searchQuery.collectAsState()
 
   Scaffold(
@@ -73,9 +75,12 @@ fun inventoryScreen(viewModel: InventoryViewModel) {
 
       Spacer(modifier = Modifier.padding(8.dp))
 
-      addProductSection(onAddProduct = { name, price ->
-        viewModel.addProduct(name, 1L, price, 10) // Simplified for demo
-      })
+      addProductSection(
+        categories = categories,
+        onAddProduct = { name, categoryId, price ->
+          viewModel.addProduct(name, categoryId, price, 10)
+        },
+      )
 
       Spacer(modifier = Modifier.padding(8.dp))
 
@@ -95,7 +100,10 @@ fun inventoryScreen(viewModel: InventoryViewModel) {
 }
 
 @Composable
-fun addProductSection(onAddProduct: (String, Double) -> Unit) {
+fun addProductSection(
+  categories: List<InventoryCategory>,
+  onAddProduct: (String, Long, Double) -> Unit,
+) {
   var name by remember { mutableStateOf("") }
   var price by remember { mutableStateOf("") }
 
@@ -118,8 +126,9 @@ fun addProductSection(onAddProduct: (String, Double) -> Unit) {
       )
       Button(
         onClick = {
+          val categoryId = categories.firstOrNull()?.id ?: 1L
           if (name.isNotBlank() && price.toDoubleOrNull() != null) {
-            onAddProduct(name, price.toDouble())
+            onAddProduct(name, categoryId, price.toDouble())
             name = ""
             price = ""
           }
