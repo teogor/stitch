@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.codegen.commons.fileBuilder
+import dev.teogor.stitch.codegen.commons.mapTo
 import dev.teogor.stitch.codegen.commons.shortName
 import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
@@ -74,6 +75,7 @@ class RepositoryImplOutputWriter(
             )
 
             roomModel.functions.forEach { function ->
+              val returnType = function.returnType.mapTo(roomModel)
               addFunction(
                 FunSpec.builder(function.name)
                   .addModifiers(KModifier.OVERRIDE)
@@ -101,10 +103,10 @@ class RepositoryImplOutputWriter(
                         )
                       }
 
-                      if (function.returnType != UNIT) {
+                      if (returnType != UNIT) {
                         appendLine()
                         appendLine(
-                          "@return ${function.returnType.shortName}",
+                          "@return ${returnType.shortName}",
                         )
                       }
                     }.trimIndent(),
@@ -112,18 +114,26 @@ class RepositoryImplOutputWriter(
                   .apply {
                     val args = function.parameters.joinToString(
                       separator = ",",
-                    ) {
-                      it.name
+                    ) { parameter ->
+                      if (parameter.type != parameter.type.mapTo(roomModel)) {
+                        "${parameter.name}.toEntity()"
+                      } else {
+                        parameter.name
+                      }
                     }
                     val invokeCode = "dao.${function.name}($args)"
-                    if (function.returnType != UNIT) {
-                      returns(function.returnType)
-                      addCode("return $invokeCode")
+                    if (returnType != UNIT) {
+                      returns(returnType)
+                      if (function.returnType != returnType) {
+                        addCode("return $invokeCode.toDomain()")
+                      } else {
+                        addCode("return $invokeCode")
+                      }
                     } else {
                       addCode(invokeCode)
                     }
                     function.parameters.forEach { parameter ->
-                      addParameter(parameter.name, parameter.type)
+                      addParameter(parameter.name, parameter.type.mapTo(roomModel))
                     }
                     if (function.isSuspend) {
                       addModifiers(KModifier.SUSPEND)

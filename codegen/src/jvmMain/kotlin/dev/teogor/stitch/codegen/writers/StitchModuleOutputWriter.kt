@@ -22,6 +22,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
 import dev.teogor.stitch.codegen.commons.METRO_PROVIDES
@@ -42,7 +43,7 @@ class StitchModuleOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
-    if (!codeGenConfig.enableMetro) {
+    if (codeGenConfig.diFramework != DiFramework.METRO) {
       return
     }
     val firstRoom = roomModels.firstOrNull() ?: return

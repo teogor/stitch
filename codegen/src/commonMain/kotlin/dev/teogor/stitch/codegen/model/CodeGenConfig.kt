@@ -16,6 +16,7 @@
 
 package dev.teogor.stitch.codegen.model
 
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
 
 data class CodeGenConfig(
@@ -29,6 +30,9 @@ data class CodeGenConfig(
   val repositoryImplPackage: String?,
   val operationPackage: String?,
   val diPackage: String?,
+  @Deprecated("Use diFramework instead.")
   val enableMetro: Boolean,
+  val diFramework: DiFramework,
+  val injectAnnotation: String?,
   val repositoryBaseClass: String?,
 )

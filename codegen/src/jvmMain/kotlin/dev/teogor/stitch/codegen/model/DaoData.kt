@@ -29,6 +29,7 @@ data class RoomModel(
   val name: String,
   val packageName: String,
   val entity: TypeName,
+  val mapTo: TypeName? = null,
   val dao: TypeName? = null,
   val fields: List<FieldKind>,
   val functions: List<FunctionKind>,

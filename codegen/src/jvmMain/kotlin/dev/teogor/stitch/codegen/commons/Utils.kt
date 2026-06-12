@@ -19,9 +19,11 @@ package dev.teogor.stitch.codegen.commons
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.facades.writeTo
+import dev.teogor.stitch.codegen.model.RoomModel
 import java.util.Locale
 
 private val keywords: Set<String> = setOf(
@@ -122,4 +124,17 @@ fun String.titleCase(): String {
   val firstChar = first().uppercaseChar()
   val rest = substring(1)
   return "$firstChar$rest"
+}
+
+fun TypeName.mapTo(roomModel: RoomModel): TypeName {
+  val target = roomModel.mapTo ?: return this
+  val source = roomModel.entity
+
+  if (this == source) return target
+
+  if (this is ParameterizedTypeName) {
+    return rawType.parameterizedBy(typeArguments.map { it.mapTo(roomModel) })
+  }
+
+  return this
 }
