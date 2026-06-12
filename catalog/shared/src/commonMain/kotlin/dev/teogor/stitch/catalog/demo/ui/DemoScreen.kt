@@ -42,7 +42,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 
 @Composable
-fun demoScreen(
+@Suppress("FunctionName")
+fun DemoScreen(
   modifier: Modifier = Modifier,
   viewModel: DemoViewModel = viewModel { DemoViewModel() },
 ) {
@@ -104,7 +105,7 @@ fun demoScreen(
       modifier = Modifier.weight(1f),
     ) {
       items(items) { item ->
-        demoItemCard(item)
+        DemoItemCard(item)
         Spacer(modifier = Modifier.height(8.dp))
       }
     }
@@ -112,7 +113,8 @@ fun demoScreen(
 }
 
 @Composable
-fun demoItemCard(item: DemoModel) {
+@Suppress("FunctionName")
+fun DemoItemCard(item: DemoModel) {
   Card(
     modifier = Modifier.fillMaxWidth(),
   ) {

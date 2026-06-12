@@ -138,14 +138,14 @@ public final class dev/teogor/stitch/catalog/demo/domain/usecase/SaveDemoItemUse
 public final class dev/teogor/stitch/catalog/demo/ui/ComposableSingletons$DemoScreenKt {
 	public static final field INSTANCE Ldev/teogor/stitch/catalog/demo/ui/ComposableSingletons$DemoScreenKt;
 	public fun <init> ()V
-	public final fun getLambda$-1621154831$shared ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-79247366$shared ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1472652112$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1768481839$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-226574374$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1325325104$shared ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class dev/teogor/stitch/catalog/demo/ui/DemoScreenKt {
-	public static final fun demoItemCard (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Landroidx/compose/runtime/Composer;I)V
-	public static final fun demoScreen (Landroidx/compose/ui/Modifier;Ldev/teogor/stitch/catalog/demo/ui/DemoViewModel;Landroidx/compose/runtime/Composer;II)V
+	public static final fun DemoItemCard (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Landroidx/compose/runtime/Composer;I)V
+	public static final fun DemoScreen (Landroidx/compose/ui/Modifier;Ldev/teogor/stitch/catalog/demo/ui/DemoViewModel;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class dev/teogor/stitch/catalog/demo/ui/DemoViewModel : androidx/lifecycle/ViewModel {

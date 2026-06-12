@@ -18,4 +18,5 @@ package dev.teogor.stitch.catalog.demo.data.local
 
 import org.w3c.dom.Worker
 
-actual fun createWorker(): Worker = js("new Worker('sqlite-worker.js', { type: 'module' })").unsafeCast<Worker>()
+actual fun createWorker(): Worker =
+  js("new Worker('sqlite-worker.js', { type: 'module' })").unsafeCast<Worker>()

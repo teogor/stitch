@@ -27,7 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.teogor.stitch.catalog.demo.ui.demoScreen
+import dev.teogor.stitch.catalog.demo.ui.DemoScreen
 import dev.teogor.stitch.catalog.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +57,7 @@ fun App() {
           .padding(innerPadding),
         color = MaterialTheme.colorScheme.background,
       ) {
-        demoScreen()
+        DemoScreen()
       }
     }
   }
