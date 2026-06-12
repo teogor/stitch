@@ -1,11 +1,14 @@
 public final class dev/teogor/stitch/catalog/AppKt {
 	public static final fun App (Landroidx/compose/runtime/Composer;I)V
+	public static final fun AppDarkPreview (Landroidx/compose/runtime/Composer;I)V
+	public static final fun AppPreview (Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class dev/teogor/stitch/catalog/ComposableSingletons$AppKt {
 	public static final field INSTANCE Ldev/teogor/stitch/catalog/ComposableSingletons$AppKt;
 	public fun <init> ()V
 	public final fun getLambda$-1614107734$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-401997189$shared ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$-696049596$shared ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$119241755$shared ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$1578707759$shared ()Lkotlin/jvm/functions/Function2;

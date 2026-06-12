@@ -48,7 +48,6 @@ import shared.generated.resources.compose_multiplatform
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 @Suppress("ktlint:standard:function-naming")
 fun App() {
   AppTheme {
@@ -111,5 +110,21 @@ fun App() {
         }
       }
     }
+  }
+}
+
+@Preview
+@Composable
+@Suppress("ktlint:standard:function-naming")
+fun AppPreview() {
+  App()
+}
+
+@Preview
+@Composable
+@Suppress("ktlint:standard:function-naming")
+fun AppDarkPreview() {
+  AppTheme(darkTheme = true) {
+    App()
   }
 }
