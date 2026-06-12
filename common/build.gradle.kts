@@ -13,13 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.kmpLibraryAll
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-  alias(libs.plugins.stitch.kotlin.library)
+  alias(libs.plugins.stitch.kotlin.multiplatform)
 }
 
-dependencies {
-  api(libs.room.common)
-  compileOnly(libs.metro.runtime)
+kotlin {
+  kmpLibraryAll("StitchCommon") {
+    android {
+      namespace = "dev.teogor.stitch.common"
+      compileSdk = libs.versions.android.compileSdk.get().toInt()
+      minSdk = libs.versions.android.minSdk.get().toInt()
+
+      compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+      }
+    }
+
+    sourceSets {
+      commonMain.dependencies {
+        api(libs.room.common)
+        compileOnly(libs.metro.runtime)
+      }
+    }
+  }
 }
 
 winds {
