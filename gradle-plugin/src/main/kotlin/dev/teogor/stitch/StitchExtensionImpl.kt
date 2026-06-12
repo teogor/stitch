@@ -133,4 +133,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * Optional base class or interface for generated repository interfaces.
    */
   override var repositoryBaseClass: String? = null
+
+  /**
+   * Controls whether to generate repository implementation classes.
+   *
+   * By default, this is set to `true`.
+   */
+  override var enableRepositoryImplGeneration: Boolean = true
 }

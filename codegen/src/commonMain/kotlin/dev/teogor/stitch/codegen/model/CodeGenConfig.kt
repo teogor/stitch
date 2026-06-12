@@ -35,4 +35,5 @@ data class CodeGenConfig(
   val diFramework: DiFramework,
   val injectAnnotation: String?,
   val repositoryBaseClass: String?,
+  val enableRepositoryImplGeneration: Boolean,
 )
