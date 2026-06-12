@@ -39,6 +39,7 @@ import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import dev.teogor.stitch.ExplicitEntities
 import dev.teogor.stitch.RawOperation
+import dev.teogor.stitch.StitchIgnore
 import dev.teogor.stitch.codegen.commons.findCommonBase
 import dev.teogor.stitch.codegen.commons.getCommonBase
 import dev.teogor.stitch.codegen.model.FieldKind
@@ -55,6 +56,8 @@ class RoomModelMapper(
 
   @OptIn(KspExperimental::class)
   fun map(entity: KSClassDeclaration): RoomModel? {
+    if (entity.isAnnotationPresent(StitchIgnore::class)) return null
+
     val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
     annotatedDao.forEach { daoClass ->
       val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
@@ -87,7 +90,7 @@ class RoomModelMapper(
       else -> null
     }
 
-    if (dao == null) return null
+    if (dao == null || dao.isAnnotationPresent(StitchIgnore::class)) return null
 
     val fields = entity.primaryConstructor?.parameters?.map { parameter ->
       val fieldName = parameter.name!!.asString()
@@ -103,41 +106,43 @@ class RoomModelMapper(
       )
     } ?: emptyList()
 
-    val functions = dao.getDeclaredFunctions().toList().map { function ->
-      val rawOperation = function.getAnnotationsByType(RawOperation::class)
-        .firstOrNull()
-      val fieldName = function.simpleName.asString()
-      val fieldType = function.returnType?.resolve().let {
-        it?.toTypeName() ?: UNIT
-      }
-      val parameters = function.parameters.map { parameter ->
-        ParameterKind(
-          name = parameter.toString(),
-          type = parameter.type.toTypeName(),
+    val functions = dao.getDeclaredFunctions().toList()
+      .filter { !it.isAnnotationPresent(StitchIgnore::class) }
+      .map { function ->
+        val rawOperation = function.getAnnotationsByType(RawOperation::class)
+          .firstOrNull()
+        val fieldName = function.simpleName.asString()
+        val fieldType = function.returnType?.resolve().let {
+          it?.toTypeName() ?: UNIT
+        }
+        val parameters = function.parameters.map { parameter ->
+          ParameterKind(
+            name = parameter.toString(),
+            type = parameter.type.toTypeName(),
+          )
+        }
+        val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+
+        val operationType = when {
+          function.isAnnotationPresent(Query::class) -> OperationType.QUERY
+          function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
+          function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
+          function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
+          function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
+          function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
+          else -> OperationType.QUERY
+        }
+
+        FunctionKind(
+          name = fieldName,
+          returnType = fieldType,
+          parameters = parameters,
+          isSuspend = isSuspend,
+          operationType = operationType,
+          isTransaction = function.isAnnotationPresent(Transaction::class),
+          enableRawOperationGeneration = rawOperation?.generate ?: false,
         )
       }
-      val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-
-      val operationType = when {
-        function.isAnnotationPresent(Query::class) -> OperationType.QUERY
-        function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
-        function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
-        function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
-        function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
-        function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
-        else -> OperationType.QUERY
-      }
-
-      FunctionKind(
-        name = fieldName,
-        returnType = fieldType,
-        parameters = parameters,
-        isSuspend = isSuspend,
-        operationType = operationType,
-        isTransaction = function.isAnnotationPresent(Transaction::class),
-        enableRawOperationGeneration = rawOperation?.generate ?: false,
-      )
-    }
 
     return RoomModel(
       name = getCommonBase(

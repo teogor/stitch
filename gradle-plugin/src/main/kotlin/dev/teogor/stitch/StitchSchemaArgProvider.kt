@@ -16,6 +16,7 @@
 
 package dev.teogor.stitch
 
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.api.StitchExtension
 import org.gradle.process.CommandLineArgumentProvider
@@ -32,6 +33,8 @@ class StitchSchemaArgProvider(
   private val operationPackage: String?,
   private val diPackage: String?,
   private val enableMetro: Boolean,
+  private val diFramework: DiFramework,
+  private val injectAnnotation: String?,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
@@ -42,14 +45,17 @@ class StitchSchemaArgProvider(
     "stitch.repositorySuffix=$repositorySuffix",
     "stitch.operationSuffix=$operationSuffix",
     "stitch.enableMetro=$enableMetro",
+    "stitch.diFramework=$diFramework",
   ) + listOfNotNull(
     repositoryPackage?.let { "stitch.repositoryPackage=$it" },
     repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
     operationPackage?.let { "stitch.operationPackage=$it" },
     diPackage?.let { "stitch.diPackage=$it" },
+    injectAnnotation?.let { "stitch.injectAnnotation=$it" },
   )
 
   companion object {
+    @Suppress("DEPRECATION")
     fun from(stitchExtension: StitchExtension) = StitchSchemaArgProvider(
       addDocumentation = stitchExtension.addDocumentation,
       enableOperationGeneration = stitchExtension.enableOperationGeneration,
@@ -62,6 +68,8 @@ class StitchSchemaArgProvider(
       operationPackage = stitchExtension.operationPackage,
       diPackage = stitchExtension.diPackage,
       enableMetro = stitchExtension.enableMetro,
+      diFramework = stitchExtension.diFramework,
+      injectAnnotation = stitchExtension.injectAnnotation,
     )
   }
 }

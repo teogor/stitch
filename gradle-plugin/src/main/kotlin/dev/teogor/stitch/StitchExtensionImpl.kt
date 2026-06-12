@@ -16,6 +16,7 @@
 
 package dev.teogor.stitch
 
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.api.StitchExtension
 
@@ -113,5 +114,18 @@ abstract class StitchExtensionImpl : StitchExtension {
    *
    * By default, this is set to `true`.
    */
+  @Deprecated("Use diFramework instead.")
   override var enableMetro: Boolean = true
+
+  /**
+   * Specifies the dependency injection framework to use for generated code.
+   *
+   * By default, this is set to [DiFramework.METRO].
+   */
+  override var diFramework: DiFramework = DiFramework.METRO
+
+  /**
+   * Optional override for the `@Inject` annotation used in generated code.
+   */
+  override var injectAnnotation: String? = null
 }
