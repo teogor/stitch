@@ -20,6 +20,7 @@ package dev.teogor.stitch.ksp.processors
 
 import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
+import dev.teogor.stitch.api.Visibility
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 
 class ConfigParser(
@@ -44,6 +45,7 @@ class ConfigParser(
     private const val DI_FRAMEWORK = "$PREFIX.diFramework"
     private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
     private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
+    private const val VISIBILITY = "$PREFIX.visibility"
   }
 
   fun parse(): CodeGenConfig {
@@ -61,6 +63,7 @@ class ConfigParser(
     val diFramework = getDiFramework(enableMetro)
     val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
     val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
+    val visibility = getVisibility()
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -77,7 +80,15 @@ class ConfigParser(
       diFramework = diFramework,
       injectAnnotation = injectAnnotation,
       repositoryBaseClass = repositoryBaseClass,
+      visibility = visibility,
     )
+  }
+
+  private fun getVisibility(): Visibility {
+    val stringValue = options[VISIBILITY]?.trim()
+    stringValue ?: return Visibility.PUBLIC
+
+    return Visibility.from(stringValue)
   }
 
   private fun getDiFramework(enableMetro: Boolean): DiFramework {
