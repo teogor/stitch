@@ -87,7 +87,6 @@ winds {
 
 val excludedProjects = listOf(
   project.name,
-  "app",
 )
 
 subprojects {
