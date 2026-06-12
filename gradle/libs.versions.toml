@@ -3,6 +3,7 @@
 stitch = "1.0.0-alpha02"
 winds = "1.0.3"
 vanniktech-maven-plugin = "0.36.0"
+jetbrainsCompose = "1.11.1"
 
 # Build configurations
 agp = "9.2.1"
@@ -16,9 +17,12 @@ core-ktx = "1.19.0"
 junit = "4.13.2"
 junit-version = "1.3.0"
 espresso-core = "3.7.0"
-lifecycle = "2.11.0-rc01"
+lifecycle = "2.11.0-beta01"
 activity-compose = "1.13.0"
 compose-bom = "2026.05.01"
+kotlin-wrappers = "2026.6.1"
+kotlinx-coroutines = "1.11.0"
+material3-kmp = "1.11.0-alpha07"
 room = "3.0.0-alpha06"
 sqlite = "2.7.0-alpha06"
 metro = "1.2.0"
@@ -29,6 +33,7 @@ api-validator = "0.18.1"
 dokka = "2.2.0"
 spotless = "8.6.0"
 ksp = "2.3.9"
+material-icons = "1.7.3"
 
 [libraries]
 jetbrains-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -46,6 +51,19 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrainsCompose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrainsCompose" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3-kmp" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrainsCompose" }
+compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrainsCompose" }
+compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "jetbrainsCompose" }
+compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "jetbrainsCompose" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icons" }
+material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icons" }
+wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", version.ref = "kotlin-wrappers" }
 room-common = { group = "androidx.room3", name = "room3-common", version.ref = "room" }
 room-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room" }
@@ -62,6 +80,7 @@ ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devt
 stitch-kmp-application = { id = "stitch.kmp.application" }
 stitch-kmp-library = { id = "stitch.kmp.library" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 # Convention plugins (from build-logic — no version needed)
 stitch-android-application = { id = "stitch.android.application" }

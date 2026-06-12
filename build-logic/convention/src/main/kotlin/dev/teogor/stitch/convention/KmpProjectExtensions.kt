@@ -57,6 +57,10 @@ fun KotlinMultiplatformExtension.androidTarget(
             jvmTarget.set(JvmTarget.JVM_21)
         }
 
+        androidResources {
+            enable = true
+        }
+
         configure.execute(this)
     }
 }

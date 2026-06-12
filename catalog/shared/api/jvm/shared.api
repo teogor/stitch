@@ -1,0 +1,150 @@
+public final class dev/teogor/stitch/catalog/AppKt {
+	public static final fun App (Landroidx/compose/runtime/Composer;I)V
+	public static final fun AppDarkPreview (Landroidx/compose/runtime/Composer;I)V
+	public static final fun AppPreview (Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class dev/teogor/stitch/catalog/ComposableSingletons$AppKt {
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/ComposableSingletons$AppKt;
+	public fun <init> ()V
+	public final fun getLambda$-1614107734$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-401997189$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-696049596$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$119241755$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1578707759$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$531226847$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$59572093$shared ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class dev/teogor/stitch/catalog/Greeting {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun greet ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/GreetingUtilKt {
+	public static final fun sayHello (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/JVMPlatform : dev/teogor/stitch/catalog/Platform {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class dev/teogor/stitch/catalog/Platform {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/Platform_jvmKt {
+	public static final fun getPlatform ()Ldev/teogor/stitch/catalog/Platform;
+}
+
+public abstract class dev/teogor/stitch/catalog/database/AppDatabase : androidx/room3/RoomDatabase {
+	public static final field $stable I
+	public fun <init> ()V
+	public abstract fun noteDao ()Ldev/teogor/stitch/catalog/database/NoteDao;
+}
+
+public final class dev/teogor/stitch/catalog/database/Note {
+	public static final field $stable I
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Ldev/teogor/stitch/catalog/database/Note;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/catalog/database/Note;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/catalog/database/Note;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/teogor/stitch/catalog/database/NoteDao {
+	public abstract fun deleteNoteById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAllNotes ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertNote (Ldev/teogor/stitch/catalog/database/Note;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/teogor/stitch/catalog/database/NoteModel {
+	public static final field $stable I
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Ldev/teogor/stitch/catalog/database/NoteModel;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/catalog/database/NoteModel;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/catalog/database/NoteModel;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/ui/theme/ColorKt {
+	public static final fun getBackgroundDark ()J
+	public static final fun getBackgroundLight ()J
+	public static final fun getErrorContainerDark ()J
+	public static final fun getErrorContainerLight ()J
+	public static final fun getErrorDark ()J
+	public static final fun getErrorLight ()J
+	public static final fun getInverseOnSurfaceDark ()J
+	public static final fun getInverseOnSurfaceLight ()J
+	public static final fun getInversePrimaryDark ()J
+	public static final fun getInversePrimaryLight ()J
+	public static final fun getInverseSurfaceDark ()J
+	public static final fun getInverseSurfaceLight ()J
+	public static final fun getOnBackgroundDark ()J
+	public static final fun getOnBackgroundLight ()J
+	public static final fun getOnErrorContainerDark ()J
+	public static final fun getOnErrorContainerLight ()J
+	public static final fun getOnErrorDark ()J
+	public static final fun getOnErrorLight ()J
+	public static final fun getOnPrimaryContainerDark ()J
+	public static final fun getOnPrimaryContainerLight ()J
+	public static final fun getOnPrimaryDark ()J
+	public static final fun getOnPrimaryLight ()J
+	public static final fun getOnSecondaryContainerDark ()J
+	public static final fun getOnSecondaryContainerLight ()J
+	public static final fun getOnSecondaryDark ()J
+	public static final fun getOnSecondaryLight ()J
+	public static final fun getOnSurfaceDark ()J
+	public static final fun getOnSurfaceLight ()J
+	public static final fun getOnSurfaceVariantDark ()J
+	public static final fun getOnSurfaceVariantLight ()J
+	public static final fun getOnTertiaryContainerDark ()J
+	public static final fun getOnTertiaryContainerLight ()J
+	public static final fun getOnTertiaryDark ()J
+	public static final fun getOnTertiaryLight ()J
+	public static final fun getOutlineDark ()J
+	public static final fun getOutlineLight ()J
+	public static final fun getOutlineVariantDark ()J
+	public static final fun getOutlineVariantLight ()J
+	public static final fun getPrimaryContainerDark ()J
+	public static final fun getPrimaryContainerLight ()J
+	public static final fun getPrimaryDark ()J
+	public static final fun getPrimaryLight ()J
+	public static final fun getScrimDark ()J
+	public static final fun getScrimLight ()J
+	public static final fun getSecondaryContainerDark ()J
+	public static final fun getSecondaryContainerLight ()J
+	public static final fun getSecondaryDark ()J
+	public static final fun getSecondaryLight ()J
+	public static final fun getSurfaceDark ()J
+	public static final fun getSurfaceLight ()J
+	public static final fun getSurfaceVariantDark ()J
+	public static final fun getSurfaceVariantLight ()J
+	public static final fun getTertiaryContainerDark ()J
+	public static final fun getTertiaryContainerLight ()J
+	public static final fun getTertiaryDark ()J
+	public static final fun getTertiaryLight ()J
+}
+
+public final class dev/teogor/stitch/catalog/ui/theme/ThemeKt {
+	public static final fun AppTheme (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+

@@ -14,6 +14,7 @@ import org.jetbrains.dokka.gradle.DokkaPlugin
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.jetbrains.kotlin.android) apply false
+  alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
   alias(libs.plugins.jetbrains.kotlin.jvm) apply false
   alias(libs.plugins.jetbrains.compose.compiler) apply false
   alias(libs.plugins.metro) apply false
@@ -77,7 +78,7 @@ winds {
 
   publishing {
     enabled = false
-    enablePublicationSigning = true
+    enablePublicationSigning = false
     optInForVanniktechPlugin = true
     cascade = true
     automaticPublishing = true
@@ -86,7 +87,6 @@ winds {
 
 val excludedProjects = listOf(
   project.name,
-  "app",
 )
 
 subprojects {

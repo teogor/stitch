@@ -20,8 +20,6 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 apply("dev.teogor.winds")
             }
 
-            configureStitchExtension()
-
             extensions.configure<KotlinMultiplatformExtension> {
                 applyDefaultHierarchyTemplate()
 
