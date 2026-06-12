@@ -46,3 +46,12 @@ val JAVAX_INJECT = ClassName(
   packageName = "javax.inject",
   "Inject",
 )
+val JAVAX_SINGLETON = ClassName(
+  packageName = "javax.inject",
+  "Singleton",
+)
+
+val DAGGER_MODULE = ClassName("dagger", "Module")
+val DAGGER_PROVIDES = ClassName("dagger", "Provides")
+val HILT_INSTALL_IN = ClassName("dagger.hilt", "InstallIn")
+val HILT_SINGLETON_COMPONENT = ClassName("dagger.hilt.components", "SingletonComponent")
