@@ -18,6 +18,7 @@ package dev.teogor.stitch.codegen.writers
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
@@ -42,6 +43,9 @@ class RepositoryImplOutputWriter(
       packageName = repositoryImplPackage,
       fileName = repositoryImplName,
     ) {
+      if (roomModel.functions.any { it.returnType != it.returnType.mapTo(roomModel) }) {
+        addImport("kotlinx.coroutines.flow", "map")
+      }
       addType(
         TypeSpec.classBuilder(repositoryImplName)
           .addModifiers(getVisibility())
@@ -143,11 +147,16 @@ class RepositoryImplOutputWriter(
                     if (returnType != UNIT) {
                       returns(returnType)
                       if (function.returnType != returnType) {
-                        if (roomModel.mapper != null) {
-                          addCode("return mapper.${roomModel.toDomain}($invokeCode)")
-                        } else {
-                          addCode("return $invokeCode.${roomModel.toDomain}()")
-                        }
+                        addCode(
+                          "return ${
+                            generateMappingCode(
+                              function.returnType,
+                              returnType,
+                              invokeCode,
+                              roomModel,
+                            )
+                          }",
+                        )
                       } else {
                         addCode("return $invokeCode")
                       }
@@ -168,5 +177,34 @@ class RepositoryImplOutputWriter(
           .build(),
       )
     }.writeWith(codeOutputStreamMaker)
+  }
+
+  private fun generateMappingCode(
+    sourceType: TypeName,
+    targetType: TypeName,
+    expression: String,
+    roomModel: RoomModel,
+  ): String {
+    if (sourceType == targetType) return expression
+
+    val toDomain = roomModel.toDomain
+    val mapper = roomModel.mapper
+
+    if (sourceType is ParameterizedTypeName && targetType is ParameterizedTypeName) {
+      val rawSource = sourceType.rawType
+      val rawTarget = targetType.rawType
+      if (rawSource == rawTarget) {
+        val sourceArg = sourceType.typeArguments[0]
+        val targetArg = targetType.typeArguments[0]
+        val mapping = generateMappingCode(sourceArg, targetArg, "it", roomModel)
+        return "$expression.map { $mapping }"
+      }
+    }
+
+    return if (mapper != null) {
+      "mapper.$toDomain($expression)"
+    } else {
+      "$expression.$toDomain()"
+    }
   }
 }
