@@ -19,8 +19,10 @@ package dev.teogor.stitch.codegen.writers
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.mapTo
@@ -125,6 +127,30 @@ class RepositoryOutputWriter(
                   .build(),
               )
             }
+
+            addFunction(
+              FunSpec.builder("transaction")
+                .addModifiers(KModifier.ABSTRACT)
+                .addModifiers(KModifier.SUSPEND)
+                .addTypeVariable(TypeVariableName("R"))
+                .addParameter(
+                  "block",
+                  LambdaTypeName.get(
+                    receiver = ClassName(repositoryPackage, repositoryName),
+                    returnType = TypeVariableName("R"),
+                  ).copy(suspending = true),
+                )
+                .returns(TypeVariableName("R"))
+                .addDocumentation(
+                  """
+                  Executes the given block within a database transaction.
+
+                  @param block The block of code to execute within the transaction.
+                  @return The result of the transaction block.
+                  """.trimIndent(),
+                )
+                .build(),
+            )
           }
           .build(),
       )

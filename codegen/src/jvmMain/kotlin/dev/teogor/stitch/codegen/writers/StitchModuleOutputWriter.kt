@@ -271,6 +271,12 @@ ${roomModel.mapper?.let { "                      @param mapper The [${it.shortNa
                         ),
                       ).build(),
                     )
+                    .addParameter(
+                      ParameterSpec.builder(
+                        "db",
+                        database.type,
+                      ).build(),
+                    )
                     .apply {
                       roomModel.mapper?.let { mapper ->
                         addParameter(
@@ -282,7 +288,7 @@ ${roomModel.mapper?.let { "                      @param mapper The [${it.shortNa
                       }
                     }
                     .addStatement(
-                      "return %T(dao${if (roomModel.mapper != null) ", mapper" else ""})",
+                      "return %T(dao, db${if (roomModel.mapper != null) ", mapper" else ""})",
                       ClassName(
                         roomModel.getRepositoryImplPackage(),
                         roomModel.getRepositoryImplName(),
