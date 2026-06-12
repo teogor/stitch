@@ -159,4 +159,11 @@ interface StitchExtension {
    * Provide the fully qualified name.
    */
   var repositoryBaseClass: String?
+
+  /**
+   * Defines the visibility for generated classes and interfaces.
+   *
+   * By default, this is set to [Visibility.PUBLIC].
+   */
+  var visibility: Visibility
 }
