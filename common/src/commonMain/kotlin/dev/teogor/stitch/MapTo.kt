@@ -24,12 +24,21 @@ import kotlin.reflect.KClass
  * When applied to an Entity, Stitch will use the specified [target] class in the
  * generated Repository interface instead of the Entity itself.
  *
- * The generated Repository Implementation will expect extension functions:
- * - `Entity.toDomain(): Target`
- * - `Target.toEntity(): Entity`
+ * The generated Repository Implementation will use the specified mapping logic:
+ * - By default, it expects extension functions: `Entity.toDomain(): Target` and `Target.toEntity(): Entity`.
+ * - You can override these names using [toDomain] and [toEntity].
+ * - If [mapper] is provided, it will use that class for mapping instead of extension functions.
  *
  * @property target The domain model class to map to.
+ * @property toDomain The name of the function to convert the entity to the domain model.
+ * @property toEntity The name of the function to convert the domain model to the entity.
+ * @property mapper An optional mapper class to use for conversion.
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
-annotation class MapTo(val target: KClass<*>)
+annotation class MapTo(
+  val target: KClass<*>,
+  val toDomain: String = "toDomain",
+  val toEntity: String = "toEntity",
+  val mapper: KClass<*> = Nothing::class,
+)
