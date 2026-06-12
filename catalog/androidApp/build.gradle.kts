@@ -15,6 +15,8 @@
  */
 plugins {
   alias(libs.plugins.stitch.android.application)
+  alias(libs.plugins.jetbrains.compose)
+  alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 android {
@@ -25,8 +27,23 @@ android {
     versionCode = 1
     versionName = "1.0.0"
   }
+
+  packaging {
+    resources {
+      excludes += "/META-INF/{AL2.0,LGPL2.1}"
+    }
+  }
+
+  buildTypes {
+    getByName("release") {
+      isMinifyEnabled = false
+    }
+  }
 }
 
 dependencies {
   implementation(project(":catalog:shared"))
+  implementation(libs.androidx.activity.compose)
+  implementation(libs.compose.uiToolingPreview)
+  debugImplementation(libs.compose.uiTooling)
 }
