@@ -85,7 +85,6 @@ private val darkScheme = darkColorScheme(
 )
 
 @Composable
-@Suppress("ktlint:standard:function-naming")
 fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
   val colorScheme = if (darkTheme) {
     darkScheme
