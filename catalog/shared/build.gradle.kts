@@ -35,9 +35,6 @@ kotlin {
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
       }
-      commonTest.dependencies {
-        implementation(libs.jetbrains.kotlin.test)
-      }
       androidMain.dependencies {
         implementation(libs.androidx.ui.tooling.preview)
       }
