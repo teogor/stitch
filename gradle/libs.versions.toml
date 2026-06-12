@@ -31,6 +31,7 @@ spotless = "8.6.0"
 ksp = "2.3.9"
 
 [libraries]
+jetbrains-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit-version" }
@@ -58,6 +59,8 @@ kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-p
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
+jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 # Convention plugins (from build-logic — no version needed)
 stitch-android-application = { id = "stitch.android.application" }
 stitch-kotlin-library = { id = "stitch.kotlin.library" }
