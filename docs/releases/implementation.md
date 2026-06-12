@@ -1,70 +1,80 @@
-[//]: # (This file was automatically generated - do not edit)
+# Installation & Setup
 
-## Implementation
+Get Stitch up and running in your project. Stitch is designed to work seamlessly with both Android-only and Kotlin Multiplatform (KMP) projects.
 
-### Latest Version
+---
 
-The latest release is [`1.0.0-alpha02`](../releases.md)
+## 📦 Latest Version
 
-### Plugin Releases
+The current stable release is: `1.0.0-alpha02`
 
-Here's a summary of the latest versions:
+---
 
-|    Version    |               Release Notes                | Release Date |
-|:-------------:|:------------------------------------------:|:------------:|
-| 1.0.0-alpha02 | [changelog 🔗](changelog/1.0.0-alpha02.md) | 15 Feb 2024  |
-| 1.0.0-alpha01 | [changelog 🔗](changelog/1.0.0-alpha01.md) | 06 Feb 2024  |
+## 🚀 Quick Setup
 
-### Using Version Catalog
+### 1. Version Catalog
 
-#### Declare Components
+We recommend using a Version Catalog to manage your dependencies.
 
-This catalog provides the implementation details of Stitch libraries and individual libraries, in
-TOML format.
+```toml title="gradle/libs.versions.toml"
+[versions]
+stitch = "1.0.0-alpha02"
 
-=== "Default"
+[libraries]
+stitch-common = { module = "dev.teogor.stitch:common", version.ref = "stitch" }
+stitch-ksp = { module = "dev.teogor.stitch:ksp", version.ref = "stitch" }
 
-    ```toml title="gradle/libs.versions.toml"
-    [versions]
-    teogor-stitch = "1.0.0-alpha02"
+[plugins]
+stitch = { id = "dev.teogor.stitch", version.ref = "stitch" }
+```
 
-    [libraries]
-    teogor-stitch-codegen = { module = "dev.teogor.stitch:codegen", version.ref = "teogor-stitch" }
-    teogor-stitch-common = { module = "dev.teogor.stitch:common", version.ref = "teogor-stitch" }
-    teogor-stitch-ksp = { module = "dev.teogor.stitch:ksp", version.ref = "teogor-stitch" }
+### 2. Apply the Plugin
 
-    [plugins]
-    teogor-stitch = { id = "dev.teogor.stitch", version.ref = "teogor-stitch" }
-    ```
+Apply the Stitch plugin in your module's `build.gradle.kts`.
 
-#### Dependencies Implementation
+```kotlin title="build.gradle.kts"
+plugins {
+    alias(libs.plugins.stitch)
+}
 
-=== "Kotlin"
+stitch {
+    generatedPackageName = "com.your.app.generated"
+}
 
-    ```kotlin title="build.gradle.kts"
-    plugins {
-      // Stitch Plugin
-      alias(libs.plugins.teogor.stitch)
+dependencies {
+    implementation(libs.stitch.common)
+    ksp(libs.stitch.ksp)
+}
+```
+
+---
+
+## 🌍 Kotlin Multiplatform (KMP)
+
+Stitch is fully compatible with KMP. To use it in a multi-platform module, ensure you apply the KSP plugin to the appropriate targets.
+
+```kotlin title="build.gradle.kts"
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(libs.stitch.common)
+            }
+        }
     }
+}
 
-    dependencies {
-      // Stitch Libraries
-      implementation(libs.teogor.stitch.common)
-      ksp(libs.teogor.stitch.ksp)
-    }
-    ```
+dependencies {
+    // Add KSP to the common target or specific platform targets
+    add("kspCommonMainMetadata", libs.stitch.ksp)
+    // For specific platforms:
+    // add("kspAndroid", libs.stitch.ksp)
+    // add("kspIosArm64", libs.stitch.ksp)
+}
+```
 
-=== "Groovy"
+---
 
-    ```groovy title="build.gradle"
-    plugins {
-      // Stitch Plugin
-      alias libs.plugins.teogor.stitch
-    }
+## ⚙️ Configuration
 
-    dependencies {
-      // Stitch Libraries
-      implementation libs.teogor.stitch.common
-      ksp libs.teogor.stitch.ksp
-    }
-    ```
+For a full list of configuration options, including package overrides and DI settings, see the **[Reference Guide](../reference.md)**.

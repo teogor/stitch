@@ -1,37 +1,94 @@
-## Reference
+# Reference Guide
 
-Welcome to the comprehensive API documentation for our project, meticulously crafted to empower you
-to effectively utilize its capabilities. This guide provides detailed information about the
-project's structure, API, and usage, enabling you to navigate the project with ease and unlock its
-full potential.
+This guide provides a detailed reference for the annotations and configuration options available in Stitch.
 
-### Project Overview
+---
 
-Our project encompasses a suite of modules, each designed to address specific functionalities and
-enhance the overall developer experience. To delve into the intricacies of each module, refer to the
-dedicated documentation pages:
+## 🏷️ Annotations
 
-### API Reference
+### `@MapTo`
+Marks a Room Entity to be mapped to a domain model in the generated repository.
 
-* [`dev.teogor.stitch`](../html/){:target="_blank"}
-* [`dev.teogor.stitch:codegen`](../html/codegen){:target="_blank"}
-* [`dev.teogor.stitch:common`](../html/common){:target="_blank"}
-* [`dev.teogor.stitch:gradle-plugin`](../html/gradle-plugin){:target="_blank"}
-* [`dev.teogor.stitch:gradle-plugin-api`](../html/gradle-plugi-api){:target="_blank"}
-* [`dev.teogor.stitch:ksp`](../html/ksp){:target="_blank"}
+- **`target`**: The domain model class to map to.
+- **`toDomain`**: Name of the function to convert entity to domain model (default: `"toDomain"`).
+- **`toEntity`**: Name of the function to convert domain model to entity (default: `"toEntity"`).
+- **`mapper`**: (Optional) A mapper class to use for conversion instead of extension functions.
 
-### Contributions and Support
+### `@RawOperation`
+Instructs Stitch to generate a separate operation class for a DAO method.
 
-We welcome your valuable feedback and contributions to the project. Your insights are crucial for
-shaping the project's future and ensuring it continues to meet the needs of our community. If you
-encounter any issues or have questions, please feel free to raise them on
-the [GitHub Issues 🔗](https://github.com/teogor/stitch/issues) page. Our team is dedicated to
-assisting you and continuously improving the project's overall quality.
+- **`generate`**: Whether to generate the operation class (default: `true`).
 
-### Embark on Your Coding Journey
+### `@StitchName`
+Provides custom names for generated repositories and implementations.
 
-With this extensive documentation as your guide, you are now well-equipped to embark on your coding
-journey with our project. We hope you find the documentation informative and helpful as you explore
-the project's capabilities and bring your ideas to life.
+- **`repository`**: Custom name for the generated repository interface.
+- **`implementation`**: Custom name for the generated repository implementation class.
 
-Happy coding!
+### `@StitchIgnore`
+Marks a DAO, Entity, or function to be ignored by Stitch code generation.
+
+### `@ExplicitEntities`
+Explicitly defines the entities a DAO interacts with for improved type safety.
+
+- **`entities`**: List of entity classes associated with the DAO.
+- **`isExclusive`**: Whether only the listed entities are managed by this DAO (default: `false`).
+
+### `@Operation`
+Marks a class as an Operation (internally used).
+
+### `@OperationSignature`
+Marks a function as an Operation Signature (internally used).
+
+---
+
+## ⚙️ Gradle Configuration
+
+Configure Stitch by adding a `stitch` block in your module's `build.gradle.kts`:
+
+```kotlin
+stitch {
+    generatedPackageName = "dev.teogor.stitch.sample.generated"
+    repositorySuffix = "Repository"
+    operationSuffix = "Operation"
+}
+```
+
+### Properties
+
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `generatedPackageName` | `String` | Required | The base package for all generated code. |
+| `addDocumentation` | `Boolean` | `true` | Whether to generate KDoc for generated classes. |
+| `enableOperationGeneration` | `Boolean` | `true` | Global toggle for operation generation. |
+| `operationGenerationLevel` | `Enum` | `EXPLICIT` | `ALL`, `EXPLICIT`, `AUTOMATIC`, or `DISABLED`. |
+| `repositorySuffix` | `String` | `"Repository"` | Suffix for generated repository interfaces. |
+| `operationSuffix` | `String` | `"Operation"` | Suffix for generated operation classes. |
+| `diFramework` | `Enum` | `METRO` | DI framework to target (`METRO`, `HILT`, `CUSTOM`). |
+| `repositoryBaseClass` | `String?` | `null` | Fully qualified name of a base class for repositories. |
+| `visibility` | `Enum` | `PUBLIC` | Visibility of generated code (`PUBLIC`, `INTERNAL`). |
+| `enableRepositoryImplGeneration` | `Boolean` | `true` | Whether to generate implementation classes. |
+
+### Package Overrides
+
+| Property | Default Path |
+| :--- | :--- |
+| `repositoryPackage` | `${basePackage}.data.repository` |
+| `repositoryImplPackage` | `${basePackage}.data.repository.impl` |
+| `operationPackage` | `${basePackage}.database.operation` |
+| `diPackage` | `${basePackage}.di` |
+
+---
+
+## 💉 Dependency Injection
+
+Stitch generates DI modules automatically based on the `diFramework` setting.
+
+### Metro (Default)
+Generates `@DependencyContainer` and binding modules compatible with the [Metro](https://github.com/teogor/metro) library.
+
+### Hilt
+Generates standard Dagger/Hilt `@Module` and `@InstallIn` annotations.
+
+### Custom
+Allows you to specify a custom `injectAnnotation` if you are using a different DI framework.
