@@ -5,9 +5,12 @@ public final class dev/teogor/stitch/catalog/AppKt {
 public final class dev/teogor/stitch/catalog/ComposableSingletons$AppKt {
 	public static final field INSTANCE Ldev/teogor/stitch/catalog/ComposableSingletons$AppKt;
 	public fun <init> ()V
-	public final fun getLambda$-764570005$shared ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$2045252089$shared ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$2127040083$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-1614107734$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$-696049596$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$119241755$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1578707759$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$531226847$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$59572093$shared ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class dev/teogor/stitch/catalog/Greeting {
@@ -32,5 +35,68 @@ public abstract interface class dev/teogor/stitch/catalog/Platform {
 
 public final class dev/teogor/stitch/catalog/Platform_jvmKt {
 	public static final fun getPlatform ()Ldev/teogor/stitch/catalog/Platform;
+}
+
+public final class dev/teogor/stitch/catalog/ui/theme/ColorKt {
+	public static final fun getBackgroundDark ()J
+	public static final fun getBackgroundLight ()J
+	public static final fun getErrorContainerDark ()J
+	public static final fun getErrorContainerLight ()J
+	public static final fun getErrorDark ()J
+	public static final fun getErrorLight ()J
+	public static final fun getInverseOnSurfaceDark ()J
+	public static final fun getInverseOnSurfaceLight ()J
+	public static final fun getInversePrimaryDark ()J
+	public static final fun getInversePrimaryLight ()J
+	public static final fun getInverseSurfaceDark ()J
+	public static final fun getInverseSurfaceLight ()J
+	public static final fun getOnBackgroundDark ()J
+	public static final fun getOnBackgroundLight ()J
+	public static final fun getOnErrorContainerDark ()J
+	public static final fun getOnErrorContainerLight ()J
+	public static final fun getOnErrorDark ()J
+	public static final fun getOnErrorLight ()J
+	public static final fun getOnPrimaryContainerDark ()J
+	public static final fun getOnPrimaryContainerLight ()J
+	public static final fun getOnPrimaryDark ()J
+	public static final fun getOnPrimaryLight ()J
+	public static final fun getOnSecondaryContainerDark ()J
+	public static final fun getOnSecondaryContainerLight ()J
+	public static final fun getOnSecondaryDark ()J
+	public static final fun getOnSecondaryLight ()J
+	public static final fun getOnSurfaceDark ()J
+	public static final fun getOnSurfaceLight ()J
+	public static final fun getOnSurfaceVariantDark ()J
+	public static final fun getOnSurfaceVariantLight ()J
+	public static final fun getOnTertiaryContainerDark ()J
+	public static final fun getOnTertiaryContainerLight ()J
+	public static final fun getOnTertiaryDark ()J
+	public static final fun getOnTertiaryLight ()J
+	public static final fun getOutlineDark ()J
+	public static final fun getOutlineLight ()J
+	public static final fun getOutlineVariantDark ()J
+	public static final fun getOutlineVariantLight ()J
+	public static final fun getPrimaryContainerDark ()J
+	public static final fun getPrimaryContainerLight ()J
+	public static final fun getPrimaryDark ()J
+	public static final fun getPrimaryLight ()J
+	public static final fun getScrimDark ()J
+	public static final fun getScrimLight ()J
+	public static final fun getSecondaryContainerDark ()J
+	public static final fun getSecondaryContainerLight ()J
+	public static final fun getSecondaryDark ()J
+	public static final fun getSecondaryLight ()J
+	public static final fun getSurfaceDark ()J
+	public static final fun getSurfaceLight ()J
+	public static final fun getSurfaceVariantDark ()J
+	public static final fun getSurfaceVariantLight ()J
+	public static final fun getTertiaryContainerDark ()J
+	public static final fun getTertiaryContainerLight ()J
+	public static final fun getTertiaryDark ()J
+	public static final fun getTertiaryLight ()J
+}
+
+public final class dev/teogor/stitch/catalog/ui/theme/ThemeKt {
+	public static final fun AppTheme (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
