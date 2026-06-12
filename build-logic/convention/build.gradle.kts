@@ -40,6 +40,10 @@ gradlePlugin {
             id = "stitch.kotlin.library"
             implementationClass = "dev.teogor.stitch.convention.LibraryConventionPlugin"
         }
+        register("kotlinMultiplatform") {
+            id = "stitch.kotlin.multiplatform"
+            implementationClass = "dev.teogor.stitch.convention.KmpLibraryConventionPlugin"
+        }
         register("gradlePlugin") {
             id = "stitch.gradle.plugin"
             implementationClass = "dev.teogor.stitch.convention.GradlePluginConventionPlugin"
