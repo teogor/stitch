@@ -110,39 +110,39 @@ class RoomModelMapper(
       .filter { !it.isAnnotationPresent(StitchIgnore::class) }
       .map { function ->
         val rawOperation = function.getAnnotationsByType(RawOperation::class)
-        .firstOrNull()
-      val fieldName = function.simpleName.asString()
-      val fieldType = function.returnType?.resolve().let {
-        it?.toTypeName() ?: UNIT
-      }
-      val parameters = function.parameters.map { parameter ->
-        ParameterKind(
-          name = parameter.toString(),
-          type = parameter.type.toTypeName(),
+          .firstOrNull()
+        val fieldName = function.simpleName.asString()
+        val fieldType = function.returnType?.resolve().let {
+          it?.toTypeName() ?: UNIT
+        }
+        val parameters = function.parameters.map { parameter ->
+          ParameterKind(
+            name = parameter.toString(),
+            type = parameter.type.toTypeName(),
+          )
+        }
+        val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+
+        val operationType = when {
+          function.isAnnotationPresent(Query::class) -> OperationType.QUERY
+          function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
+          function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
+          function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
+          function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
+          function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
+          else -> OperationType.QUERY
+        }
+
+        FunctionKind(
+          name = fieldName,
+          returnType = fieldType,
+          parameters = parameters,
+          isSuspend = isSuspend,
+          operationType = operationType,
+          isTransaction = function.isAnnotationPresent(Transaction::class),
+          enableRawOperationGeneration = rawOperation?.generate ?: false,
         )
       }
-      val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-
-      val operationType = when {
-        function.isAnnotationPresent(Query::class) -> OperationType.QUERY
-        function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
-        function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
-        function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
-        function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
-        function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
-        else -> OperationType.QUERY
-      }
-
-      FunctionKind(
-        name = fieldName,
-        returnType = fieldType,
-        parameters = parameters,
-        isSuspend = isSuspend,
-        operationType = operationType,
-        isTransaction = function.isAnnotationPresent(Transaction::class),
-        enableRawOperationGeneration = rawOperation?.generate ?: false,
-      )
-    }
 
     return RoomModel(
       name = getCommonBase(
