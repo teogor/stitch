@@ -26,6 +26,8 @@ import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import dev.teogor.stitch.MapTo
+import dev.teogor.stitch.StitchName
 import dev.teogor.stitch.codegen.CodeGenerator
 import dev.teogor.stitch.codegen.facades.Logger
 import dev.teogor.stitch.ksp.codegen.KspCodeOutputStreamMaker
@@ -56,6 +58,10 @@ class Processor(
       return emptyList()
     }
 
+    if (!validate(resolver)) {
+      return emptyList()
+    }
+
     val databaseModelMapper = DatabaseModelMapper()
     val databaseModels = annotatedDatabases.map { database ->
       databaseModelMapper.map(database)
@@ -81,6 +87,44 @@ class Processor(
     )
 
     return emptyList()
+  }
+
+  private fun validate(resolver: Resolver): Boolean {
+    var isValid = true
+
+    // Validate @MapTo usage
+    resolver.getSymbolsWithAnnotation(MapTo::class.qualifiedName!!)
+      .filterIsInstance<KSClassDeclaration>()
+      .forEach { classDecl ->
+        val hasEntity = classDecl.annotations.any {
+          it.shortName.asString() == Entity::class.simpleName
+        }
+        if (!hasEntity) {
+          logger.error(
+            "@MapTo can only be applied to Room @Entity classes.",
+            classDecl,
+          )
+          isValid = false
+        }
+      }
+
+    // Validate @StitchName usage
+    resolver.getSymbolsWithAnnotation(StitchName::class.qualifiedName!!)
+      .filterIsInstance<KSClassDeclaration>()
+      .forEach { classDecl ->
+        val hasDao = classDecl.annotations.any {
+          it.shortName.asString() == Dao::class.simpleName
+        }
+        if (!hasDao) {
+          logger.error(
+            "@StitchName can only be applied to Room @Dao interfaces or classes.",
+            classDecl,
+          )
+          isValid = false
+        }
+      }
+
+    return isValid
   }
 
   private fun Resolver.findAnnotations(kClass: KClass<*>) = getSymbolsWithAnnotation(
