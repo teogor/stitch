@@ -35,9 +35,9 @@ kotlin {
     sourceSets {
       commonMain.dependencies {
         api(project(":common"))
-        api(project(":gradle-plugin-api"))
       }
       jvmMain.dependencies {
+        api(project(":gradle-plugin-api"))
         api(libs.kotlin.poet)
         api(libs.kotlin.poet.ksp)
       }
