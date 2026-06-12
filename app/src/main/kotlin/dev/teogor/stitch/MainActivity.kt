@@ -29,13 +29,13 @@ import dev.teogor.stitch.core.ui.InventoryViewModel
 import dev.teogor.stitch.core.ui.inventoryScreen
 import dev.teogor.stitch.data.repository.impl.InventoryCategoryRepositoryImpl
 import dev.teogor.stitch.data.repository.impl.InventoryProductRepositoryImpl
-import dev.teogor.stitch.ui.theme.stitchTheme
+import dev.teogor.stitch.ui.theme.StitchTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      stitchTheme {
+      StitchTheme {
         val db = remember { AppDatabase.getInstance(applicationContext) }
         val viewModel = remember {
           InventoryViewModel(
