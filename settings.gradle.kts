@@ -22,3 +22,8 @@ include(":codegen")
 include(":ksp")
 include(":gradle-plugin")
 include(":gradle-plugin-api")
+
+include(":catalog:shared")
+include(":catalog:androidApp")
+include(":catalog:desktopApp")
+include(":catalog:webApp")
