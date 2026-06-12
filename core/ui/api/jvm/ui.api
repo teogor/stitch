@@ -1,0 +1,17 @@
+public final class dev/teogor/stitch/ui/theme/ColorKt {
+	public static final fun getPink40 ()J
+	public static final fun getPink80 ()J
+	public static final fun getPurple40 ()J
+	public static final fun getPurple80 ()J
+	public static final fun getPurpleGrey40 ()J
+	public static final fun getPurpleGrey80 ()J
+}
+
+public final class dev/teogor/stitch/ui/theme/ThemeKt {
+	public static final fun StitchTheme (ZZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/teogor/stitch/ui/theme/TypeKt {
+	public static final fun getTypography ()Landroidx/compose/material3/Typography;
+}
+
