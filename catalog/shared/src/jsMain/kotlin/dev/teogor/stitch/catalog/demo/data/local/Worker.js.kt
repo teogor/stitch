@@ -16,17 +16,6 @@
 
 package dev.teogor.stitch.catalog.demo.data.local
 
-import androidx.room3.Room
-import androidx.room3.RoomDatabase
-import androidx.sqlite.driver.web.WebWorkerSQLiteDriver
 import org.w3c.dom.Worker
 
-actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
-  val worker = createWorker()
-  return Room.databaseBuilder<AppDatabase>(
-    name = "demo_database.db",
-    factory = { AppDatabaseConstructor.initialize() },
-  ).setDriver(WebWorkerSQLiteDriver(worker))
-}
-
-expect fun createWorker(): Worker
+actual fun createWorker(): Worker = js("new Worker('sqlite-worker.js', { type: 'module' })").unsafeCast<Worker>()
