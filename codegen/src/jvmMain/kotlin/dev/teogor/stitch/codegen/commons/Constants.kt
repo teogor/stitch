@@ -42,3 +42,7 @@ val METRO_INJECT = ClassName(
   packageName = "dev.zacsweers.metro",
   "Inject",
 )
+val JAVAX_INJECT = ClassName(
+  packageName = "javax.inject",
+  "Inject",
+)
