@@ -27,7 +27,6 @@ import androidx.room3.Update
 import androidx.room3.Upsert
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
-import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.isAnnotationPresent
 import com.google.devtools.ksp.symbol.KSClassDeclaration
@@ -145,8 +144,7 @@ class RoomModelMapper(
     val functions = dao.getDeclaredFunctions().toList()
       .filter { !it.isAnnotationPresent(StitchIgnore::class) }
       .map { function ->
-        val rawOperation = function.getAnnotationsByType(RawOperation::class)
-          .firstOrNull()
+        val rawOperation = function.firstAnnotation<RawOperation>()
         val fieldName = function.simpleName.asString()
         val fieldType = function.returnType?.resolve().let {
           it?.toTypeName() ?: UNIT
@@ -176,7 +174,9 @@ class RoomModelMapper(
           isSuspend = isSuspend,
           operationType = operationType,
           isTransaction = function.isAnnotationPresent(Transaction::class),
-          enableRawOperationGeneration = rawOperation?.generate ?: false,
+          enableRawOperationGeneration = rawOperation?.findArgumentValue<Boolean>(
+            "generate",
+          ) ?: (rawOperation != null),
         )
       }
 

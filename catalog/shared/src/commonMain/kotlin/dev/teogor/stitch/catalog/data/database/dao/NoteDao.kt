@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.data.database
+package dev.teogor.stitch.catalog.data.database.dao
 
 import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.Query
 import dev.teogor.stitch.RawOperation
 import dev.teogor.stitch.StitchName
+import dev.teogor.stitch.catalog.data.database.NoteEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-@StitchName("NotesManager")
+@StitchName(repository = "NoteRepository")
 interface NoteEntityDao {
   @Query("SELECT * FROM NoteEntity")
   fun getAllNotes(): Flow<List<NoteEntity>>

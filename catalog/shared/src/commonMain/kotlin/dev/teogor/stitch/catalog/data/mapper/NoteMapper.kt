@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.domain.repository
+package dev.teogor.stitch.catalog.data.mapper
 
+import dev.teogor.stitch.catalog.data.database.NoteEntity
 import dev.teogor.stitch.catalog.domain.model.NoteModel
-import kotlinx.coroutines.flow.Flow
 
-interface NoteRepository {
-  fun getAllNotes(): Flow<List<NoteModel>>
-  suspend fun addNote(title: String, content: String)
-  suspend fun deleteNote(id: Long)
+class NoteMapper {
+  fun toDomain(entity: NoteEntity) = NoteModel(
+    id = entity.id,
+    title = entity.title,
+    content = entity.content,
+  )
+
+  fun toEntity(model: NoteModel) = NoteEntity(
+    id = model.id,
+    title = model.title,
+    content = model.content,
+  )
 }

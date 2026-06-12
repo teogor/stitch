@@ -34,6 +34,8 @@ kotlin {
         implementation(libs.compose.foundation)
         implementation(libs.compose.material3)
         implementation(libs.compose.ui)
+        implementation(libs.material.icons.core)
+        implementation(libs.material.icons.extended)
         implementation(libs.compose.components.resources)
         implementation(libs.compose.uiToolingPreview)
         implementation(libs.androidx.lifecycle.viewmodelCompose)
@@ -41,6 +43,7 @@ kotlin {
 
         implementation(libs.room.common)
         implementation(libs.room.runtime)
+        implementation(libs.metro.runtime)
         implementation(project(":common"))
       }
       androidMain.dependencies {
@@ -69,8 +72,17 @@ dependencies {
   add("androidRuntimeClasspath", libs.androidx.ui.tooling)
   add("kspCommonMainMetadata", libs.room.compiler)
   add("kspAndroid", libs.room.compiler)
+  add("kspJvm", libs.room.compiler)
   add("kspIosArm64", libs.room.compiler)
   add("kspIosSimulatorArm64", libs.room.compiler)
+
+  add("kspCommonMainMetadata", project(":ksp"))
+  add("kspAndroid", project(":ksp"))
+  add("kspJvm", project(":ksp"))
+  add("kspJs", project(":ksp"))
+  add("kspWasmJs", project(":ksp"))
+  add("kspIosArm64", project(":ksp"))
+  add("kspIosSimulatorArm64", project(":ksp"))
 }
 
 stitch {

@@ -29,6 +29,7 @@ import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.codegen.commons.JAVAX_INJECT
 import dev.teogor.stitch.codegen.commons.METRO_INJECT
 import dev.teogor.stitch.codegen.commons.fileBuilder
+import dev.teogor.stitch.codegen.commons.mapTo
 import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
@@ -74,10 +75,10 @@ class OperationOutputWriter(
                 addModifiers(KModifier.SUSPEND)
               }
               function.parameters.forEach { parameter ->
-                addParameter(parameter.name, parameter.type)
+                addParameter(parameter.name, parameter.type.mapTo(room))
               }
               if (function.returnType != UNIT) {
-                returns(function.returnType)
+                returns(function.returnType.mapTo(room))
               }
             }
             .addModifiers(KModifier.OPERATOR)

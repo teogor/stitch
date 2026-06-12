@@ -25,6 +25,8 @@ dependencies {
   implementation(project(":catalog:shared"))
   implementation(libs.kotlinx.coroutines.swing)
   implementation(compose.desktop.currentOs)
+  implementation(libs.room.runtime)
+  implementation(libs.sqlite.bundled)
 }
 
 compose.desktop {

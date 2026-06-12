@@ -16,17 +16,17 @@
 
 package dev.teogor.stitch.ksp.commons
 
+import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
-import com.google.devtools.ksp.symbol.KSClassDeclaration
 
 /**
- * Checks if this class declaration has an annotation of the specified type `T`.
+ * Checks if this annotated element has an annotation of the specified type `T`.
  *
- * @return `true` if the class has at least one annotation of type `T`, `false` otherwise.
+ * @return `true` if the element has at least one annotation of type `T`, `false` otherwise.
  */
-inline fun <reified T> KSClassDeclaration.firstAnnotation(): KSAnnotation? {
+inline fun <reified T> KSAnnotated.firstAnnotation(): KSAnnotation? {
   return annotations.firstOrNull {
-    it.annotationType.resolve().declaration.qualifiedName!!.asString() == T::class.qualifiedName
+    it.annotationType.resolve().declaration.qualifiedName?.asString() == T::class.qualifiedName
   }
 }
 

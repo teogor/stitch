@@ -20,6 +20,7 @@ import androidx.room3.ConstructedBy
 import androidx.room3.Database
 import androidx.room3.RoomDatabase
 import androidx.room3.RoomDatabaseConstructor
+import dev.teogor.stitch.catalog.data.database.dao.NoteEntityDao
 
 @Database(entities = [NoteEntity::class], version = 1)
 @ConstructedBy(AppDatabaseConstructor::class)

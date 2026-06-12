@@ -18,9 +18,6 @@ package dev.teogor.stitch.catalog.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.teogor.stitch.catalog.domain.usecase.AddNoteUseCase
-import dev.teogor.stitch.catalog.domain.usecase.DeleteNoteUseCase
-import dev.teogor.stitch.catalog.domain.usecase.GetNotesUseCase
 import dev.teogor.stitch.catalog.presentation.mapper.toUi
 import dev.teogor.stitch.catalog.presentation.model.NoteUi
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,7 +27,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-  private val getNotesUseCase: GetNotesUseCase,
+  private val getNotesUseCase: GetNo,
   private val addNoteUseCase: AddNoteUseCase,
   private val deleteNoteUseCase: DeleteNoteUseCase,
 ) : ViewModel() {

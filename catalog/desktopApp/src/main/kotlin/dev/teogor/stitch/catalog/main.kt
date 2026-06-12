@@ -16,14 +16,49 @@
 
 package dev.teogor.stitch.catalog
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.room3.Room
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import dev.teogor.stitch.catalog.data.database.AppDatabase
+import dev.teogor.stitch.catalog.data.database.AppDatabaseConstructor
+import dev.teogor.stitch.catalog.data.mapper.NoteMapper
+import dev.teogor.stitch.catalog.domain.usecase.AddNoteUseCase
+import dev.teogor.stitch.catalog.domain.usecase.DeleteNoteUseCase
+import dev.teogor.stitch.catalog.domain.usecase.GetNotesUseCase
+import dev.teogor.stitch.catalog.generated.data.repository.impl.NoteRepositoryImpl
+import dev.teogor.stitch.catalog.presentation.ui.NoteViewModel
+import java.io.File
 
 fun main() = application {
+  val viewModel = remember {
+    val dbFile = File(System.getProperty("java.io.tmpdir"), "note_db.db")
+    val db = Room.databaseBuilder<AppDatabase>(
+      name = dbFile.absolutePath,
+      factory = { AppDatabaseConstructor.initialize() },
+    )
+      .setDriver(BundledSQLiteDriver())
+      .build()
+
+    val dao = db.noteDao()
+    val repository = NoteRepositoryImpl(
+      dao = dao,
+      db = db,
+      mapper = NoteMapper(),
+    )
+
+    NoteViewModel(
+      getNotesUseCase = GetNotesUseCase(repository),
+      addNoteUseCase = AddNoteUseCase(repository),
+      deleteNoteUseCase = DeleteNoteUseCase(repository),
+    )
+  }
+
   Window(
     onCloseRequest = ::exitApplication,
-    title = "Stitch",
+    title = "Stitch Catalog",
   ) {
-    App()
+    App(viewModel)
   }
 }
