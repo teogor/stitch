@@ -98,7 +98,9 @@ class RoomModelMapper(
     val repositoryName = stitchNameAnnotation?.findArgumentValue<String>("repository")?.let {
       if (it.isEmpty()) null else it
     }
-    val repositoryImplName = stitchNameAnnotation?.findArgumentValue<String>("implementation")?.let {
+    val repositoryImplName = stitchNameAnnotation?.findArgumentValue<String>(
+      "implementation",
+    )?.let {
       if (it.isEmpty()) null else it
     }
 

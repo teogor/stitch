@@ -138,7 +138,8 @@ class StitchModuleOutputWriter(
                     """.trimIndent(),
                   )
                   .addStatement(
-                    "return databaseBuilder.build()",
+                    "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
+                    ClassName("kotlinx.coroutines", "Dispatchers"),
                   )
                   .build(),
               )

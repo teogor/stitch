@@ -22,6 +22,7 @@ import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.RoomModel
+import dev.teogor.stitch.codegen.writers.DatabaseConstructorOutputWriter
 import dev.teogor.stitch.codegen.writers.OperationOutputWriter
 import dev.teogor.stitch.codegen.writers.RepositoryImplOutputWriter
 import dev.teogor.stitch.codegen.writers.RepositoryOutputWriter
@@ -52,7 +53,13 @@ class CodeGenerator(
     codeGenConfig,
   )
 
+  private val databaseConstructorOutputWriter = DatabaseConstructorOutputWriter(
+    codeOutputStreamMaker,
+    codeGenConfig,
+  )
+
   fun generate(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
+    databaseConstructorOutputWriter.write(databaseModels)
     roomModels.filter { it.hasDao }.forEach { roomModel ->
       val repositoryType = repositoryOutputWriter.write(roomModel)
       if (codeGenConfig.enableRepositoryImplGeneration) {
