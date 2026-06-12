@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 plugins {
-  alias(libs.plugins.stitch.kotlin.library)
+  alias(libs.plugins.stitch.kotlin.multiplatform)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-  compilerOptions {
-    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+kotlin {
+  sourceSets {
+    commonMain.dependencies {
+      api(project(":common"))
+      implementation(project(":codegen"))
+    }
+    jvmMain {
+      compilerOptions {
+        freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+      }
+      dependencies {
+        implementation(libs.ksp.api)
+      }
+    }
   }
-}
-
-dependencies {
-  api(project(":common"))
-  implementation(project(":codegen"))
-
-  implementation(libs.ksp.api)
 }
 
 winds {
