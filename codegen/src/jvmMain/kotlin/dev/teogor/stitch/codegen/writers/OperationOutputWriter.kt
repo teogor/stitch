@@ -33,6 +33,7 @@ import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
+import dev.teogor.stitch.codegen.model.OperationType
 import dev.teogor.stitch.codegen.model.RoomModel
 
 class OperationOutputWriter(
@@ -51,7 +52,7 @@ class OperationOutputWriter(
         }
 
         OperationGenerationLevel.AUTOMATIC -> room.functions.filter {
-          it.enableRawOperationGeneration
+          it.enableRawOperationGeneration || it.operationType != OperationType.QUERY
         }
 
         OperationGenerationLevel.DISABLED -> emptyList()
