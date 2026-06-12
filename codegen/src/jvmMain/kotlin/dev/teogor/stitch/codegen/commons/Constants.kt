@@ -50,8 +50,15 @@ val JAVAX_SINGLETON = ClassName(
   packageName = "javax.inject",
   "Singleton",
 )
+val JAVAX_NAMED = ClassName(
+  packageName = "javax.inject",
+  "Named",
+)
 
 val DAGGER_MODULE = ClassName("dagger", "Module")
 val DAGGER_PROVIDES = ClassName("dagger", "Provides")
 val HILT_INSTALL_IN = ClassName("dagger.hilt", "InstallIn")
 val HILT_SINGLETON_COMPONENT = ClassName("dagger.hilt.components", "SingletonComponent")
+
+val COROUTINE_DISPATCHER = ClassName("kotlinx.coroutines", "CoroutineDispatcher")
+val DISPATCHERS = ClassName("kotlinx.coroutines", "Dispatchers")

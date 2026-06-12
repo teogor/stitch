@@ -23,10 +23,13 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import dev.teogor.stitch.api.DiFramework
+import dev.teogor.stitch.codegen.commons.COROUTINE_DISPATCHER
 import dev.teogor.stitch.codegen.commons.DAGGER_MODULE
 import dev.teogor.stitch.codegen.commons.DAGGER_PROVIDES
+import dev.teogor.stitch.codegen.commons.DISPATCHERS
 import dev.teogor.stitch.codegen.commons.HILT_INSTALL_IN
 import dev.teogor.stitch.codegen.commons.HILT_SINGLETON_COMPONENT
+import dev.teogor.stitch.codegen.commons.JAVAX_NAMED
 import dev.teogor.stitch.codegen.commons.JAVAX_SINGLETON
 import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
@@ -118,6 +121,21 @@ class StitchModuleOutputWriter(
                       DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(DAGGER_PROVIDES)
                       else -> {}
                     }
+                    codeGenConfig.ioDispatcherName?.let { ioDispatcherName ->
+                      addParameter(
+                        ParameterSpec.builder("ioDispatcher", COROUTINE_DISPATCHER)
+                          .apply {
+                            if (diFramework == DiFramework.HILT || diFramework == DiFramework.DAGGER) {
+                              addAnnotation(
+                                AnnotationSpec.builder(JAVAX_NAMED)
+                                  .addMember("%S", ioDispatcherName)
+                                  .build(),
+                              )
+                            }
+                          }
+                          .build(),
+                      )
+                    }
                   }
                   .addParameter(
                     "databaseBuilder",
@@ -133,14 +151,22 @@ class StitchModuleOutputWriter(
                   Provides an instance of the [$databaseName] for dependency injection.
 
                   @param databaseBuilder The Room database builder.
-
+${if (codeGenConfig.ioDispatcherName != null) "                  @param ioDispatcher The IO dispatcher.\n" else ""}
                   @return The created [$databaseName] instance.
                     """.trimIndent(),
                   )
-                  .addStatement(
-                    "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
-                    ClassName("kotlinx.coroutines", "Dispatchers"),
-                  )
+                  .apply {
+                    if (codeGenConfig.ioDispatcherName != null) {
+                      addStatement(
+                        "return databaseBuilder.setQueryCoroutineContext(ioDispatcher).build()",
+                      )
+                    } else {
+                      addStatement(
+                        "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
+                        DISPATCHERS,
+                      )
+                    }
+                  }
                   .build(),
               )
             }
