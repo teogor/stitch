@@ -19,6 +19,7 @@ package dev.teogor.stitch
 import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.api.StitchExtension
+import dev.teogor.stitch.api.Visibility
 
 /**
  * Base implementation for the [StitchExtension] interface.
@@ -133,4 +134,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * Optional base class or interface for generated repository interfaces.
    */
   override var repositoryBaseClass: String? = null
+
+  /**
+   * Defines the visibility for generated classes and interfaces.
+   *
+   * By default, this is set to [Visibility.PUBLIC].
+   */
+  override var visibility: Visibility = Visibility.PUBLIC
 }
