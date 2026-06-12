@@ -41,9 +41,9 @@ abstract class OutputWriter(
   fun RoomModel.getDiPackage() = codeGenConfig.diPackage
     ?: "${getBasePackage()}.di"
 
-  fun RoomModel.getRepositoryName() = "$name${codeGenConfig.repositorySuffix}"
+  fun RoomModel.getRepositoryName() = repositoryName ?: "$name${codeGenConfig.repositorySuffix}"
 
-  fun RoomModel.getRepositoryImplName() = "${getRepositoryName()}Impl"
+  fun RoomModel.getRepositoryImplName() = repositoryImplName ?: "${getRepositoryName()}Impl"
 
   fun RoomModel.getOperationName(baseName: String) =
     "$name${baseName.titleCase()}${codeGenConfig.operationSuffix}"
