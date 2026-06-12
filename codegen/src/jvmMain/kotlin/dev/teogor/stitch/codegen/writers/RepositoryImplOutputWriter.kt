@@ -45,6 +45,10 @@ class RepositoryImplOutputWriter(
     ) {
       if (roomModel.functions.any { it.returnType != it.returnType.mapTo(roomModel) }) {
         addImport("kotlinx.coroutines.flow", "map")
+        if (roomModel.isToDomainSuspend) {
+          addImport("kotlinx.coroutines.flow", "asFlow")
+          addImport("kotlinx.coroutines.flow", "toList")
+        }
       }
       addType(
         TypeSpec.classBuilder(repositoryImplName)
@@ -144,19 +148,16 @@ class RepositoryImplOutputWriter(
                       }
                     }
                     val invokeCode = "dao.${function.name}($args)"
+                    val (mappingCode, isMappingSuspend) = generateMappingCode(
+                      function.returnType,
+                      returnType,
+                      invokeCode,
+                      roomModel,
+                    )
                     if (returnType != UNIT) {
                       returns(returnType)
                       if (function.returnType != returnType) {
-                        addCode(
-                          "return ${
-                            generateMappingCode(
-                              function.returnType,
-                              returnType,
-                              invokeCode,
-                              roomModel,
-                            )
-                          }",
-                        )
+                        addCode("return $mappingCode")
                       } else {
                         addCode("return $invokeCode")
                       }
@@ -166,7 +167,12 @@ class RepositoryImplOutputWriter(
                     function.parameters.forEach { parameter ->
                       addParameter(parameter.name, parameter.type.mapTo(roomModel))
                     }
-                    if (function.isSuspend) {
+                    val isAnyParamMappingSuspend = function.parameters.any { parameter ->
+                      parameter.type != parameter.type.mapTo(
+                        roomModel,
+                      ) && roomModel.isToEntitySuspend
+                    }
+                    if (function.isSuspend || isMappingSuspend || isAnyParamMappingSuspend) {
                       addModifiers(KModifier.SUSPEND)
                     }
                   }
@@ -184,11 +190,13 @@ class RepositoryImplOutputWriter(
     targetType: TypeName,
     expression: String,
     roomModel: RoomModel,
-  ): String {
-    if (sourceType == targetType) return expression
+    usedNames: Set<String> = emptySet(),
+  ): Pair<String, Boolean> {
+    if (sourceType == targetType) return expression to false
 
     val toDomain = roomModel.toDomain
     val mapper = roomModel.mapper
+    val isToDomainSuspend = roomModel.isToDomainSuspend
 
     if (sourceType is ParameterizedTypeName && targetType is ParameterizedTypeName) {
       val rawSource = sourceType.rawType
@@ -196,15 +204,39 @@ class RepositoryImplOutputWriter(
       if (rawSource == rawTarget) {
         val sourceArg = sourceType.typeArguments[0]
         val targetArg = targetType.typeArguments[0]
-        val mapping = generateMappingCode(sourceArg, targetArg, "it", roomModel)
-        return "$expression.map { $mapping }"
+
+        var paramName = if (sourceArg is ParameterizedTypeName && sourceArg.rawType.simpleName == "List") {
+          "list"
+        } else {
+          "item"
+        }
+
+        if (usedNames.contains(paramName)) {
+          paramName += usedNames.size
+        }
+
+        val (mapping, isInnerSuspend) = generateMappingCode(
+          sourceArg,
+          targetArg,
+          paramName,
+          roomModel,
+          usedNames + paramName,
+        )
+
+        return if (rawSource.simpleName == "List" && isInnerSuspend) {
+          ("$expression.asFlow().map { $paramName -> $mapping }.toList()") to true
+        } else if (rawSource.simpleName == "Flow") {
+          ("$expression.map { $paramName -> $mapping }") to false
+        } else {
+          ("$expression.map { $paramName -> $mapping }") to isInnerSuspend
+        }
       }
     }
 
     return if (mapper != null) {
-      "mapper.$toDomain($expression)"
+      "mapper.$toDomain($expression)" to isToDomainSuspend
     } else {
-      "$expression.$toDomain()"
+      "$expression.$toDomain()" to false
     }
   }
 }
