@@ -157,7 +157,7 @@ class StitchModuleOutputWriter(
                       Provides the [${roomModel.getRepositoryName()}] using the provided DAO.
 
                       @param dao The [${roomModel.name}Dao] instance.
-
+${roomModel.mapper?.let { "                      @param mapper The [${it.shortName}] instance.\n" } ?: ""}
                       @see [${roomModel.name}Dao]
                       @see [${roomModel.getRepositoryName()}]
                       """.trimIndent(),
@@ -183,8 +183,18 @@ class StitchModuleOutputWriter(
                         ),
                       ).build(),
                     )
+                    .apply {
+                      roomModel.mapper?.let { mapper ->
+                        addParameter(
+                          ParameterSpec.builder(
+                            "mapper",
+                            mapper,
+                          ).build(),
+                        )
+                      }
+                    }
                     .addStatement(
-                      "return %T(dao)",
+                      "return %T(dao${if (roomModel.mapper != null) ", mapper" else ""})",
                       ClassName(
                         roomModel.getRepositoryImplPackage(),
                         roomModel.getRepositoryImplName(),

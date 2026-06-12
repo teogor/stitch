@@ -65,6 +65,11 @@ class RepositoryImplOutputWriter(
             primaryConstructor(
               FunSpec.constructorBuilder()
                 .addParameter("dao", roomModel.dao)
+                .apply {
+                  roomModel.mapper?.let { mapper ->
+                    addParameter("mapper", mapper)
+                  }
+                }
                 .build(),
             )
             addProperty(
@@ -73,6 +78,14 @@ class RepositoryImplOutputWriter(
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
             )
+            roomModel.mapper?.let { mapper ->
+              addProperty(
+                PropertySpec.builder("mapper", mapper)
+                  .initializer("mapper")
+                  .addModifiers(KModifier.PRIVATE)
+                  .build(),
+              )
+            }
 
             roomModel.functions.forEach { function ->
               val returnType = function.returnType.mapTo(roomModel)
@@ -116,7 +129,11 @@ class RepositoryImplOutputWriter(
                       separator = ",",
                     ) { parameter ->
                       if (parameter.type != parameter.type.mapTo(roomModel)) {
-                        "${parameter.name}.toEntity()"
+                        if (roomModel.mapper != null) {
+                          "mapper.${roomModel.toEntity}(${parameter.name})"
+                        } else {
+                          "${parameter.name}.${roomModel.toEntity}()"
+                        }
                       } else {
                         parameter.name
                       }
@@ -125,7 +142,11 @@ class RepositoryImplOutputWriter(
                     if (returnType != UNIT) {
                       returns(returnType)
                       if (function.returnType != returnType) {
-                        addCode("return $invokeCode.toDomain()")
+                        if (roomModel.mapper != null) {
+                          addCode("return mapper.${roomModel.toDomain}($invokeCode)")
+                        } else {
+                          addCode("return $invokeCode.${roomModel.toDomain}()")
+                        }
                       } else {
                         addCode("return $invokeCode")
                       }
