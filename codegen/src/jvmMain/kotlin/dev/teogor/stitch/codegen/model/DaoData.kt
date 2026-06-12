@@ -23,6 +23,7 @@ data class DatabaseModel(
   val views: List<TypeName> = emptyList(),
   val type: TypeName,
   val functions: List<FunctionKind>,
+  val dbFileName: String? = null,
 )
 
 data class RoomModel(
