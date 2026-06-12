@@ -19,12 +19,20 @@ nav:
   - Home: index.md
   - Getting Started:
     - Installation: releases/implementation.md
-  - Feature Guides:
+  - Core Concepts:
     - Repositories & Transactions: repositories.md
     - Decoupling with @MapTo: mapping.md
     - Modular Queries with @RawOperation: operations.md
     - Dependency Injection: dependency-injection.md
     - Multi-Database & KMP: multi-database.md
+  - Advanced Usage:
+    - Database Views: advanced/database-views.md
+    - Custom & Suspend Mapping: advanced/custom-mapping.md
+    - Explicit Association: advanced/explicit-entities.md
+    - Base Repositories: advanced/base-repositories.md
+  - Architecture:
+    - Design Philosophy: architecture/design-philosophy.md
+    - Stitch vs. Manual: architecture/comparison.md
   - Reference:
     - Annotations & Gradle: reference.md
   - Releases:
