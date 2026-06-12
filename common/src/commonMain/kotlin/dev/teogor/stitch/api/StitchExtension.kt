@@ -159,4 +159,14 @@ interface StitchExtension {
    * Provide the fully qualified name.
    */
   var repositoryBaseClass: String?
+
+  /**
+   * Controls whether to generate repository implementation classes.
+   *
+   * By default, this is set to `true`. Setting it to `false` will only generate
+   * repository interfaces.
+   *
+   * @return `true` if implementations are generated, `false` otherwise.
+   */
+  var enableRepositoryImplGeneration: Boolean
 }
