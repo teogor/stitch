@@ -85,10 +85,7 @@ kotlin {
 
 dependencies {
   add("androidRuntimeClasspath", libs.androidx.ui.tooling)
-  add("kspAndroid", libs.room.compiler)
-  add("kspJvm", libs.room.compiler)
-  add("kspIosArm64", libs.room.compiler)
-  add("kspIosSimulatorArm64", libs.room.compiler)
+  ksp(libs.room.compiler)
 }
 
 tasks.configureEach {
