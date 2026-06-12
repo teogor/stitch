@@ -55,6 +55,7 @@ class StitchSchemaArgProvider(
   )
 
   companion object {
+    @Suppress("DEPRECATION")
     fun from(stitchExtension: StitchExtension) = StitchSchemaArgProvider(
       addDocumentation = stitchExtension.addDocumentation,
       enableOperationGeneration = stitchExtension.enableOperationGeneration,
