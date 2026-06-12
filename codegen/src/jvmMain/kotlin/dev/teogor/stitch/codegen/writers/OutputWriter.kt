@@ -50,7 +50,7 @@ abstract class OutputWriter(
 
   fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
@@ -62,7 +62,7 @@ abstract class OutputWriter(
 
   fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
