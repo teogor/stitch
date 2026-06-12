@@ -54,6 +54,7 @@ class StitchModuleOutputWriter(
     ) {
       addType(
         TypeSpec.objectBuilder("StitchModule")
+          .addModifiers(getVisibility())
           .addAnnotation(METRO_BINDING_CONTAINER)
           .addAnnotation(
             AnnotationSpec.builder(METRO_CONTRIBUTES_TO)

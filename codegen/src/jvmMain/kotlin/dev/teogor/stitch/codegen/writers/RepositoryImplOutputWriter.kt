@@ -44,6 +44,7 @@ class RepositoryImplOutputWriter(
     ) {
       addType(
         TypeSpec.classBuilder(repositoryImplName)
+          .addModifiers(getVisibility())
           .addSuperinterface(repositoryType)
           .addDocumentation(
             """
