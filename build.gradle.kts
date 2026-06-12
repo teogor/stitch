@@ -78,7 +78,7 @@ winds {
 
   publishing {
     enabled = false
-    enablePublicationSigning = true
+    enablePublicationSigning = false
     optInForVanniktechPlugin = true
     cascade = true
     automaticPublishing = true

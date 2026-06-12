@@ -20,6 +20,8 @@ plugins {
   alias(libs.plugins.stitch.kmp.library)
   alias(libs.plugins.jetbrains.compose)
   alias(libs.plugins.jetbrains.compose.compiler)
+  alias(libs.plugins.ksp)
+  id("dev.teogor.stitch") version "1.0.0-alpha02"
 }
 
 kotlin {
@@ -34,9 +36,17 @@ kotlin {
         implementation(libs.compose.uiToolingPreview)
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
+
+        implementation(project(":common"))
       }
       androidMain.dependencies {
         implementation(libs.androidx.ui.tooling.preview)
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
+      }
+      jvmMain.dependencies {
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
       }
       jsMain.dependencies {
         implementation(libs.wrappers.browser)
@@ -53,4 +63,14 @@ kotlin {
 
 dependencies {
   add("androidRuntimeClasspath", libs.androidx.ui.tooling)
+  add("kspCommonMainMetadata", libs.room.compiler)
+  add("kspAndroid", libs.room.compiler)
+  add("kspIosArm64", libs.room.compiler)
+  add("kspIosSimulatorArm64", libs.room.compiler)
+}
+
+stitch {
+  generatedPackageName = "dev.teogor.stitch.catalog.generated"
+  diFramework = dev.teogor.stitch.api.DiFramework.METRO
+  operationGenerationLevel = dev.teogor.stitch.api.OperationGenerationLevel.ALL
 }

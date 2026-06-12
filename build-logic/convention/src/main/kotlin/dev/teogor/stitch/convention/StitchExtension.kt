@@ -18,5 +18,7 @@ fun Project.stitch(configure: StitchKmpExtension.() -> Unit) {
 }
 
 internal fun Project.configureStitchExtension() {
-    extensions.create<StitchKmpExtension>("stitch")
+    if (extensions.findByName("stitch") == null) {
+        extensions.create<StitchKmpExtension>("stitch")
+    }
 }
