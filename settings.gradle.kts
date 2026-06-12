@@ -16,14 +16,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Stitch"
 
-include(":app")
 include(":common")
 include(":codegen")
 include(":ksp")
 include(":gradle-plugin")
 include(":gradle-plugin-api")
-
-include(":core:ui")
 
 include(":catalog:shared")
 include(":catalog:androidApp")
