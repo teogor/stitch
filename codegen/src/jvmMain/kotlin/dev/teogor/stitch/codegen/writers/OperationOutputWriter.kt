@@ -99,6 +99,7 @@ class OperationOutputWriter(
         ) {
           addType(
             TypeSpec.classBuilder(className)
+              .addModifiers(getVisibility())
               .apply {
                 addAnnotation(Operation::class)
                 addProperty(

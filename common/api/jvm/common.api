@@ -23,6 +23,11 @@ public abstract interface annotation class dev/teogor/stitch/RawOperation : java
 public abstract interface annotation class dev/teogor/stitch/StitchIgnore : java/lang/annotation/Annotation {
 }
 
+public abstract interface annotation class dev/teogor/stitch/StitchName : java/lang/annotation/Annotation {
+	public abstract fun implementation ()Ljava/lang/String;
+	public abstract fun repository ()Ljava/lang/String;
+}
+
 public final class dev/teogor/stitch/api/DiFramework : java/lang/Enum {
 	public static final field CUSTOM Ldev/teogor/stitch/api/DiFramework;
 	public static final field Companion Ldev/teogor/stitch/api/DiFramework$Companion;
@@ -61,6 +66,7 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun getDiPackage ()Ljava/lang/String;
 	public abstract fun getEnableMetro ()Z
 	public abstract fun getEnableOperationGeneration ()Z
+	public abstract fun getEnableRepositoryImplGeneration ()Z
 	public abstract fun getGeneratedPackageName ()Ljava/lang/String;
 	public abstract fun getInjectAnnotation ()Ljava/lang/String;
 	public abstract fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
@@ -76,6 +82,7 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun setDiPackage (Ljava/lang/String;)V
 	public abstract fun setEnableMetro (Z)V
 	public abstract fun setEnableOperationGeneration (Z)V
+	public abstract fun setEnableRepositoryImplGeneration (Z)V
 	public abstract fun setGeneratedPackageName (Ljava/lang/String;)V
 	public abstract fun setInjectAnnotation (Ljava/lang/String;)V
 	public abstract fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V

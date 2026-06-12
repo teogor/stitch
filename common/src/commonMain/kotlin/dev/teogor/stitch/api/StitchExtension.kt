@@ -166,4 +166,14 @@ interface StitchExtension {
    * By default, this is set to [Visibility.PUBLIC].
    */
   var visibility: Visibility
+
+  /**
+   * Controls whether to generate repository implementation classes.
+   *
+   * By default, this is set to `true`. Setting it to `false` will only generate
+   * repository interfaces.
+   *
+   * @return `true` if implementations are generated, `false` otherwise.
+   */
+  var enableRepositoryImplGeneration: Boolean
 }

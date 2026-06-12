@@ -33,6 +33,8 @@ data class RoomModel(
   val toDomain: String = "toDomain",
   val toEntity: String = "toEntity",
   val mapper: TypeName? = null,
+  val repositoryName: String? = null,
+  val repositoryImplName: String? = null,
   val dao: TypeName? = null,
   val fields: List<FieldKind>,
   val functions: List<FunctionKind>,

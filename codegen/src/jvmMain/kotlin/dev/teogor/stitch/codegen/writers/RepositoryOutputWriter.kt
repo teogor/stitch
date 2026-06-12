@@ -44,6 +44,7 @@ class RepositoryOutputWriter(
     ) {
       addType(
         TypeSpec.interfaceBuilder(repositoryName)
+          .addModifiers(getVisibility())
           .apply {
             codeGenConfig.repositoryBaseClass?.let { baseClass ->
               addSuperinterface(ClassName.bestGuess(baseClass))

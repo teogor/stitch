@@ -141,4 +141,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * By default, this is set to [Visibility.PUBLIC].
    */
   override var visibility: Visibility = Visibility.PUBLIC
+
+  /**
+   * Controls whether to generate repository implementation classes.
+   *
+   * By default, this is set to `true`.
+   */
+  override var enableRepositoryImplGeneration: Boolean = true
 }

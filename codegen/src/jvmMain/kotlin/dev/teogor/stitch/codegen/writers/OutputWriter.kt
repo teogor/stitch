@@ -18,7 +18,9 @@ package dev.teogor.stitch.codegen.writers
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
+import dev.teogor.stitch.api.Visibility
 import dev.teogor.stitch.codegen.commons.titleCase
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.RoomModel
@@ -26,6 +28,11 @@ import dev.teogor.stitch.codegen.model.RoomModel
 abstract class OutputWriter(
   internal val codeGenConfig: CodeGenConfig,
 ) {
+
+  fun getVisibility(): KModifier = when (codeGenConfig.visibility) {
+    Visibility.PUBLIC -> KModifier.PUBLIC
+    Visibility.INTERNAL -> KModifier.INTERNAL
+  }
 
   fun RoomModel.getBasePackage() = codeGenConfig.generatedPackageName ?: packageName
 
@@ -41,16 +48,16 @@ abstract class OutputWriter(
   fun RoomModel.getDiPackage() = codeGenConfig.diPackage
     ?: "${getBasePackage()}.di"
 
-  fun RoomModel.getRepositoryName() = "$name${codeGenConfig.repositorySuffix}"
+  fun RoomModel.getRepositoryName() = repositoryName ?: "$name${codeGenConfig.repositorySuffix}"
 
-  fun RoomModel.getRepositoryImplName() = "${getRepositoryName()}Impl"
+  fun RoomModel.getRepositoryImplName() = repositoryImplName ?: "${getRepositoryName()}Impl"
 
   fun RoomModel.getOperationName(baseName: String) =
     "$name${baseName.titleCase()}${codeGenConfig.operationSuffix}"
 
   fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
@@ -62,7 +69,7 @@ abstract class OutputWriter(
 
   fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
