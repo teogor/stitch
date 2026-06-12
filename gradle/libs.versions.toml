@@ -3,6 +3,7 @@
 stitch = "1.0.0-alpha02"
 winds = "1.0.3"
 vanniktech-maven-plugin = "0.36.0"
+jetbrainsCompose = "1.11.1"
 
 # Build configurations
 agp = "9.2.1"
@@ -62,6 +63,7 @@ ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devt
 stitch-kmp-application = { id = "stitch.kmp.application" }
 stitch-kmp-library = { id = "stitch.kmp.library" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 # Convention plugins (from build-logic — no version needed)
 stitch-android-application = { id = "stitch.android.application" }
