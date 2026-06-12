@@ -37,4 +37,5 @@ data class CodeGenConfig(
   val injectAnnotation: String?,
   val repositoryBaseClass: String?,
   val visibility: Visibility,
+  val enableRepositoryImplGeneration: Boolean,
 )

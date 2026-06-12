@@ -38,6 +38,7 @@ class StitchSchemaArgProvider(
   private val injectAnnotation: String?,
   private val repositoryBaseClass: String?,
   private val visibility: Visibility,
+  private val enableRepositoryImplGeneration: Boolean,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
@@ -50,6 +51,7 @@ class StitchSchemaArgProvider(
     "stitch.enableMetro=$enableMetro",
     "stitch.diFramework=$diFramework",
     "stitch.visibility=$visibility",
+    "stitch.enableRepositoryImplGeneration=$enableRepositoryImplGeneration",
   ) + listOfNotNull(
     repositoryPackage?.let { "stitch.repositoryPackage=$it" },
     repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
@@ -77,6 +79,7 @@ class StitchSchemaArgProvider(
       injectAnnotation = stitchExtension.injectAnnotation,
       repositoryBaseClass = stitchExtension.repositoryBaseClass,
       visibility = stitchExtension.visibility,
+      enableRepositoryImplGeneration = stitchExtension.enableRepositoryImplGeneration,
     )
   }
 }

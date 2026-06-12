@@ -46,6 +46,7 @@ class ConfigParser(
     private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
     private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
     private const val VISIBILITY = "$PREFIX.visibility"
+    private const val ENABLE_REPOSITORY_IMPL_GENERATION = "$PREFIX.enableRepositoryImplGeneration"
   }
 
   fun parse(): CodeGenConfig {
@@ -64,6 +65,7 @@ class ConfigParser(
     val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
     val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
     val visibility = getVisibility()
+    val enableRepositoryImplGeneration = parseBoolean(ENABLE_REPOSITORY_IMPL_GENERATION) ?: true
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -81,6 +83,7 @@ class ConfigParser(
       injectAnnotation = injectAnnotation,
       repositoryBaseClass = repositoryBaseClass,
       visibility = visibility,
+      enableRepositoryImplGeneration = enableRepositoryImplGeneration,
     )
   }
 

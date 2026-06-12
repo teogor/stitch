@@ -23,6 +23,11 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import dev.teogor.stitch.api.DiFramework
+import dev.teogor.stitch.codegen.commons.DAGGER_MODULE
+import dev.teogor.stitch.codegen.commons.DAGGER_PROVIDES
+import dev.teogor.stitch.codegen.commons.HILT_INSTALL_IN
+import dev.teogor.stitch.codegen.commons.HILT_SINGLETON_COMPONENT
+import dev.teogor.stitch.codegen.commons.JAVAX_SINGLETON
 import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
 import dev.teogor.stitch.codegen.commons.METRO_PROVIDES
@@ -43,9 +48,11 @@ class StitchModuleOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
-    if (codeGenConfig.diFramework != DiFramework.METRO) {
+    val diFramework = codeGenConfig.diFramework
+    if (diFramework == DiFramework.NONE) {
       return
     }
+
     val firstRoom = roomModels.firstOrNull() ?: return
     val packageName = firstRoom.getDiPackage()
     fileBuilder(
@@ -55,12 +62,33 @@ class StitchModuleOutputWriter(
       addType(
         TypeSpec.objectBuilder("StitchModule")
           .addModifiers(getVisibility())
-          .addAnnotation(METRO_BINDING_CONTAINER)
-          .addAnnotation(
-            AnnotationSpec.builder(METRO_CONTRIBUTES_TO)
-              .addMember("%T::class", STITCH_SCOPE)
-              .build(),
-          )
+          .apply {
+            when (diFramework) {
+              DiFramework.METRO -> {
+                addAnnotation(METRO_BINDING_CONTAINER)
+                addAnnotation(
+                  AnnotationSpec.builder(METRO_CONTRIBUTES_TO)
+                    .addMember("%T::class", STITCH_SCOPE)
+                    .build(),
+                )
+              }
+
+              DiFramework.HILT -> {
+                addAnnotation(DAGGER_MODULE)
+                addAnnotation(
+                  AnnotationSpec.builder(HILT_INSTALL_IN)
+                    .addMember("%T::class", HILT_SINGLETON_COMPONENT)
+                    .build(),
+                )
+              }
+
+              DiFramework.DAGGER -> {
+                addAnnotation(DAGGER_MODULE)
+              }
+
+              else -> {}
+            }
+          }
           .addDocumentation(
             """
             This object provides the Stitch module for dependency injection.
@@ -84,7 +112,13 @@ class StitchModuleOutputWriter(
               }
               addFunction(
                 FunSpec.builder("provide$databaseName")
-                  .addAnnotation(METRO_PROVIDES)
+                  .apply {
+                    when (diFramework) {
+                      DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
+                      DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(DAGGER_PROVIDES)
+                      else -> {}
+                    }
+                  }
                   .addParameter(
                     "databaseBuilder",
                     ClassName(
@@ -129,12 +163,25 @@ class StitchModuleOutputWriter(
                       @see [${database.type.shortName}]
                         """.trimIndent(),
                       )
-                      .addAnnotation(
-                        AnnotationSpec.builder(METRO_SINGLE_IN)
-                          .addMember("%T::class", STITCH_SCOPE)
-                          .build(),
-                      )
-                      .addAnnotation(METRO_PROVIDES)
+                      .apply {
+                        when (diFramework) {
+                          DiFramework.METRO -> {
+                            addAnnotation(
+                              AnnotationSpec.builder(METRO_SINGLE_IN)
+                                .addMember("%T::class", STITCH_SCOPE)
+                                .build(),
+                            )
+                            addAnnotation(METRO_PROVIDES)
+                          }
+
+                          DiFramework.HILT, DiFramework.DAGGER -> {
+                            addAnnotation(JAVAX_SINGLETON)
+                            addAnnotation(DAGGER_PROVIDES)
+                          }
+
+                          else -> {}
+                        }
+                      }
                       .returns(
                         ClassName(
                           "${roomModel.packageName}.dao",
@@ -163,12 +210,25 @@ class StitchModuleOutputWriter(
                       @see [${roomModel.getRepositoryName()}]
                       """.trimIndent(),
                     )
-                    .addAnnotation(
-                      AnnotationSpec.builder(METRO_SINGLE_IN)
-                        .addMember("%T::class", STITCH_SCOPE)
-                        .build(),
-                    )
-                    .addAnnotation(METRO_PROVIDES)
+                    .apply {
+                      when (diFramework) {
+                        DiFramework.METRO -> {
+                          addAnnotation(
+                            AnnotationSpec.builder(METRO_SINGLE_IN)
+                              .addMember("%T::class", STITCH_SCOPE)
+                              .build(),
+                          )
+                          addAnnotation(METRO_PROVIDES)
+                        }
+
+                        DiFramework.HILT, DiFramework.DAGGER -> {
+                          addAnnotation(JAVAX_SINGLETON)
+                          addAnnotation(DAGGER_PROVIDES)
+                        }
+
+                        else -> {}
+                      }
+                    }
                     .returns(
                       ClassName(
                         roomModel.getRepositoryPackage(),
