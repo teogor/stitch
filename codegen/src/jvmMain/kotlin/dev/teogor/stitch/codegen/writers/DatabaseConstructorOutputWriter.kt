@@ -34,7 +34,7 @@ class DatabaseConstructorOutputWriter(
 ) : OutputWriter(codeGenConfig) {
 
   fun write(databaseModels: Sequence<DatabaseModel>) {
-    if (!codeGenConfig.enableKmpSupport) {
+    if (!codeGenConfig.enableKmpSupport || codeGenConfig.target != null) {
       return
     }
 
@@ -46,7 +46,7 @@ class DatabaseConstructorOutputWriter(
 
       fileBuilder(
         packageName = packageName,
-        fileName = constructorName,
+        fileName = "$constructorName.expect",
       ) {
         addType(
           TypeSpec.objectBuilder(constructorName)

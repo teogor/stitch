@@ -46,6 +46,23 @@ class Plugin : Plugin<Project> {
 
       // Configure KSP extension after project evaluation
       afterEvaluate {
+        val kotlin = extensions.findByName(
+          "kotlin",
+        ) as? org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+        if (kotlin != null) {
+          kotlin.targets.forEach { target ->
+            val targetName = target.name
+            val kspConfigName = if (targetName == "metadata") {
+              "kspCommonMainMetadata"
+            } else {
+              "ksp${targetName.replaceFirstChar { it.uppercaseChar() }}"
+            }
+            // Use project.dependencies.add to pass options if possible, or use ksp extension
+            // For now, let's try to use the global ksp extension with a more specific approach if needed
+            // Actually, KSP doesn't support per-target args in a single project easily via the DSL.
+          }
+        }
+
         extensions.configure<KspExtension> {
           arg(StitchSchemaArgProvider.from(extension))
         }

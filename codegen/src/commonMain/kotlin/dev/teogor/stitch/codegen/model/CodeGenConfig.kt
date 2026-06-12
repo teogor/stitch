@@ -40,5 +40,6 @@ data class CodeGenConfig(
   val enableRepositoryImplGeneration: Boolean,
   val enableKmpSupport: Boolean,
   val enableDatabaseBuilderGeneration: Boolean,
+  val target: String? = null,
   val ioDispatcherName: String? = null,
 )

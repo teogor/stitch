@@ -44,22 +44,40 @@ class DatabaseBuilderOutputWriter(
       val databaseType = databaseModel.type as ClassName
       val packageName = databaseType.packageName
       val databaseName = databaseType.simpleName
-      val fileName = "DatabaseBuilder"
+      val fileName = "${databaseName}Builder"
 
-      // commonMain
-      writeExpect(packageName, fileName, databaseType)
-
-      // androidMain
-      writeAndroidActual(packageName, fileName, databaseType, databaseModel.dbFileName)
-
-      // jvmMain
-      writeJvmActual(packageName, fileName, databaseType, databaseModel.dbFileName)
-
-      // iosMain
-      writeIosActual(packageName, fileName, databaseType, databaseModel.dbFileName)
-
-      // webMain
-      writeWebActual(packageName, fileName, databaseType, databaseModel.dbFileName)
+      if (codeGenConfig.target == null) {
+        // commonMain
+        writeExpect(packageName, fileName, databaseType)
+      } else {
+        // actual implementations
+        when (codeGenConfig.target.lowercase()) {
+          "android" -> writeAndroidActual(
+            packageName,
+            "$fileName.android",
+            databaseType,
+            databaseModel.dbFileName,
+          )
+          "jvm" -> writeJvmActual(
+            packageName,
+            "$fileName.jvm",
+            databaseType,
+            databaseModel.dbFileName,
+          )
+          "ios" -> writeIosActual(
+            packageName,
+            "$fileName.ios",
+            databaseType,
+            databaseModel.dbFileName,
+          )
+          "js", "wasmjs" -> writeWebActual(
+            packageName,
+            "$fileName.web",
+            databaseType,
+            databaseModel.dbFileName,
+          )
+        }
+      }
     }
   }
 

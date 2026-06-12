@@ -49,6 +49,7 @@ class ConfigParser(
     private const val ENABLE_REPOSITORY_IMPL_GENERATION = "$PREFIX.enableRepositoryImplGeneration"
     private const val ENABLE_KMP_SUPPORT = "$PREFIX.enableKmpSupport"
     private const val ENABLE_DATABASE_BUILDER_GENERATION = "$PREFIX.enableDatabaseBuilderGeneration"
+    private const val TARGET = "$PREFIX.target"
   }
 
   fun parse(): CodeGenConfig {
@@ -70,6 +71,7 @@ class ConfigParser(
     val enableRepositoryImplGeneration = parseBoolean(ENABLE_REPOSITORY_IMPL_GENERATION) ?: true
     val enableKmpSupport = parseBoolean(ENABLE_KMP_SUPPORT) ?: false
     val enableDatabaseBuilderGeneration = parseBoolean(ENABLE_DATABASE_BUILDER_GENERATION) ?: false
+    val target = options[TARGET]?.trim() ?: detectTarget()
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -90,7 +92,20 @@ class ConfigParser(
       enableRepositoryImplGeneration = enableRepositoryImplGeneration,
       enableKmpSupport = enableKmpSupport,
       enableDatabaseBuilderGeneration = enableDatabaseBuilderGeneration,
+      target = target,
     )
+  }
+
+  private fun detectTarget(): String? {
+    val schemaOutput = options["room.internal.schemaOutput"] ?: return null
+    return when {
+      schemaOutput.contains("Android", ignoreCase = true) -> "android"
+      schemaOutput.contains("Jvm", ignoreCase = true) -> "jvm"
+      schemaOutput.contains("Ios", ignoreCase = true) -> "ios"
+      schemaOutput.contains("Js", ignoreCase = true) -> "js"
+      schemaOutput.contains("WasmJs", ignoreCase = true) -> "wasmjs"
+      else -> null
+    }
   }
 
   private fun getVisibility(): Visibility {

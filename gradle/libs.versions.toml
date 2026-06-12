@@ -83,6 +83,7 @@ ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devt
 kotlinx-browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.ref = "kotlinx-browser" }
 
 [plugins]
+stitch-core = { id = "dev.teogor.stitch", version.ref = "stitch" }
 stitch-kmp-application = { id = "stitch.kmp.application" }
 stitch-kmp-library = { id = "stitch.kmp.library" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

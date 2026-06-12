@@ -28,6 +28,11 @@ Provides custom names for generated repositories and implementations.
 ### `@StitchIgnore`
 Marks a DAO, Entity, or function to be ignored by Stitch code generation.
 
+### `@StitchDatabase`
+Configures a Room database for automatic builder generation.
+
+- **`fileName`**: The name of the database file (e.g., `"app.db"`).
+
 ### `@ExplicitEntities`
 Explicitly defines the entities a DAO interacts with for improved type safety.
 
@@ -68,6 +73,8 @@ stitch {
 | `repositoryBaseClass` | `String?` | `null` | Fully qualified name of a base class for repositories. |
 | `visibility` | `Enum` | `PUBLIC` | Visibility of generated code (`PUBLIC`, `INTERNAL`). |
 | `enableRepositoryImplGeneration` | `Boolean` | `true` | Whether to generate implementation classes. |
+| `enableKmpSupport` | `Boolean` | `false` | Enables Kotlin Multiplatform (KMP) support. |
+| `enableDatabaseBuilderGeneration` | `Boolean` | `false` | Toggles generation of `getDatabaseBuilder()`. |
 
 ### Package Overrides
 

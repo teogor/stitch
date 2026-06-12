@@ -23,6 +23,7 @@ import dev.teogor.stitch.ksp.processors.StitchProcessor
 
 class ProcessorProvider : SymbolProcessorProvider {
   override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+    println("StitchProcessor options for ${environment.codeGenerator}: ${environment.options}")
     return StitchProcessor(
       environment.codeGenerator,
       environment.logger,
