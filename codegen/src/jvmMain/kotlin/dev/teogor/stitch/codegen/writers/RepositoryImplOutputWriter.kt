@@ -184,6 +184,7 @@ class RepositoryImplOutputWriter(
     targetType: TypeName,
     expression: String,
     roomModel: RoomModel,
+    usedNames: Set<String> = emptySet(),
   ): String {
     if (sourceType == targetType) return expression
 
@@ -196,8 +197,25 @@ class RepositoryImplOutputWriter(
       if (rawSource == rawTarget) {
         val sourceArg = sourceType.typeArguments[0]
         val targetArg = targetType.typeArguments[0]
-        val mapping = generateMappingCode(sourceArg, targetArg, "it", roomModel)
-        return "$expression.map { $mapping }"
+
+        var paramName = if (sourceArg is ParameterizedTypeName && sourceArg.rawType.simpleName == "List") {
+          "list"
+        } else {
+          "item"
+        }
+
+        if (usedNames.contains(paramName)) {
+          paramName += usedNames.size
+        }
+
+        val mapping = generateMappingCode(
+          sourceArg,
+          targetArg,
+          paramName,
+          roomModel,
+          usedNames + paramName,
+        )
+        return "$expression.map { $paramName -> $mapping }"
       }
     }
 
