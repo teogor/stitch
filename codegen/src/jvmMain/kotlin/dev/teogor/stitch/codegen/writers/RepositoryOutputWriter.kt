@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.codegen.commons.fileBuilder
+import dev.teogor.stitch.codegen.commons.mapTo
 import dev.teogor.stitch.codegen.commons.shortName
 import dev.teogor.stitch.codegen.commons.writeWith
 import dev.teogor.stitch.codegen.facades.CodeOutputStreamMaker
@@ -58,6 +59,7 @@ class RepositoryOutputWriter(
           )
           .apply {
             roomModel.functions.forEach { function ->
+              val returnType = function.returnType.mapTo(roomModel)
               addFunction(
                 FunSpec.builder(function.name)
                   .addModifiers(KModifier.ABSTRACT)
@@ -93,10 +95,10 @@ class RepositoryOutputWriter(
                         )
                       }
 
-                      if (function.returnType != UNIT) {
+                      if (returnType != UNIT) {
                         appendLine()
                         appendLine(
-                          "@return ${function.returnType.shortName}",
+                          "@return ${returnType.shortName}",
                         )
                       }
                     }
@@ -104,11 +106,11 @@ class RepositoryOutputWriter(
                     addDocumentation(kdoc.trimIndent())
                   }
                   .apply {
-                    if (function.returnType != UNIT) {
-                      returns(function.returnType)
+                    if (returnType != UNIT) {
+                      returns(returnType)
                     }
                     function.parameters.forEach { parameter ->
-                      addParameter(parameter.name, parameter.type)
+                      addParameter(parameter.name, parameter.type.mapTo(roomModel))
                     }
                     if (function.isSuspend) {
                       addModifiers(KModifier.SUSPEND)

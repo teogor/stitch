@@ -3,6 +3,10 @@ public abstract interface annotation class dev/teogor/stitch/ExplicitEntities : 
 	public abstract fun isExclusive ()Z
 }
 
+public abstract interface annotation class dev/teogor/stitch/MapTo : java/lang/annotation/Annotation {
+	public abstract fun target ()Ljava/lang/Class;
+}
+
 public abstract interface annotation class dev/teogor/stitch/Operation : java/lang/annotation/Annotation {
 }
 
