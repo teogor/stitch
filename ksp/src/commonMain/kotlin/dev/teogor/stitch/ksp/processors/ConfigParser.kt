@@ -18,6 +18,7 @@
 
 package dev.teogor.stitch.ksp.processors
 
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 
@@ -40,6 +41,8 @@ class ConfigParser(
     private const val OPERATION_PACKAGE = "$PREFIX.operationPackage"
     private const val DI_PACKAGE = "$PREFIX.diPackage"
     private const val ENABLE_METRO = "$PREFIX.enableMetro"
+    private const val DI_FRAMEWORK = "$PREFIX.diFramework"
+    private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
   }
 
   fun parse(): CodeGenConfig {
@@ -54,6 +57,8 @@ class ConfigParser(
     val operationPackage = options[OPERATION_PACKAGE]?.trim()
     val diPackage = options[DI_PACKAGE]?.trim()
     val enableMetro = parseBoolean(ENABLE_METRO) ?: true
+    val diFramework = getDiFramework(enableMetro)
+    val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -67,7 +72,18 @@ class ConfigParser(
       operationPackage = operationPackage,
       diPackage = diPackage,
       enableMetro = enableMetro,
+      diFramework = diFramework,
+      injectAnnotation = injectAnnotation,
     )
+  }
+
+  private fun getDiFramework(enableMetro: Boolean): DiFramework {
+    val stringValue = options[DI_FRAMEWORK]?.trim()
+    if (stringValue == null) {
+      return if (enableMetro) DiFramework.METRO else DiFramework.NONE
+    }
+
+    return DiFramework.from(stringValue)
   }
 
   private fun getOperationGenerationLevel(): OperationGenerationLevel {

@@ -24,7 +24,9 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.UNIT
 import dev.teogor.stitch.Operation
 import dev.teogor.stitch.OperationSignature
+import dev.teogor.stitch.api.DiFramework
 import dev.teogor.stitch.api.OperationGenerationLevel
+import dev.teogor.stitch.codegen.commons.JAVAX_INJECT
 import dev.teogor.stitch.codegen.commons.METRO_INJECT
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.writeWith
@@ -120,8 +122,17 @@ class OperationOutputWriter(
                       ),
                     )
                     .apply {
-                      if (codeGenConfig.enableMetro) {
-                        addAnnotation(METRO_INJECT)
+                      val injectAnnotation = when (codeGenConfig.diFramework) {
+                        DiFramework.METRO -> METRO_INJECT
+                        DiFramework.HILT, DiFramework.DAGGER -> JAVAX_INJECT
+                        DiFramework.CUSTOM -> codeGenConfig.injectAnnotation?.let {
+                          ClassName.bestGuess(it)
+                        }
+
+                        else -> null
+                      }
+                      if (injectAnnotation != null) {
+                        addAnnotation(injectAnnotation)
                       }
                     }
                     .build(),

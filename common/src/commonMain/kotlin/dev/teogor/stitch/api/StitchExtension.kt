@@ -131,5 +131,24 @@ interface StitchExtension {
    *
    * @return `true` if Metro integration is enabled, `false` otherwise.
    */
+  @Deprecated(
+    message = "Use diFramework instead.",
+    replaceWith = ReplaceWith("diFramework"),
+  )
   var enableMetro: Boolean
+
+  /**
+   * Specifies the dependency injection framework to use for generated code.
+   *
+   * By default, this is set to [DiFramework.METRO] for backward compatibility.
+   */
+  var diFramework: DiFramework
+
+  /**
+   * Optional override for the `@Inject` annotation used in generated code.
+   *
+   * If specified, this fully qualified class name will be used for injection.
+   * This is useful when using [DiFramework.CUSTOM].
+   */
+  var injectAnnotation: String?
 }
