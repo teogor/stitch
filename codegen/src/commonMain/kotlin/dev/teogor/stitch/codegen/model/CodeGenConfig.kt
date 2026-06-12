@@ -39,4 +39,5 @@ data class CodeGenConfig(
   val visibility: Visibility,
   val enableRepositoryImplGeneration: Boolean,
   val enableKmpSupport: Boolean,
+  val ioDispatcherName: String? = null,
 )

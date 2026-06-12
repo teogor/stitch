@@ -108,8 +108,24 @@ class RoomModelMapper(
     val mapTo = mapToAnnotation?.findArgumentValue<KSType>("target")?.toTypeName()
     val toDomain = mapToAnnotation?.findArgumentValue<String>("toDomain") ?: "toDomain"
     val toEntity = mapToAnnotation?.findArgumentValue<String>("toEntity") ?: "toEntity"
-    val mapper = mapToAnnotation?.findArgumentValue<KSType>("mapper")?.toTypeName()?.let {
+    val mapperType = mapToAnnotation?.findArgumentValue<KSType>("mapper")
+    val mapper = mapperType?.toTypeName()?.let {
       if (it.toString() == "kotlin.Nothing") null else it
+    }
+
+    var isToDomainSuspend = false
+    var isToEntitySuspend = false
+
+    mapperType?.declaration?.let { mapperDecl ->
+      if (mapperDecl is KSClassDeclaration) {
+        val mapperFunctions = mapperDecl.getDeclaredFunctions()
+        isToDomainSuspend = mapperFunctions.any {
+          it.simpleName.asString() == toDomain && it.modifiers.contains(Modifier.SUSPEND)
+        }
+        isToEntitySuspend = mapperFunctions.any {
+          it.simpleName.asString() == toEntity && it.modifiers.contains(Modifier.SUSPEND)
+        }
+      }
     }
 
     val fields = entity.primaryConstructor?.parameters?.map { parameter ->
@@ -180,6 +196,8 @@ class RoomModelMapper(
       toDomain = toDomain,
       toEntity = toEntity,
       mapper = mapper,
+      isToDomainSuspend = isToDomainSuspend,
+      isToEntitySuspend = isToEntitySuspend,
       repositoryName = repositoryName,
       repositoryImplName = repositoryImplName,
       dao = dao.toClassName(),
