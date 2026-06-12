@@ -23,6 +23,8 @@ include(":ksp")
 include(":gradle-plugin")
 include(":gradle-plugin-api")
 
+include(":core:ui")
+
 include(":catalog:shared")
 include(":catalog:androidApp")
 include(":catalog:desktopApp")
