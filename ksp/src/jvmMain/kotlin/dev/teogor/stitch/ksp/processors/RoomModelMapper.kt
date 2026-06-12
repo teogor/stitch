@@ -39,6 +39,7 @@ import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import dev.teogor.stitch.ExplicitEntities
 import dev.teogor.stitch.RawOperation
+import dev.teogor.stitch.StitchIgnore
 import dev.teogor.stitch.codegen.commons.findCommonBase
 import dev.teogor.stitch.codegen.commons.getCommonBase
 import dev.teogor.stitch.codegen.model.FieldKind
@@ -55,6 +56,8 @@ class RoomModelMapper(
 
   @OptIn(KspExperimental::class)
   fun map(entity: KSClassDeclaration): RoomModel? {
+    if (entity.isAnnotationPresent(StitchIgnore::class)) return null
+
     val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
     annotatedDao.forEach { daoClass ->
       val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
@@ -87,7 +90,7 @@ class RoomModelMapper(
       else -> null
     }
 
-    if (dao == null) return null
+    if (dao == null || dao.isAnnotationPresent(StitchIgnore::class)) return null
 
     val fields = entity.primaryConstructor?.parameters?.map { parameter ->
       val fieldName = parameter.name!!.asString()
@@ -103,8 +106,10 @@ class RoomModelMapper(
       )
     } ?: emptyList()
 
-    val functions = dao.getDeclaredFunctions().toList().map { function ->
-      val rawOperation = function.getAnnotationsByType(RawOperation::class)
+    val functions = dao.getDeclaredFunctions().toList()
+      .filter { !it.isAnnotationPresent(StitchIgnore::class) }
+      .map { function ->
+        val rawOperation = function.getAnnotationsByType(RawOperation::class)
         .firstOrNull()
       val fieldName = function.simpleName.asString()
       val fieldType = function.returnType?.resolve().let {
