@@ -1,14 +1,22 @@
 package dev.teogor.stitch.convention
 
 import org.gradle.api.Project
+import org.gradle.api.model.ObjectFactory
+import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.findByType
+import javax.inject.Inject
 
 /**
- * Project-wide Stitch configuration for convention plugins.
+ * Stitch configuration for convention plugins.
  */
-interface StitchKmpExtension {
-    // Add properties here as needed
+open class StitchKmpExtension @Inject constructor(objects: ObjectFactory) {
+    // Add properties here as needed, matching StitchExtension interface if possible
 }
 
 fun Project.stitch(configure: StitchKmpExtension.() -> Unit) {
-    // Implementation for the stitch extension
+    extensions.findByType<StitchKmpExtension>()?.configure()
+}
+
+internal fun Project.configureStitchExtension() {
+    extensions.create<StitchKmpExtension>("stitch")
 }

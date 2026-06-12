@@ -26,7 +26,6 @@ kotlin {
         api(project(":common"))
       }
       jvmMain.dependencies {
-        api(project(":gradle-plugin-api"))
         api(libs.kotlin.poet)
         api(libs.kotlin.poet.ksp)
       }

@@ -22,6 +22,7 @@ plugins {
 
 dependencies {
   api(project(":gradle-plugin-api"))
+  api(project(":common"))
 
   implementation(gradleApi())
   implementation(libs.android.gradle.plugin)
