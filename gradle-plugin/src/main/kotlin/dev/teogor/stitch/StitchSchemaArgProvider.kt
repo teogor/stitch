@@ -32,6 +32,7 @@ class StitchSchemaArgProvider(
   private val operationPackage: String?,
   private val diPackage: String?,
   private val enableMetro: Boolean,
+  private val repositoryBaseClass: String?,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
@@ -47,6 +48,7 @@ class StitchSchemaArgProvider(
     repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
     operationPackage?.let { "stitch.operationPackage=$it" },
     diPackage?.let { "stitch.diPackage=$it" },
+    repositoryBaseClass?.let { "stitch.repositoryBaseClass=$it" },
   )
 
   companion object {
@@ -62,6 +64,7 @@ class StitchSchemaArgProvider(
       operationPackage = stitchExtension.operationPackage,
       diPackage = stitchExtension.diPackage,
       enableMetro = stitchExtension.enableMetro,
+      repositoryBaseClass = stitchExtension.repositoryBaseClass,
     )
   }
 }

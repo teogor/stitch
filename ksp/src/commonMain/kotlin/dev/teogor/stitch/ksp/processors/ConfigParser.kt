@@ -40,6 +40,7 @@ class ConfigParser(
     private const val OPERATION_PACKAGE = "$PREFIX.operationPackage"
     private const val DI_PACKAGE = "$PREFIX.diPackage"
     private const val ENABLE_METRO = "$PREFIX.enableMetro"
+    private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
   }
 
   fun parse(): CodeGenConfig {
@@ -54,6 +55,7 @@ class ConfigParser(
     val operationPackage = options[OPERATION_PACKAGE]?.trim()
     val diPackage = options[DI_PACKAGE]?.trim()
     val enableMetro = parseBoolean(ENABLE_METRO) ?: true
+    val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -67,6 +69,7 @@ class ConfigParser(
       operationPackage = operationPackage,
       diPackage = diPackage,
       enableMetro = enableMetro,
+      repositoryBaseClass = repositoryBaseClass,
     )
   }
 

@@ -30,4 +30,5 @@ data class CodeGenConfig(
   val operationPackage: String?,
   val diPackage: String?,
   val enableMetro: Boolean,
+  val repositoryBaseClass: String?,
 )
