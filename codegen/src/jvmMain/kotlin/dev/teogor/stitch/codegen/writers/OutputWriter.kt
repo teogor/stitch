@@ -41,16 +41,16 @@ abstract class OutputWriter(
   fun RoomModel.getDiPackage() = codeGenConfig.diPackage
     ?: "${getBasePackage()}.di"
 
-  fun RoomModel.getRepositoryName() = "$name${codeGenConfig.repositorySuffix}"
+  fun RoomModel.getRepositoryName() = repositoryName ?: "$name${codeGenConfig.repositorySuffix}"
 
-  fun RoomModel.getRepositoryImplName() = "${getRepositoryName()}Impl"
+  fun RoomModel.getRepositoryImplName() = repositoryImplName ?: "${getRepositoryName()}Impl"
 
   fun RoomModel.getOperationName(baseName: String) =
     "$name${baseName.titleCase()}${codeGenConfig.operationSuffix}"
 
   fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
@@ -62,7 +62,7 @@ abstract class OutputWriter(
 
   fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
     if (codeGenConfig.addDocumentation) {
-      addKdoc(format, args)
+      addKdoc(format, *args)
     }
   }
 
