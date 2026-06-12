@@ -20,6 +20,11 @@ public abstract interface annotation class dev/teogor/stitch/RawOperation : java
 public abstract interface annotation class dev/teogor/stitch/StitchIgnore : java/lang/annotation/Annotation {
 }
 
+public abstract interface annotation class dev/teogor/stitch/StitchName : java/lang/annotation/Annotation {
+	public abstract fun implementation ()Ljava/lang/String;
+	public abstract fun repository ()Ljava/lang/String;
+}
+
 public final class dev/teogor/stitch/api/DiFramework : java/lang/Enum {
 	public static final field CUSTOM Ldev/teogor/stitch/api/DiFramework;
 	public static final field Companion Ldev/teogor/stitch/api/DiFramework$Companion;
