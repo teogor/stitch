@@ -95,6 +95,11 @@ class RoomModelMapper(
 
     val mapToAnnotation = entity.firstAnnotation<MapTo>()
     val mapTo = mapToAnnotation?.findArgumentValue<KSType>("target")?.toTypeName()
+    val toDomain = mapToAnnotation?.findArgumentValue<String>("toDomain") ?: "toDomain"
+    val toEntity = mapToAnnotation?.findArgumentValue<String>("toEntity") ?: "toEntity"
+    val mapper = mapToAnnotation?.findArgumentValue<KSType>("mapper")?.toTypeName()?.let {
+      if (it.toString() == "kotlin.Nothing") null else it
+    }
 
     val fields = entity.primaryConstructor?.parameters?.map { parameter ->
       val fieldName = parameter.name!!.asString()
@@ -161,6 +166,9 @@ class RoomModelMapper(
       functions = functions,
       entity = entity.toClassName(),
       mapTo = mapTo,
+      toDomain = toDomain,
+      toEntity = toEntity,
+      mapper = mapper,
       dao = dao.toClassName(),
     )
   }
