@@ -67,6 +67,7 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun getRepositoryImplPackage ()Ljava/lang/String;
 	public abstract fun getRepositoryPackage ()Ljava/lang/String;
 	public abstract fun getRepositorySuffix ()Ljava/lang/String;
+	public abstract fun getVisibility ()Ldev/teogor/stitch/api/Visibility;
 	public abstract fun setAddDocumentation (Z)V
 	public abstract fun setDiFramework (Ldev/teogor/stitch/api/DiFramework;)V
 	public abstract fun setDiPackage (Ljava/lang/String;)V
@@ -81,6 +82,20 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun setRepositoryImplPackage (Ljava/lang/String;)V
 	public abstract fun setRepositoryPackage (Ljava/lang/String;)V
 	public abstract fun setRepositorySuffix (Ljava/lang/String;)V
+	public abstract fun setVisibility (Ldev/teogor/stitch/api/Visibility;)V
+}
+
+public final class dev/teogor/stitch/api/Visibility : java/lang/Enum {
+	public static final field Companion Ldev/teogor/stitch/api/Visibility$Companion;
+	public static final field INTERNAL Ldev/teogor/stitch/api/Visibility;
+	public static final field PUBLIC Ldev/teogor/stitch/api/Visibility;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/teogor/stitch/api/Visibility;
+	public static fun values ()[Ldev/teogor/stitch/api/Visibility;
+}
+
+public final class dev/teogor/stitch/api/Visibility$Companion {
+	public final fun from (Ljava/lang/String;)Ldev/teogor/stitch/api/Visibility;
 }
 
 public abstract class dev/teogor/stitch/di/StitchScope {

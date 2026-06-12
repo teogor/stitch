@@ -20,6 +20,7 @@ public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/
 	public fun getRepositoryImplPackage ()Ljava/lang/String;
 	public fun getRepositoryPackage ()Ljava/lang/String;
 	public fun getRepositorySuffix ()Ljava/lang/String;
+	public fun getVisibility ()Ldev/teogor/stitch/api/Visibility;
 	public fun setAddDocumentation (Z)V
 	public fun setDiFramework (Ldev/teogor/stitch/api/DiFramework;)V
 	public fun setDiPackage (Ljava/lang/String;)V
@@ -34,15 +35,12 @@ public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/
 	public fun setRepositoryImplPackage (Ljava/lang/String;)V
 	public fun setRepositoryPackage (Ljava/lang/String;)V
 	public fun setRepositorySuffix (Ljava/lang/String;)V
+	public fun setVisibility (Ldev/teogor/stitch/api/Visibility;)V
 }
 
 public final class dev/teogor/stitch/StitchSchemaArgProvider : org/gradle/process/CommandLineArgumentProvider {
 	public static final field Companion Ldev/teogor/stitch/StitchSchemaArgProvider$Companion;
-<<<<<<< HEAD
-	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V
-=======
-	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLdev/teogor/stitch/api/DiFramework;Ljava/lang/String;)V
->>>>>>> feature/domain-mapping
+	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLdev/teogor/stitch/api/DiFramework;Ljava/lang/String;Ljava/lang/String;Ldev/teogor/stitch/api/Visibility;)V
 	public synthetic fun asArguments ()Ljava/lang/Iterable;
 	public fun asArguments ()Ljava/util/List;
 }
