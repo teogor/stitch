@@ -38,6 +38,7 @@ import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import dev.teogor.stitch.ExplicitEntities
+import dev.teogor.stitch.MapTo
 import dev.teogor.stitch.RawOperation
 import dev.teogor.stitch.codegen.commons.findCommonBase
 import dev.teogor.stitch.codegen.commons.getCommonBase
@@ -88,6 +89,9 @@ class RoomModelMapper(
     }
 
     if (dao == null) return null
+
+    val mapToAnnotation = entity.firstAnnotation<MapTo>()
+    val mapTo = mapToAnnotation?.findArgumentValue<KSType>("target")?.toTypeName()
 
     val fields = entity.primaryConstructor?.parameters?.map { parameter ->
       val fieldName = parameter.name!!.asString()
@@ -151,6 +155,7 @@ class RoomModelMapper(
       fields = fields,
       functions = functions,
       entity = entity.toClassName(),
+      mapTo = mapTo,
       dao = dao.toClassName(),
     )
   }
