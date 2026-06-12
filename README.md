@@ -1,82 +1,96 @@
-# Stitch 🪡
+<p align="center">
+  <img src="https://raw.githubusercontent.com/teogor/stitch/main/docs/images/logo.png" width="128" height="128" alt="Stitch Logo">
+</p>
 
-## Overview
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Maven Central](https://img.shields.io/maven-central/v/dev.teogor.stitch/common.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Acommon&smo=true)
-[![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
-[![Profile](https://source.teogor.dev/badges/teogor-github.svg)](https://github.com/teogor)
-[![Portfolio](https://source.teogor.dev/badges/teogor-dev.svg)](https://source.teogor.dev/stitch)
+<h1 align="center">Stitch 🪡</h1>
 
-### Effortlessly Sew Your Room Persistence Layer Together
+<p align="center">
+  <strong>Effortlessly Sew Your Room Persistence Layer Together</strong>
+</p>
 
-Tired of writing repetitive Room boilerplate code? Stitch, your friendly Kotlin compiler plugin, is here to save the day! It automatically generates essential components based on your Room DAOs and entities, freeing you to focus on your app's core logic.
+<p align="center">
+  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
+  <a href="https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Acommon&smo=true"><img src="https://img.shields.io/maven-central/v/dev.teogor.stitch/common.svg?label=Maven%20Central" alt="Maven Central"></a>
+  <a href="https://android-arsenal.com/api?level=24"><img src="https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat" alt="API"></a>
+  <a href="https://github.com/teogor"><img src="https://source.teogor.dev/badges/teogor-github.svg" alt="Profile"></a>
+</p>
 
-**Stitch offers a tapestry of benefits:**
+---
 
-* **Automatic Code Generation:** Say goodbye to repetitive boilerplate! Stitch generates Repositories, Repository Implementations, and Operations based on your Room DAOs and entities.
-* **Seamless Metro Integration:** Enjoy a smooth blend of dependency injection with automatically created Metro binding containers, ensuring your code remains clean and organized.
-* **Tailored to Your Needs:** Customize generated code to perfectly fit your project's unique requirements, ensuring a truly bespoke solution.
-* **Asynchronous Agility:** Embrace the power of coroutines with Stitch's efficient data handling, keeping your app responsive and nimble.
-* **KSP-powered Efficiency:** Leverage the magic of Kotlin Symbol Processing for accurate and optimized code generation, ensuring seamless integration.
-* **Robust Multi-Database Support:** Efficiently handle projects with multiple Room databases with unique DI provider generation.
+Tired of writing repetitive Room boilerplate code? **Stitch** is a Kotlin compiler plugin that automatically generates Repositories, Repository Implementations, and Operations based on your Room DAOs and entities.
 
-**Who is Stitch for?**
+## 🚀 Quick Start
 
-* Developers seeking a **streamlined and efficient approach to Room persistence**.
-* Teams aiming for **consistent and maintainable code across their projects**.
-* Anyone who wants to **weave their app's magic without getting tangled in boilerplate**.
+### 1. Apply the Plugin
 
-## Features:
+Add the following to your root `build.gradle.kts`:
 
-* **Inventory Demo App:** A comprehensive demonstration of Stitch capabilities including:
-    * Automatic Repository Generation for Products and Categories.
-    * Custom `@RawOperation` for product search.
-    * Type-safe entity mapping with `@ExplicitEntities`.
-    * Clean MVVM architecture using generated components.
-* **Automatic Generation:** Stitch generates essential code components based on your Room DAOs and entities, including:
-    * **Repositories:** Provide a high-level interface for interacting with your data.
-    * **Repository Implementations:** Execute CRUD operations efficiently using Room's APIs.
-    * **Operations:** Represent specific data access actions with clear signatures.
-* **Flexible Customization:** Configure generated code to match your project's needs with options like:
-    * Customizing suffixes for repositories and operations (e.g., `DataRepository`, `Action`).
-    * Overriding package names for all generated artifacts (Repositories, Implementations, Operations, DI Modules).
-    * Customizing base class or interface for repositories.
-    * Excluding specific entities or DAOs from generation.
-    * **Opt-out of Metro:** Use Stitch without Metro by disabling it in your configuration.
-* **Dependency Injection Integration:** Stitch seamlessly integrates with Metro, automatically generating binding containers for injected repository instances.
-* **Coroutine-friendly Operations:** Stitch supports asynchronous data access using coroutines, ensuring a responsive and efficient user experience.
-* **Efficient KSP Integration:** Leverages Kotlin Symbol Processing for accurate and optimized code generation based on your project's specific setup.
+```kotlin
+plugins {
+    id("dev.teogor.stitch") version "1.0.0-alpha02"
+}
+```
 
-## Documentation and Community:
+And in your module's `build.gradle.kts`:
 
-* **Website:** [https://source.teogor.dev/stitch](https://source.teogor.dev/stitch)
-* **GitHub Repository:** [https://github.com/teogor/stitch](https://github.com/teogor/stitch)
-* **Documentation:** Refer to the website or repository for detailed instructions and examples.
-* **Community:** Join the GitHub discussions or other Kotlin developer communities for help and feedback.
+```kotlin
+plugins {
+    id("dev.teogor.stitch")
+}
 
-Start saving time and focus on what truly matters with Stitch!
+stitch {
+    generatedPackageName = "com.your.app.generated"
+}
+```
 
-## Find this repository useful? 🩷
+### 2. Annotate your DAO
 
-* Support it by joining __[stargazers](https://github.com/teogor/stitch/stargazers)__ for this
-  repository. 📁
-* Get notified about my new projects by __[following me](https://github.com/teogor)__ on GitHub. 💻
-* Interested in sponsoring me? [Support me](sponsor.md) on GitHub! 🤝
+```kotlin
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM User")
+    fun getAllUsers(): Flow<List<User>>
+}
+```
 
-# License
+Stitch will automatically generate a `UserRepository` and its implementation for you!
 
-```xml
-Designed and developed by 2024 teogor (Teodor Grigor)
+## ✨ Key Features
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+- 🛠️ **Automatic Code Generation:** Generates Repositories and Operations from Room components.
+- 📦 **KMP Ready:** Full support for Kotlin Multiplatform projects and Room3.
+- 💉 **DI Integration:** Seamlessly integrates with Metro and other DI frameworks.
+- 🔄 **Asynchronous Agility:** Built-in support for Coroutines and Flow.
+- 🧩 **Customizable:** Fine-tune package names, suffixes, and more via Gradle DSL.
 
-  http://www.apache.org/licenses/LICENSE-2.0
+## 📚 Documentation
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+For detailed guides and reference, visit our [Documentation Site](https://source.teogor.dev/stitch).
+
+- [Getting Started](https://source.teogor.dev/stitch/getting-started)
+- [Annotations Reference](https://source.teogor.dev/stitch/reference)
+- [Multi-platform Setup](https://source.teogor.dev/stitch/releases/implementation)
+
+## 🩷 Support the Project
+
+- ⭐ **Star this repository** to show your support!
+- 👤 **Follow [teogor](https://github.com/teogor)** for more open-source tools.
+- 🤝 **[Sponsor me](https://github.com/sponsors/teogor)** to help maintain this project.
+
+## 📄 License
+
+```text
+Copyright 2024 teogor (Teodor Grigor)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
