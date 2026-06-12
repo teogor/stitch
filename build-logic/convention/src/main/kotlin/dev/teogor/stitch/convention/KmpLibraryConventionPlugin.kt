@@ -4,12 +4,13 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
  * Convention plugin for KMP library modules.
  */
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
+@OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
 class KmpLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -21,6 +22,24 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<KotlinMultiplatformExtension> {
                 applyDefaultHierarchyTemplate()
+
+                // Register Android Target
+                androidTarget(target)
+
+                // Register iOS Targets
+                listOf(iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
+                    iosTarget.binaries.framework {
+                        baseName = target.name.replace("-", "_").replaceFirstChar { it.uppercase() }
+                        isStatic = true
+                    }
+                }
+
+                // Register Desktop Target
+                jvm()
+
+                // Register Web Targets
+                js { browser() }
+                wasmJs { browser() }
 
                 sourceSets.getByName("commonTest").dependencies {
                     implementation(target.versionCatalog.requireLibrary("jetbrains-kotlin-test"))
