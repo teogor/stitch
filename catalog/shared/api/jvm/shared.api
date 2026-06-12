@@ -1,0 +1,36 @@
+public final class dev/teogor/stitch/catalog/AppKt {
+	public static final fun App (Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class dev/teogor/stitch/catalog/ComposableSingletons$AppKt {
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/ComposableSingletons$AppKt;
+	public fun <init> ()V
+	public final fun getLambda$-764570005$shared ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$2045252089$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2127040083$shared ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class dev/teogor/stitch/catalog/Greeting {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun greet ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/GreetingUtilKt {
+	public static final fun sayHello (Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/JVMPlatform : dev/teogor/stitch/catalog/Platform {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun getName ()Ljava/lang/String;
+}
+
+public abstract interface class dev/teogor/stitch/catalog/Platform {
+	public abstract fun getName ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/Platform_jvmKt {
+	public static final fun getPlatform ()Ldev/teogor/stitch/catalog/Platform;
+}
+

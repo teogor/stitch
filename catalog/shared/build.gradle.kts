@@ -23,7 +23,7 @@ plugins {
 }
 
 kotlin {
-  kmpLibraryAll(project, "CatalogShared") {
+  kmpLibraryAll(project, "Shared") {
     sourceSets {
       commonMain.dependencies {
         implementation(libs.compose.runtime)
