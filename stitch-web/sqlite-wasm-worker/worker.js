@@ -1,4 +1,4 @@
-import sqlite3InitModule from 'https://cdn.jsdelivr.net/npm/@sqlite.org/sqlite-wasm@3.46.0/index.mjs';
+import sqlite3InitModule from '@sqlite.org/sqlite-wasm';
 
 let sqlite3 = null;
 
@@ -13,8 +13,7 @@ let nextStatementId = 0;
 function openRequest(id, requestData) {
     try {
         const newDatabaseId = nextDatabaseId++;
-        // Use in-memory for the demo if OPFS is not available or for simplicity
-        const newDatabase = new sqlite3.oo1.DB(requestData.fileName || ':memory:');
+        const newDatabase = new sqlite3.oo1.OpfsDb(requestData.fileName);
         databases.set(newDatabaseId, newDatabase);
         postMessage({'id': id, data: {'databaseId': newDatabaseId}});
     } catch (error) {
@@ -58,8 +57,8 @@ function stepRequest(id, requestData) {
             'rows': [],
             'columnTypes': []
         };
-        statement.reset()
-        statement.clearBindings()
+        statement.reset();
+        statement.clearBindings();
         for (let i = 0; i < requestData.bindings.length; i++) {
             statement.bind(i + 1, requestData.bindings[i]);
         }
@@ -107,7 +106,6 @@ function closeRequest(id, requestData) {
     }
 }
 
-// A map that links command names (strings) to their respective handler functions.
 const commandMap = {
     'open': openRequest,
     'prepare': prepareRequest,
@@ -117,16 +115,12 @@ const commandMap = {
 
 function handleMessage(e) {
     const requestMsg = e.data;
-    if (!Object.hasOwn(requestMsg, 'data') && requestMsg.data == null) {
-        postMessage(
-            {'id': requestMsg.id, 'error': "Invalid request, missing 'data'."}
-        );
+    if (!Object.hasOwn(requestMsg, 'data') || requestMsg.data == null) {
+        postMessage({'id': requestMsg.id, 'error': "Invalid request, missing 'data'."});
         return;
     }
-    if (!Object.hasOwn(requestMsg.data, 'cmd') && requestMsg.data.cmd == null) {
-        postMessage(
-            {'id': requestMsg.id, 'error': "Invalid request, missing 'cmd'."}
-        );
+    if (!Object.hasOwn(requestMsg.data, 'cmd') || requestMsg.data.cmd == null) {
+        postMessage({'id': requestMsg.id, 'error': "Invalid request, missing 'cmd'."});
         return;
     }
     const command = requestMsg.data.cmd;
@@ -134,9 +128,7 @@ function handleMessage(e) {
     if (requestHandler) {
         requestHandler(requestMsg.id, requestMsg.data);
     } else {
-        postMessage(
-            {'id': requestMsg.id, 'error': "Invalid request, unknown command: '" + command + "'."}
-        );
+        postMessage({'id': requestMsg.id, 'error': "Unknown command: '" + command + "'."});
     }
 }
 

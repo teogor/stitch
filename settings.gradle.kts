@@ -23,6 +23,7 @@ include(":codegen")
 include(":ksp")
 include(":gradle-plugin")
 include(":gradle-plugin-api")
+include(":stitch-web")
 
 include(":catalog:shared")
 include(":catalog:androidApp")

@@ -68,6 +68,7 @@ kotlin {
       webMain.dependencies {
         implementation(libs.room.runtime)
         implementation(libs.sqlite.web)
+        api(project(":stitch-web"))
       }
 
       jsMain.dependencies {

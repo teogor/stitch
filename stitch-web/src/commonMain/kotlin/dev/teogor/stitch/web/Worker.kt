@@ -1,5 +1,5 @@
 /*
- * Copyright 2026 teogor (Teodor Grigor)
+ * Copyright 2024 teogor (Teodor Grigor)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.demo.data.local
+package dev.teogor.stitch.web
 
-import androidx.room3.Room
-import androidx.room3.RoomDatabase
-import dev.teogor.stitch.web.createSQLiteWebDriver
+import androidx.sqlite.SQLiteDriver
 
-actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
-  val driver = createSQLiteWebDriver()
-  return Room.databaseBuilder<AppDatabase>(
-    name = "demo_database.db",
-    factory = { AppDatabaseConstructor.initialize() },
-  ).setDriver(driver)
-}
+/**
+ * Creates an [SQLiteDriver] instance for the web platform.
+ *
+ * @return A new [SQLiteDriver] instance configured with the SQLite worker.
+ */
+expect fun createSQLiteWebDriver(): SQLiteDriver
