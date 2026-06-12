@@ -16,12 +16,14 @@
 
 package dev.teogor.stitch.catalog.demo.data.local
 
-import androidx.room3.Database
+import androidx.room3.Room
 import androidx.room3.RoomDatabase
-import dev.teogor.stitch.catalog.demo.data.local.dao.DemoDao
-import dev.teogor.stitch.catalog.demo.data.local.entity.DemoEntity
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import platform.Foundation.NSHomeDirectory
 
-@Database(entities = [DemoEntity::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
-  abstract fun demoDao(): DemoDao
+actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
+  val dbFilePath = NSHomeDirectory() + "/demo_database.db"
+  return Room.databaseBuilder<AppDatabase>(
+    name = dbFilePath,
+  ).setDriver(BundledSQLiteDriver())
 }

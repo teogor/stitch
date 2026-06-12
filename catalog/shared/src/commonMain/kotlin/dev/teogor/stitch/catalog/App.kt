@@ -16,7 +16,6 @@
 
 package dev.teogor.stitch.catalog
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -27,9 +26,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import dev.teogor.stitch.catalog.demo.ui.DemoScreen
 import dev.teogor.stitch.catalog.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,23 +51,13 @@ fun App() {
         )
       },
     ) { innerPadding ->
-      val greeting = remember { Greeting().greet() }
-
       Surface(
         modifier = Modifier
           .fillMaxSize()
           .padding(innerPadding),
         color = MaterialTheme.colorScheme.background,
       ) {
-        Box(
-          modifier = Modifier.fillMaxSize(),
-          contentAlignment = Alignment.Center,
-        ) {
-          Text(
-            text = greeting,
-            style = MaterialTheme.typography.headlineMedium,
-          )
-        }
+        DemoScreen()
       }
     }
   }

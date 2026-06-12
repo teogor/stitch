@@ -60,6 +60,7 @@ compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrainsC
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrainsCompose" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "jetbrainsCompose" }
 compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "jetbrainsCompose" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "material-icons" }
 material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "material-icons" }
@@ -67,7 +68,9 @@ wrappers-browser = { module = "org.jetbrains.kotlin-wrappers:kotlin-browser", ve
 room-common = { group = "androidx.room3", name = "room3-common", version.ref = "room" }
 room-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room" }
 room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room" }
+room-gradle-plugin = { group = "androidx.room3", name = "androidx.room3.gradle.plugin", version.ref = "room" }
 sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
+sqlite-common = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }
 metro-runtime = { group = "dev.zacsweers.metro", name = "runtime", version.ref = "metro" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
@@ -88,6 +91,7 @@ stitch-kotlin-library = { id = "stitch.kotlin.library" }
 stitch-gradle-plugin = { id = "stitch.gradle.plugin" }
 
 # External plugins
+room3 = { id = "androidx.room3", version.ref = "room" }
 metro = { id = "dev.zacsweers.metro", version.ref = "metro" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

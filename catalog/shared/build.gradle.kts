@@ -21,6 +21,11 @@ plugins {
   alias(libs.plugins.jetbrains.compose)
   alias(libs.plugins.jetbrains.compose.compiler)
   alias(libs.plugins.ksp)
+  alias(libs.plugins.room3)
+}
+
+room3 {
+  schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
@@ -38,8 +43,10 @@ kotlin {
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
 
-        implementation(libs.room.common)
+        implementation(libs.kotlinx.coroutines.core)
+        api(libs.room.common)
         implementation(libs.room.runtime)
+        api(libs.sqlite.common)
         implementation(libs.metro.runtime)
         implementation(project(":common"))
       }
@@ -50,6 +57,9 @@ kotlin {
       }
       jvmMain.dependencies {
         implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
+      }
+      iosMain.dependencies {
         implementation(libs.sqlite.bundled)
       }
       jsMain.dependencies {
@@ -67,9 +77,14 @@ kotlin {
 
 dependencies {
   add("androidRuntimeClasspath", libs.androidx.ui.tooling)
-  add("kspCommonMainMetadata", libs.room.compiler)
   add("kspAndroid", libs.room.compiler)
   add("kspJvm", libs.room.compiler)
   add("kspIosArm64", libs.room.compiler)
   add("kspIosSimulatorArm64", libs.room.compiler)
+}
+
+tasks.configureEach {
+  if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
+    enabled = false
+  }
 }
