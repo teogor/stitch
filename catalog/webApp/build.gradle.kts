@@ -34,8 +34,19 @@ kotlin {
   }
 
   sourceSets {
-    commonMain.dependencies {
-      implementation(project(":catalog:shared"))
+    val webMain by creating {
+      dependsOn(commonMain.get())
+      dependencies {
+        implementation(project(":catalog:shared"))
+        implementation(libs.compose.runtime)
+        implementation(libs.compose.foundation)
+        implementation(libs.compose.material3)
+        implementation(libs.compose.ui)
+        implementation(libs.androidx.lifecycle.viewmodelCompose)
+        implementation(libs.androidx.lifecycle.runtimeCompose)
+      }
     }
+    jsMain.get().dependsOn(webMain)
+    wasmJsMain.get().dependsOn(webMain)
   }
 }
