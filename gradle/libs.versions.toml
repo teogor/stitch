@@ -71,6 +71,7 @@ room-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref =
 room-gradle-plugin = { group = "androidx.room3", name = "androidx.room3.gradle.plugin", version.ref = "room" }
 sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 sqlite-common = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }
+sqlite-web = { group = "androidx.sqlite", name = "sqlite-web", version.ref = "sqlite" }
 metro-runtime = { group = "dev.zacsweers.metro", name = "runtime", version.ref = "metro" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }

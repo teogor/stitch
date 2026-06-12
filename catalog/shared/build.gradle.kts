@@ -50,6 +50,7 @@ kotlin {
         implementation(libs.metro.runtime)
         implementation(project(":common"))
       }
+
       androidMain.dependencies {
         implementation(libs.androidx.ui.tooling.preview)
         implementation(libs.room.runtime)
@@ -60,8 +61,15 @@ kotlin {
         implementation(libs.sqlite.bundled)
       }
       iosMain.dependencies {
+        implementation(libs.room.runtime)
         implementation(libs.sqlite.bundled)
       }
+
+      webMain.dependencies {
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.web)
+      }
+
       jsMain.dependencies {
         implementation(libs.wrappers.browser)
       }

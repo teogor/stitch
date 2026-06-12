@@ -17,7 +17,6 @@
 package dev.teogor.stitch.catalog.demo.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,8 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 
 @Composable
-@Suppress("ktlint:standard:function-naming")
-fun DemoScreen(
+fun demoScreen(
   modifier: Modifier = Modifier,
   viewModel: DemoViewModel = viewModel { DemoViewModel() },
 ) {
@@ -106,7 +104,7 @@ fun DemoScreen(
       modifier = Modifier.weight(1f),
     ) {
       items(items) { item ->
-        DemoItemCard(item)
+        demoItemCard(item)
         Spacer(modifier = Modifier.height(8.dp))
       }
     }
@@ -114,7 +112,7 @@ fun DemoScreen(
 }
 
 @Composable
-fun DemoItemCard(item: DemoModel) {
+fun demoItemCard(item: DemoModel) {
   Card(
     modifier = Modifier.fillMaxWidth(),
   ) {
