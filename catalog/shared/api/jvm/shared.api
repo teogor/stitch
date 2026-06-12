@@ -8,6 +8,7 @@ public final class dev/teogor/stitch/catalog/ComposableSingletons$AppKt {
 	public final fun getLambda$-1614107734$shared ()Lkotlin/jvm/functions/Function3;
 	public final fun getLambda$-696049596$shared ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$119241755$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1578707759$shared ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$531226847$shared ()Lkotlin/jvm/functions/Function2;
 }
 
@@ -33,6 +34,125 @@ public abstract interface class dev/teogor/stitch/catalog/Platform {
 
 public final class dev/teogor/stitch/catalog/Platform_jvmKt {
 	public static final fun getPlatform ()Ldev/teogor/stitch/catalog/Platform;
+}
+
+public abstract class dev/teogor/stitch/catalog/demo/data/local/AppDatabase : androidx/room3/RoomDatabase {
+	public static final field $stable I
+	public fun <init> ()V
+	public abstract fun demoDao ()Ldev/teogor/stitch/catalog/demo/data/local/dao/DemoDao;
+}
+
+public final class dev/teogor/stitch/catalog/demo/data/local/AppDatabaseConstructor : androidx/room3/RoomDatabaseConstructor {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/demo/data/local/AppDatabaseConstructor;
+	public synthetic fun initialize ()Landroidx/room3/RoomDatabase;
+	public fun initialize ()Ldev/teogor/stitch/catalog/demo/data/local/AppDatabase;
+}
+
+public final class dev/teogor/stitch/catalog/demo/data/local/Database_jvmKt {
+	public static final fun getDatabaseBuilder ()Landroidx/room3/RoomDatabase$Builder;
+}
+
+public abstract interface class dev/teogor/stitch/catalog/demo/data/local/dao/DemoDao {
+	public abstract fun delete (Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun insert (Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun observeAll ()Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class dev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity {
+	public static final field $stable I
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/catalog/demo/data/local/entity/DemoEntityKt {
+	public static final fun toDomain (Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;)Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;
+	public static final fun toEntity (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;)Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;
+}
+
+public final class dev/teogor/stitch/catalog/demo/data/repository/DemoRepositoryImpl : dev/teogor/stitch/catalog/demo/domain/repository/DemoRepository {
+	public static final field $stable I
+	public fun <init> (Ldev/teogor/stitch/catalog/demo/data/local/dao/DemoDao;)V
+	public fun delete (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun insert (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun observeAll ()Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class dev/teogor/stitch/catalog/demo/di/DemoModule {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/demo/di/DemoModule;
+	public final fun getDemoRepository ()Ldev/teogor/stitch/catalog/demo/domain/repository/DemoRepository;
+	public final fun getGetDemoItemsUseCase ()Ldev/teogor/stitch/catalog/demo/domain/usecase/GetDemoItemsUseCase;
+	public final fun getSaveDemoItemUseCase ()Ldev/teogor/stitch/catalog/demo/domain/usecase/SaveDemoItemUseCase;
+}
+
+public final class dev/teogor/stitch/catalog/demo/domain/model/DemoModel {
+	public static final field $stable I
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (JLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;)Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/teogor/stitch/catalog/demo/domain/repository/DemoRepository {
+	public abstract fun delete (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun insert (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun observeAll ()Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class dev/teogor/stitch/catalog/demo/domain/usecase/GetDemoItemsUseCase {
+	public static final field $stable I
+	public fun <init> (Ldev/teogor/stitch/catalog/demo/domain/repository/DemoRepository;)V
+	public final fun invoke ()Lkotlinx/coroutines/flow/Flow;
+}
+
+public final class dev/teogor/stitch/catalog/demo/domain/usecase/SaveDemoItemUseCase {
+	public static final field $stable I
+	public fun <init> (Ldev/teogor/stitch/catalog/demo/domain/repository/DemoRepository;)V
+	public final fun invoke (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/teogor/stitch/catalog/demo/ui/ComposableSingletons$DemoScreenKt {
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/demo/ui/ComposableSingletons$DemoScreenKt;
+	public fun <init> ()V
+	public final fun getLambda$-1768481839$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-226574374$shared ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1325325104$shared ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class dev/teogor/stitch/catalog/demo/ui/DemoScreenKt {
+	public static final fun DemoItemCard (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Landroidx/compose/runtime/Composer;I)V
+	public static final fun DemoScreen (Landroidx/compose/ui/Modifier;Ldev/teogor/stitch/catalog/demo/ui/DemoViewModel;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/teogor/stitch/catalog/demo/ui/DemoViewModel : androidx/lifecycle/ViewModel {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun addItem (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getItems ()Lkotlinx/coroutines/flow/StateFlow;
 }
 
 public final class dev/teogor/stitch/catalog/ui/theme/ColorKt {

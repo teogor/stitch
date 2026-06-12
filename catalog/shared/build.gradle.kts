@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import dev.teogor.stitch.api.DiFramework
-import dev.teogor.stitch.api.OperationGenerationLevel
 import dev.teogor.stitch.convention.androidTarget
 import dev.teogor.stitch.convention.kmpLibraryAll
 
@@ -23,7 +21,11 @@ plugins {
   alias(libs.plugins.jetbrains.compose)
   alias(libs.plugins.jetbrains.compose.compiler)
   alias(libs.plugins.ksp)
-  id("dev.teogor.stitch") version "1.0.0-alpha02"
+  alias(libs.plugins.room3)
+}
+
+room3 {
+  schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
@@ -41,11 +43,14 @@ kotlin {
         implementation(libs.androidx.lifecycle.viewmodelCompose)
         implementation(libs.androidx.lifecycle.runtimeCompose)
 
-        implementation(libs.room.common)
+        implementation(libs.kotlinx.coroutines.core)
+        api(libs.room.common)
         implementation(libs.room.runtime)
+        api(libs.sqlite.common)
         implementation(libs.metro.runtime)
         implementation(project(":common"))
       }
+
       androidMain.dependencies {
         implementation(libs.androidx.ui.tooling.preview)
         implementation(libs.room.runtime)
@@ -55,6 +60,16 @@ kotlin {
         implementation(libs.room.runtime)
         implementation(libs.sqlite.bundled)
       }
+      iosMain.dependencies {
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.bundled)
+      }
+
+      webMain.dependencies {
+        implementation(libs.room.runtime)
+        implementation(libs.sqlite.web)
+      }
+
       jsMain.dependencies {
         implementation(libs.wrappers.browser)
       }
@@ -70,23 +85,16 @@ kotlin {
 
 dependencies {
   add("androidRuntimeClasspath", libs.androidx.ui.tooling)
-  add("kspCommonMainMetadata", libs.room.compiler)
   add("kspAndroid", libs.room.compiler)
   add("kspJvm", libs.room.compiler)
   add("kspIosArm64", libs.room.compiler)
   add("kspIosSimulatorArm64", libs.room.compiler)
-
-  add("kspCommonMainMetadata", project(":ksp"))
-  add("kspAndroid", project(":ksp"))
-  add("kspJvm", project(":ksp"))
-  add("kspJs", project(":ksp"))
-  add("kspWasmJs", project(":ksp"))
-  add("kspIosArm64", project(":ksp"))
-  add("kspIosSimulatorArm64", project(":ksp"))
+  add("kspJs", libs.room.compiler)
+  add("kspWasmJs", libs.room.compiler)
 }
 
-stitch {
-  generatedPackageName = "dev.teogor.stitch.catalog.generated"
-  diFramework = DiFramework.METRO
-  operationGenerationLevel = OperationGenerationLevel.ALL
+tasks.configureEach {
+  if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
+    enabled = false
+  }
 }
