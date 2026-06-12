@@ -1,0 +1,12 @@
+public final class dev/teogor/stitch/catalog/ComposableSingletons$MainKt {
+	public static final field INSTANCE Ldev/teogor/stitch/catalog/ComposableSingletons$MainKt;
+	public fun <init> ()V
+	public final fun getLambda$-1687823009$Stitch_catalog_desktopApp ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1842203149$Stitch_catalog_desktopApp ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class dev/teogor/stitch/catalog/MainKt {
+	public static final fun main ()V
+	public static synthetic fun main ([Ljava/lang/String;)V
+}
+
