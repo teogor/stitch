@@ -14,25 +14,13 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.database
+package dev.teogor.stitch.catalog.presentation.mapper
 
-import androidx.room3.Dao
-import androidx.room3.Insert
-import androidx.room3.Query
-import dev.teogor.stitch.RawOperation
-import dev.teogor.stitch.StitchName
-import kotlinx.coroutines.flow.Flow
+import dev.teogor.stitch.catalog.domain.model.NoteModel
+import dev.teogor.stitch.catalog.presentation.model.NoteUi
 
-@Dao
-@StitchName("NotesManager")
-interface NoteDao {
-  @Query("SELECT * FROM Note")
-  fun getAllNotes(): Flow<List<Note>>
-
-  @Insert
-  @RawOperation
-  suspend fun insertNote(note: Note)
-
-  @Query("DELETE FROM Note WHERE id = :id")
-  suspend fun deleteNoteById(id: Long)
-}
+fun NoteModel.toUi() = NoteUi(
+  id = id,
+  title = title,
+  content = content,
+)

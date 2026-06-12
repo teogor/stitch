@@ -16,47 +16,52 @@
 
 package dev.teogor.stitch.catalog
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.teogor.stitch.catalog.presentation.ui.NoteViewModel
 import dev.teogor.stitch.catalog.ui.theme.AppTheme
-import org.jetbrains.compose.resources.painterResource
-import shared.generated.resources.Res
-import shared.generated.resources.compose_multiplatform
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Suppress("ktlint:standard:function-naming")
-fun App() {
+fun App(viewModel: NoteViewModel) {
   AppTheme {
     Scaffold(
       topBar = {
         CenterAlignedTopAppBar(
           title = {
             Text(
-              text = "Stitch Catalog",
+              text = "Stitch Catalog - Notes",
               style = MaterialTheme.typography.titleLarge,
             )
           },
@@ -66,45 +71,55 @@ fun App() {
           ),
         )
       },
+      floatingActionButton = {
+        var showAddDialog by remember { mutableStateOf(false) }
+        FloatingActionButton(onClick = { showAddDialog = true }) {
+          Icon(Icons.Default.Add, contentDescription = "Add Note")
+        }
+
+        if (showAddDialog) {
+          AddNoteDialog(
+            onDismiss = { showAddDialog = false },
+            onAdd = { title, content ->
+              viewModel.addNote(title, content)
+              showAddDialog = false
+            },
+          )
+        }
+      },
     ) { innerPadding ->
+      val notes by viewModel.notes.collectAsState()
+
       Surface(
         modifier = Modifier
           .fillMaxSize()
           .padding(innerPadding),
         color = MaterialTheme.colorScheme.background,
       ) {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-          modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-          horizontalAlignment = Alignment.CenterHorizontally,
-          verticalArrangement = Arrangement.spacedBy(16.dp),
+        LazyColumn(
+          modifier = Modifier.fillMaxSize(),
+          contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
+          verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-          Button(onClick = { showContent = !showContent }) {
-            Text(if (showContent) "Hide Content" else "Show Content")
-          }
-
-          AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
-            Column(
+          items(notes, key = { it.id }) { note ->
+            Card(
               modifier = Modifier.fillMaxWidth(),
-              horizontalAlignment = Alignment.CenterHorizontally,
-              verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-              Image(
-                painter = painterResource(Res.drawable.compose_multiplatform),
-                contentDescription = "Compose Multiplatform Logo",
-                modifier = Modifier.size(100.dp),
-              )
-              Text(
-                text = greeting,
-                style = MaterialTheme.typography.headlineSmall,
-              )
-              Text(
-                text = "Welcome to the Stitch library catalog.",
-                style = MaterialTheme.typography.bodyMedium,
-              )
+              Row(
+                modifier = Modifier
+                  .padding(16.dp)
+                  .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+              ) {
+                Column(modifier = Modifier.weight(1f)) {
+                  Text(text = note.title, style = MaterialTheme.typography.titleMedium)
+                  Text(text = note.content, style = MaterialTheme.typography.bodySmall)
+                }
+                IconButton(onClick = { viewModel.deleteNote(note.id) }) {
+                  Icon(Icons.Default.Delete, contentDescription = "Delete Note")
+                }
+              }
             }
           }
         }
@@ -113,18 +128,50 @@ fun App() {
   }
 }
 
-@Preview
 @Composable
 @Suppress("ktlint:standard:function-naming")
-fun AppPreview() {
-  App()
-}
+fun AddNoteDialog(onDismiss: () -> Unit, onAdd: (String, String) -> Unit) {
+  var title by remember { mutableStateOf("") }
+  var content by remember { mutableStateOf("") }
 
-@Preview
-@Composable
-@Suppress("ktlint:standard:function-naming")
-fun AppDarkPreview() {
-  AppTheme(darkTheme = true) {
-    App()
+  androidx.compose.ui.window.Dialog(onDismissRequest = onDismiss) {
+    Surface(
+      shape = MaterialTheme.shapes.medium,
+      color = MaterialTheme.colorScheme.surface,
+      tonalElevation = 8.dp,
+    ) {
+      Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+      ) {
+        Text(text = "Add New Note", style = MaterialTheme.typography.titleLarge)
+        TextField(
+          value = title,
+          onValueChange = { title = it },
+          label = { Text("Title") },
+          modifier = Modifier.fillMaxWidth(),
+        )
+        TextField(
+          value = content,
+          onValueChange = { content = it },
+          label = { Text("Content") },
+          modifier = Modifier.fillMaxWidth(),
+        )
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.End,
+        ) {
+          androidx.compose.material3.TextButton(onClick = onDismiss) {
+            Text("Cancel")
+          }
+          androidx.compose.material3.TextButton(
+            onClick = { onAdd(title, content) },
+            enabled = title.isNotBlank() && content.isNotBlank(),
+          ) {
+            Text("Add")
+          }
+        }
+      }
+    }
   }
 }

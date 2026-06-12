@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.database
+package dev.teogor.stitch.catalog.data.database
 
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
 import dev.teogor.stitch.MapTo
+import dev.teogor.stitch.catalog.domain.model.NoteModel
 
 @Entity
 @MapTo(NoteModel::class)
-data class Note(
+data class NoteEntity(
   @PrimaryKey(autoGenerate = true)
   val id: Long = 0,
-  val title: String,
-  val content: String,
-)
-
-data class NoteModel(
-  val id: Long,
   val title: String,
   val content: String,
 )

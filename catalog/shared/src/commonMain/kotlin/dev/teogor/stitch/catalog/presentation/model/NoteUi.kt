@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.database
+package dev.teogor.stitch.catalog.presentation.model
 
-import androidx.room3.ConstructedBy
-import androidx.room3.Database
-import androidx.room3.RoomDatabase
-import androidx.room3.RoomDatabaseConstructor
-
-@Database(entities = [Note::class], version = 1)
-@ConstructedBy(AppDatabaseConstructor::class)
-abstract class AppDatabase : RoomDatabase() {
-  abstract fun noteDao(): NoteDao
-}
-
-expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>
+data class NoteUi(
+  val id: Long,
+  val title: String,
+  val content: String,
+)

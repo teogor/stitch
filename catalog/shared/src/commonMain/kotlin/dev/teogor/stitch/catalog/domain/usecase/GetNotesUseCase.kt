@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 teogor (Teodor Grigor)
+ * Copyright 2026 teogor (Teodor Grigor)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.ksp
+package dev.teogor.stitch.catalog.domain.usecase
 
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
-import dev.teogor.stitch.ksp.processors.StitchProcessor
+import dev.teogor.stitch.catalog.domain.model.NoteModel
+import dev.teogor.stitch.catalog.domain.repository.NoteRepository
+import kotlinx.coroutines.flow.Flow
 
-class ProcessorProvider : SymbolProcessorProvider {
-  override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-    return StitchProcessor(
-      environment.codeGenerator,
-      environment.logger,
-      environment.options,
-    )
+class GetNotesUseCase(
+  private val noteRepository: NoteRepository,
+) {
+  operator fun invoke(): Flow<List<NoteModel>> {
+    return noteRepository.getAllNotes()
   }
 }
