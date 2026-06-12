@@ -20,6 +20,10 @@ public abstract interface annotation class dev/teogor/stitch/RawOperation : java
 	public abstract fun generate ()Z
 }
 
+public abstract interface annotation class dev/teogor/stitch/StitchDatabase : java/lang/annotation/Annotation {
+	public abstract fun fileName ()Ljava/lang/String;
+}
+
 public abstract interface annotation class dev/teogor/stitch/StitchIgnore : java/lang/annotation/Annotation {
 }
 
@@ -64,6 +68,8 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun getAddDocumentation ()Z
 	public abstract fun getDiFramework ()Ldev/teogor/stitch/api/DiFramework;
 	public abstract fun getDiPackage ()Ljava/lang/String;
+	public abstract fun getEnableDatabaseBuilderGeneration ()Z
+	public abstract fun getEnableKmpSupport ()Z
 	public abstract fun getEnableMetro ()Z
 	public abstract fun getEnableOperationGeneration ()Z
 	public abstract fun getEnableRepositoryImplGeneration ()Z
@@ -80,6 +86,8 @@ public abstract interface class dev/teogor/stitch/api/StitchExtension {
 	public abstract fun setAddDocumentation (Z)V
 	public abstract fun setDiFramework (Ldev/teogor/stitch/api/DiFramework;)V
 	public abstract fun setDiPackage (Ljava/lang/String;)V
+	public abstract fun setEnableDatabaseBuilderGeneration (Z)V
+	public abstract fun setEnableKmpSupport (Z)V
 	public abstract fun setEnableMetro (Z)V
 	public abstract fun setEnableOperationGeneration (Z)V
 	public abstract fun setEnableRepositoryImplGeneration (Z)V

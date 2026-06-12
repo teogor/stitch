@@ -148,4 +148,18 @@ abstract class StitchExtensionImpl : StitchExtension {
    * By default, this is set to `true`.
    */
   override var enableRepositoryImplGeneration: Boolean = true
+
+  /**
+   * Controls whether to enable Kotlin Multiplatform (KMP) support.
+   *
+   * By default, this is set to `false`.
+   */
+  override var enableKmpSupport: Boolean = false
+
+  /**
+   * Controls whether to generate a database builder for the Room database.
+   *
+   * By default, this is set to `false`.
+   */
+  override var enableDatabaseBuilderGeneration: Boolean = false
 }

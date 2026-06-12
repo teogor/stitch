@@ -176,4 +176,27 @@ interface StitchExtension {
    * @return `true` if implementations are generated, `false` otherwise.
    */
   var enableRepositoryImplGeneration: Boolean
+
+  /**
+   * Controls whether to enable Kotlin Multiplatform (KMP) support.
+   *
+   * When enabled, Stitch will generate code compatible with KMP projects.
+   *
+   * By default, this is set to `false`.
+   *
+   * @return `true` if KMP support is enabled, `false` otherwise.
+   */
+  var enableKmpSupport: Boolean
+
+  /**
+   * Controls whether to generate a database builder for the Room database.
+   *
+   * When enabled, Stitch will generate a `getDatabaseBuilder()` function and a
+   * `StitchInitializer` for each supported platform.
+   *
+   * By default, this is set to `false`.
+   *
+   * @return `true` if database builder generation is enabled, `false` otherwise.
+   */
+  var enableDatabaseBuilderGeneration: Boolean
 }

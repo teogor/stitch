@@ -24,6 +24,7 @@ import com.google.devtools.ksp.symbol.Modifier
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
+import dev.teogor.stitch.StitchDatabase
 import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.FunctionKind
 import dev.teogor.stitch.codegen.model.ParameterKind
@@ -69,11 +70,20 @@ class DatabaseModelMapper {
         isSuspend = isSuspend,
       )
     }
+
+    val stitchDatabaseAnnotation = database.annotations.find {
+      it.shortName.asString() == StitchDatabase::class.simpleName
+    }
+    val dbFileName = stitchDatabaseAnnotation?.arguments?.find {
+      it.name!!.getShortName() == "fileName"
+    }?.value as? String
+
     return DatabaseModel(
       entities = entities,
       views = views,
       type = database.toClassName(),
       functions = functions,
+      dbFileName = dbFileName,
     )
   }
 }

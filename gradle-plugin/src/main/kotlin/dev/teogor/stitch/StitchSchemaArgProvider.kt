@@ -39,6 +39,8 @@ class StitchSchemaArgProvider(
   private val repositoryBaseClass: String?,
   private val visibility: Visibility,
   private val enableRepositoryImplGeneration: Boolean,
+  private val enableKmpSupport: Boolean,
+  private val enableDatabaseBuilderGeneration: Boolean,
 ) : CommandLineArgumentProvider {
 
   override fun asArguments() = listOf(
@@ -52,6 +54,8 @@ class StitchSchemaArgProvider(
     "stitch.diFramework=$diFramework",
     "stitch.visibility=$visibility",
     "stitch.enableRepositoryImplGeneration=$enableRepositoryImplGeneration",
+    "stitch.enableKmpSupport=$enableKmpSupport",
+    "stitch.enableDatabaseBuilderGeneration=$enableDatabaseBuilderGeneration",
   ) + listOfNotNull(
     repositoryPackage?.let { "stitch.repositoryPackage=$it" },
     repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
@@ -80,6 +84,8 @@ class StitchSchemaArgProvider(
       repositoryBaseClass = stitchExtension.repositoryBaseClass,
       visibility = stitchExtension.visibility,
       enableRepositoryImplGeneration = stitchExtension.enableRepositoryImplGeneration,
+      enableKmpSupport = stitchExtension.enableKmpSupport,
+      enableDatabaseBuilderGeneration = stitchExtension.enableDatabaseBuilderGeneration,
     )
   }
 }

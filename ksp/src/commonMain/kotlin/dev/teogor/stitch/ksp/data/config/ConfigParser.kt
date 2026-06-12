@@ -48,6 +48,7 @@ class ConfigParser(
     private const val VISIBILITY = "$PREFIX.visibility"
     private const val ENABLE_REPOSITORY_IMPL_GENERATION = "$PREFIX.enableRepositoryImplGeneration"
     private const val ENABLE_KMP_SUPPORT = "$PREFIX.enableKmpSupport"
+    private const val ENABLE_DATABASE_BUILDER_GENERATION = "$PREFIX.enableDatabaseBuilderGeneration"
   }
 
   fun parse(): CodeGenConfig {
@@ -68,6 +69,7 @@ class ConfigParser(
     val visibility = getVisibility()
     val enableRepositoryImplGeneration = parseBoolean(ENABLE_REPOSITORY_IMPL_GENERATION) ?: true
     val enableKmpSupport = parseBoolean(ENABLE_KMP_SUPPORT) ?: false
+    val enableDatabaseBuilderGeneration = parseBoolean(ENABLE_DATABASE_BUILDER_GENERATION) ?: false
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -87,6 +89,7 @@ class ConfigParser(
       visibility = visibility,
       enableRepositoryImplGeneration = enableRepositoryImplGeneration,
       enableKmpSupport = enableKmpSupport,
+      enableDatabaseBuilderGeneration = enableDatabaseBuilderGeneration,
     )
   }
 
