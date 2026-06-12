@@ -1,5 +1,5 @@
 /*
- * Copyright 2026 teogor (Teodor Grigor)
+ * Copyright 2024 teogor (Teodor Grigor)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-package dev.teogor.stitch.catalog.demo.data.local
+package dev.teogor.stitch.web
 
+import androidx.sqlite.SQLiteDriver
+import androidx.sqlite.driver.web.WebWorkerSQLiteDriver
 import org.w3c.dom.Worker
 
-actual fun createWorker(): Worker =
-  js("new Worker('sqlite-worker.js', { type: 'module' })").unsafeCast<Worker>()
+/**
+ * [wasmJs] implementation of [createSQLiteWebDriver].
+ */
+@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
+actual fun createSQLiteWebDriver(): SQLiteDriver = WebWorkerSQLiteDriver(jsWorker())
+
+@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)
+private fun jsWorker(): Worker =
+  js("new Worker('stitch-sqlite-worker/worker.js', { type: 'module' })")

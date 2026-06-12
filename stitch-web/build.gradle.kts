@@ -32,10 +32,19 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.sqlite.web)
+            api(libs.sqlite.common)
+            implementation(libs.kotlinx.browser)
             implementation(
                 npm("stitch-sqlite-worker", layout.projectDirectory.dir("worker").asFile)
             )
+        }
+
+        jsMain.dependencies {
+            implementation(libs.sqlite.web)
+        }
+
+        wasmJsMain.dependencies {
+            implementation(libs.sqlite.web)
         }
     }
 }
