@@ -28,7 +28,9 @@ enum class Visibility {
   /**
    * Generated code will be internal to the module.
    */
-  INTERNAL;
+  INTERNAL,
+
+  ;
 
   companion object {
     /**
