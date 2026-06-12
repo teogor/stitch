@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -50,6 +51,16 @@ class InventoryViewModel(
 
   val categories: StateFlow<List<InventoryCategory>> = categoryRepository.getAll()
     .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+  init {
+    viewModelScope.launch {
+      categoryRepository.getAll().first().let { categories ->
+        if (categories.isEmpty()) {
+          categoryRepository.insert(InventoryCategory(name = "General"))
+        }
+      }
+    }
+  }
 
   fun updateSearchQuery(query: String) {
     _searchQuery.value = query
