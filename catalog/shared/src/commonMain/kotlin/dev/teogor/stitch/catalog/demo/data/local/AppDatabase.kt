@@ -21,7 +21,13 @@ import androidx.room3.RoomDatabase
 import dev.teogor.stitch.catalog.demo.data.local.dao.DemoDao
 import dev.teogor.stitch.catalog.demo.data.local.entity.DemoEntity
 
-@Database(entities = [DemoEntity::class], version = 1, exportSchema = false)
+@Database(
+  entities = [
+    DemoEntity::class,
+  ],
+  version = 1,
+  exportSchema = false,
+)
 abstract class AppDatabase : RoomDatabase() {
   abstract fun demoDao(): DemoDao
 }
