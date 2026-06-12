@@ -14,6 +14,7 @@ public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/
 	public fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public fun getOperationPackage ()Ljava/lang/String;
 	public fun getOperationSuffix ()Ljava/lang/String;
+	public fun getRepositoryBaseClass ()Ljava/lang/String;
 	public fun getRepositoryImplPackage ()Ljava/lang/String;
 	public fun getRepositoryPackage ()Ljava/lang/String;
 	public fun getRepositorySuffix ()Ljava/lang/String;
@@ -25,6 +26,7 @@ public abstract class dev/teogor/stitch/StitchExtensionImpl : dev/teogor/stitch/
 	public fun setOperationGenerationLevel (Ldev/teogor/stitch/api/OperationGenerationLevel;)V
 	public fun setOperationPackage (Ljava/lang/String;)V
 	public fun setOperationSuffix (Ljava/lang/String;)V
+	public fun setRepositoryBaseClass (Ljava/lang/String;)V
 	public fun setRepositoryImplPackage (Ljava/lang/String;)V
 	public fun setRepositoryPackage (Ljava/lang/String;)V
 	public fun setRepositorySuffix (Ljava/lang/String;)V

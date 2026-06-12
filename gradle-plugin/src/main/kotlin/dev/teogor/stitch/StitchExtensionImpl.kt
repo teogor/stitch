@@ -114,4 +114,9 @@ abstract class StitchExtensionImpl : StitchExtension {
    * By default, this is set to `true`.
    */
   override var enableMetro: Boolean = true
+
+  /**
+   * Optional base class or interface for generated repository interfaces.
+   */
+  override var repositoryBaseClass: String? = null
 }
