@@ -43,6 +43,7 @@ class ConfigParser(
     private const val ENABLE_METRO = "$PREFIX.enableMetro"
     private const val DI_FRAMEWORK = "$PREFIX.diFramework"
     private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
+    private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
   }
 
   fun parse(): CodeGenConfig {
@@ -59,6 +60,7 @@ class ConfigParser(
     val enableMetro = parseBoolean(ENABLE_METRO) ?: true
     val diFramework = getDiFramework(enableMetro)
     val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
+    val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
 
     return CodeGenConfig(
       addDocumentation = addDocumentation,
@@ -74,6 +76,7 @@ class ConfigParser(
       enableMetro = enableMetro,
       diFramework = diFramework,
       injectAnnotation = injectAnnotation,
+      repositoryBaseClass = repositoryBaseClass,
     )
   }
 

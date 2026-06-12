@@ -34,4 +34,5 @@ data class CodeGenConfig(
   val enableMetro: Boolean,
   val diFramework: DiFramework,
   val injectAnnotation: String?,
+  val repositoryBaseClass: String?,
 )

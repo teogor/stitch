@@ -51,12 +51,20 @@ public final class dev/teogor/stitch/codegen/facades/Logger$Companion {
 }
 
 public final class dev/teogor/stitch/codegen/model/CodeGenConfig {
+<<<<<<< HEAD
+	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;)V
+	public final fun component1 ()Z
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()Z
+	public final fun component12 ()Ljava/lang/String;
+=======
 	public fun <init> (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLdev/teogor/stitch/api/DiFramework;Ljava/lang/String;)V
 	public final fun component1 ()Z
 	public final fun component10 ()Ljava/lang/String;
 	public final fun component11 ()Z
 	public final fun component12 ()Ldev/teogor/stitch/api/DiFramework;
 	public final fun component13 ()Ljava/lang/String;
+>>>>>>> feature/domain-mapping
 	public final fun component2 ()Z
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ldev/teogor/stitch/api/OperationGenerationLevel;
@@ -65,8 +73,13 @@ public final class dev/teogor/stitch/codegen/model/CodeGenConfig {
 	public final fun component7 ()Ljava/lang/String;
 	public final fun component8 ()Ljava/lang/String;
 	public final fun component9 ()Ljava/lang/String;
+<<<<<<< HEAD
+	public final fun copy (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/CodeGenConfig;ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
+=======
 	public final fun copy (ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLdev/teogor/stitch/api/DiFramework;Ljava/lang/String;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
 	public static synthetic fun copy$default (Ldev/teogor/stitch/codegen/model/CodeGenConfig;ZZLjava/lang/String;Ldev/teogor/stitch/api/OperationGenerationLevel;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLdev/teogor/stitch/api/DiFramework;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/codegen/model/CodeGenConfig;
+>>>>>>> feature/domain-mapping
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddDocumentation ()Z
 	public final fun getDiFramework ()Ldev/teogor/stitch/api/DiFramework;
@@ -78,6 +91,7 @@ public final class dev/teogor/stitch/codegen/model/CodeGenConfig {
 	public final fun getOperationGenerationLevel ()Ldev/teogor/stitch/api/OperationGenerationLevel;
 	public final fun getOperationPackage ()Ljava/lang/String;
 	public final fun getOperationSuffix ()Ljava/lang/String;
+	public final fun getRepositoryBaseClass ()Ljava/lang/String;
 	public final fun getRepositoryImplPackage ()Ljava/lang/String;
 	public final fun getRepositoryPackage ()Ljava/lang/String;
 	public final fun getRepositorySuffix ()Ljava/lang/String;

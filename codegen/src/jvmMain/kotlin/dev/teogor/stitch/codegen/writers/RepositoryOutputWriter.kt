@@ -44,6 +44,11 @@ class RepositoryOutputWriter(
     ) {
       addType(
         TypeSpec.interfaceBuilder(repositoryName)
+          .apply {
+            codeGenConfig.repositoryBaseClass?.let { baseClass ->
+              addSuperinterface(ClassName.bestGuess(baseClass))
+            }
+          }
           .addDocumentation(
             """
             Interface for accessing and managing [${roomModel.name}] data.

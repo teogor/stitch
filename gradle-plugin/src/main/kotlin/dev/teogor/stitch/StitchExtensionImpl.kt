@@ -128,4 +128,9 @@ abstract class StitchExtensionImpl : StitchExtension {
    * Optional override for the `@Inject` annotation used in generated code.
    */
   override var injectAnnotation: String? = null
+
+  /**
+   * Optional base class or interface for generated repository interfaces.
+   */
+  override var repositoryBaseClass: String? = null
 }

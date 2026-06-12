@@ -151,4 +151,12 @@ interface StitchExtension {
    * This is useful when using [DiFramework.CUSTOM].
    */
   var injectAnnotation: String?
+
+  /**
+   * Optional base class or interface for generated repository interfaces.
+   *
+   * If specified, all generated repository interfaces will extend this class/interface.
+   * Provide the fully qualified name.
+   */
+  var repositoryBaseClass: String?
 }
