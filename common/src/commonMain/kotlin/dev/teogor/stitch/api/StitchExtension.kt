@@ -176,4 +176,11 @@ interface StitchExtension {
    * @return `true` if implementations are generated, `false` otherwise.
    */
   var enableRepositoryImplGeneration: Boolean
+
+  /**
+   * Controls whether to generate database builder functions for your Stitch schema.
+   *
+   * By default, this is set to `false`.
+   */
+  var enableDatabaseBuilderGeneration: Boolean
 }

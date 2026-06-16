@@ -35,6 +35,7 @@ import dev.teogor.stitch.codegen.commons.METRO_BINDING_CONTAINER
 import dev.teogor.stitch.codegen.commons.METRO_CONTRIBUTES_TO
 import dev.teogor.stitch.codegen.commons.METRO_PROVIDES
 import dev.teogor.stitch.codegen.commons.METRO_SINGLE_IN
+import dev.teogor.stitch.codegen.commons.STITCH_ROOM
 import dev.teogor.stitch.codegen.commons.STITCH_SCOPE
 import dev.teogor.stitch.codegen.commons.fileBuilder
 import dev.teogor.stitch.codegen.commons.shortName
@@ -112,6 +113,40 @@ class StitchModuleOutputWriter(
                 } else {
                   it.shortName
                 }
+              }
+              if (codeGenConfig.enableDatabaseBuilderGeneration) {
+                val constructorName = "${databaseModel.type.shortName}Constructor"
+                addFunction(
+                  FunSpec.builder("provide${databaseName}Builder")
+                    .apply {
+                      when (diFramework) {
+                        DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
+                        DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(DAGGER_PROVIDES)
+                        else -> {}
+                      }
+                    }
+                    .returns(
+                      ClassName(
+                        "androidx.room3",
+                        "RoomDatabase",
+                        "Builder",
+                      ).parameterizedBy(databaseModel.type),
+                    )
+                    .addDocumentation(
+                      """
+                      Provides an instance of the [RoomDatabase.Builder] for [${databaseModel.type.shortName}].
+
+                      @return The [RoomDatabase.Builder] instance.
+                      """.trimIndent(),
+                    )
+                    .addStatement(
+                      "return %T.databaseBuilder(name = %S, factory = %T::initialize)",
+                      STITCH_ROOM,
+                      "app.db",
+                      ClassName((databaseModel.type as ClassName).packageName, constructorName),
+                    )
+                    .build(),
+                )
               }
               addFunction(
                 FunSpec.builder("provide$databaseName")

@@ -17,18 +17,19 @@
 package dev.teogor.stitch.catalog.demo.di
 
 import dev.teogor.stitch.catalog.demo.data.local.AppDatabase
-import dev.teogor.stitch.catalog.demo.data.local.getDatabaseBuilder
+import dev.teogor.stitch.catalog.demo.data.local.AppDatabaseConstructor
 import dev.teogor.stitch.catalog.demo.data.repository.DemoRepositoryImpl
 import dev.teogor.stitch.catalog.demo.domain.repository.DemoRepository
 import dev.teogor.stitch.catalog.demo.domain.usecase.GetDemoItemsUseCase
 import dev.teogor.stitch.catalog.demo.domain.usecase.SaveDemoItemUseCase
-import kotlinx.coroutines.Dispatchers
+import dev.teogor.stitch.runtime.StitchRoom
 
 object DemoModule {
   private val database: AppDatabase by lazy {
-    getDatabaseBuilder()
-      .setQueryCoroutineContext(Dispatchers.Default)
-      .build()
+    StitchRoom.databaseBuilder(
+      name = "demo_database.db",
+      factory = AppDatabaseConstructor::initialize,
+    ).build()
   }
 
   private val demoDao by lazy { database.demoDao() }

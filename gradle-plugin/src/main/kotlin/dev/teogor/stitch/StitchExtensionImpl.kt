@@ -148,4 +148,11 @@ abstract class StitchExtensionImpl : StitchExtension {
    * By default, this is set to `true`.
    */
   override var enableRepositoryImplGeneration: Boolean = true
+
+  /**
+   * Controls whether to generate database builder functions for your Stitch schema.
+   *
+   * By default, this is set to `false`.
+   */
+  override var enableDatabaseBuilderGeneration: Boolean = false
 }
