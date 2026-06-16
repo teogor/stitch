@@ -29,7 +29,10 @@ object DemoModule {
     StitchRoom.databaseBuilder(
       name = "demo_database.db",
       factory = AppDatabaseConstructor::initialize,
-    ).build()
+    ) {
+      loggingEnabled = true
+      logger = { println("DemoLog: $it") }
+    }.build()
   }
 
   val demoRepository: DemoRepository by lazy {

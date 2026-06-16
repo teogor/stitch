@@ -56,6 +56,18 @@ class StitchRoomConfig<T : RoomDatabase> {
    */
   var journalMode: RoomDatabase.JournalMode = RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING
 
+  /**
+   * Whether to enable SQL query logging.
+   * If true, all executed SQL queries and their parameters will be logged using [logger].
+   */
+  var loggingEnabled: Boolean = false
+
+  /**
+   * The logger function used for SQL query logging.
+   * Defaults to printing to the console.
+   */
+  var logger: (String) -> Unit = { println(it) }
+
   private val migrations = mutableListOf<Migration>()
   private val callbacks = mutableListOf<RoomDatabase.Callback>()
   private val typeConverters = mutableListOf<Any>()
@@ -131,7 +143,12 @@ class StitchRoomConfig<T : RoomDatabase> {
     }
 
     sqliteDriver?.let {
-      builder.setDriver(it)
+      val finalDriver = if (loggingEnabled) {
+        LoggingSQLiteDriver(it, logger)
+      } else {
+        it
+      }
+      builder.setDriver(finalDriver)
     }
   }
 }
