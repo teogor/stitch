@@ -32,10 +32,8 @@ object DemoModule {
     ).build()
   }
 
-  private val demoDao by lazy { database.demoDao() }
-
   val demoRepository: DemoRepository by lazy {
-    DemoRepositoryImpl(demoDao)
+    DemoRepositoryImpl(database)
   }
 
   val getDemoItemsUseCase by lazy {
