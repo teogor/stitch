@@ -49,6 +49,7 @@ kotlin {
     val androidMain by getting {
       dependencies {
         api(libs.sqlite.bundled)
+        implementation(libs.androidx.startup)
       }
     }
 
