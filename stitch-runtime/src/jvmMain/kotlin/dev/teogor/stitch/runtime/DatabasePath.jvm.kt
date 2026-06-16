@@ -21,11 +21,12 @@ import java.io.File
 @PublishedApi
 internal actual object StitchPathResolver {
   actual fun resolve(name: String, strategy: DatabasePath): String {
-    return when (strategy) {
-      is DatabasePath.Internal -> File(System.getProperty("user.home"), name).absolutePath
-      is DatabasePath.Temporary -> File(System.getProperty("java.io.tmpdir"), name).absolutePath
-      is DatabasePath.Custom -> File(strategy.absoluteDirectoryPath, name).absolutePath
+    val baseDirectory = when (strategy) {
+      is DatabasePath.Internal -> System.getProperty("user.home")
+      is DatabasePath.Temporary -> System.getProperty("java.io.tmpdir")
+      is DatabasePath.Custom -> strategy.absoluteDirectoryPath
       is DatabasePath.InMemory -> ""
     }
+    return File(baseDirectory, name).absolutePath
   }
 }

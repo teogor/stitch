@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import dev.teogor.stitch.convention.androidTarget
+import dev.teogor.stitch.convention.kmpLibraryAll
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -21,9 +23,6 @@ plugins {
   alias(libs.plugins.stitch.kmp.library)
   alias(libs.plugins.jetbrains.compose.compiler)
 }
-
-import dev.teogor.stitch.convention.kmpLibraryAll
-import dev.teogor.stitch.convention.androidTarget
 
 kotlin {
   kmpLibraryAll(

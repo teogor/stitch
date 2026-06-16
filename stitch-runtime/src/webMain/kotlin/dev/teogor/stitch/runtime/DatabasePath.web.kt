@@ -19,11 +19,12 @@ package dev.teogor.stitch.runtime
 @PublishedApi
 internal actual object StitchPathResolver {
   actual fun resolve(name: String, strategy: DatabasePath): String {
+    // Web environments (JS/WasmJS) rely on the virtual file structures of OPFS
+    // Hence we ignore standard system storage roots and return the pure database file identifier keys
     return when (strategy) {
-      is DatabasePath.Internal -> name
-      is DatabasePath.Temporary -> name
-      is DatabasePath.Custom -> name
+      is DatabasePath.Custom -> "${strategy.absoluteDirectoryPath}/$name"
       is DatabasePath.InMemory -> ""
+      else -> name
     }
   }
 }
