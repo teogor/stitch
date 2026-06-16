@@ -16,16 +16,19 @@
 
 package dev.teogor.stitch.catalog.demo.data.repository
 
+import dev.teogor.stitch.catalog.demo.data.local.AppDatabase
 import dev.teogor.stitch.catalog.demo.data.local.dao.DemoDao
 import dev.teogor.stitch.catalog.demo.data.local.entity.toDomain
 import dev.teogor.stitch.catalog.demo.data.local.entity.toEntity
 import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 import dev.teogor.stitch.catalog.demo.domain.repository.DemoRepository
+import dev.teogor.stitch.runtime.withTransaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DemoRepositoryImpl(
-  private val demoDao: DemoDao,
+  private val db: AppDatabase,
+  private val demoDao: DemoDao = db.demoDao(),
 ) : DemoRepository {
 
   override fun observeAll(): Flow<List<DemoModel>> {
@@ -40,6 +43,12 @@ class DemoRepositoryImpl(
 
   override suspend fun insert(item: DemoModel) {
     demoDao.insert(item.toEntity())
+  }
+
+  override suspend fun bulkInsert(items: List<DemoModel>) {
+    db.withTransaction {
+      items.forEach { insert(it) }
+    }
   }
 
   override suspend fun delete(item: DemoModel) {
