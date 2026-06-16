@@ -62,3 +62,5 @@ val HILT_SINGLETON_COMPONENT = ClassName("dagger.hilt.components", "SingletonCom
 
 val COROUTINE_DISPATCHER = ClassName("kotlinx.coroutines", "CoroutineDispatcher")
 val DISPATCHERS = ClassName("kotlinx.coroutines", "Dispatchers")
+
+val STITCH_ROOM = ClassName("dev.teogor.stitch.runtime", "StitchRoom")

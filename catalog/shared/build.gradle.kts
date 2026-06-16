@@ -49,6 +49,7 @@ kotlin {
         api(libs.sqlite.common)
         implementation(libs.metro.runtime)
         implementation(project(":common"))
+        implementation(project(":stitch-runtime"))
       }
 
       androidMain.dependencies {

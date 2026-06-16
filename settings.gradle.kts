@@ -24,6 +24,7 @@ include(":ksp")
 include(":gradle-plugin")
 include(":gradle-plugin-api")
 include(":stitch-web")
+include(":stitch-runtime")
 
 include(":catalog:shared")
 include(":catalog:androidApp")
