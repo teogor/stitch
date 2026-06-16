@@ -14,8 +14,3 @@
 
 "sqlite-wasm-worker@file:../../stitch-web/sqlite-wasm-worker":
   version "0.0.0"
-
-"stitch-sqlite-worker@file:../../stitch-web/worker":
-  version "0.0.1"
-  dependencies:
-    "@sqlite.org/sqlite-wasm" "3.50.1-build1"
