@@ -21,8 +21,8 @@ We recommend using a Version Catalog to manage your dependencies.
 stitch = "1.0.0-alpha02"
 
 [libraries]
-stitch-common = { module = "dev.teogor.stitch:common", version.ref = "stitch" }
-stitch-ksp = { module = "dev.teogor.stitch:ksp", version.ref = "stitch" }
+stitch-common = { module = "dev.teogor.stitch:stitch-common", version.ref = "stitch" }
+stitch-ksp = { module = "dev.teogor.stitch:stitch-ksp", version.ref = "stitch" }
 
 [plugins]
 stitch = { id = "dev.teogor.stitch", version.ref = "stitch" }
