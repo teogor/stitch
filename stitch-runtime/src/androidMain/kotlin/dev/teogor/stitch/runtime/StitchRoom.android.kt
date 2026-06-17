@@ -23,24 +23,24 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 
 @PublishedApi
 internal actual inline fun <reified T : RoomDatabase> createPlatformBuilder(
-  resolvedPath: String,
-  noinline factory: () -> T,
+    resolvedPath: String,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T> {
-  return Room.databaseBuilder(
-    context = StitchRuntime.getContext().context,
-    name = resolvedPath,
-    factory = factory,
-  )
+    return Room.databaseBuilder(
+        context = StitchRuntime.getContext().context,
+        name = resolvedPath,
+        factory = factory,
+    )
 }
 
 @PublishedApi
 internal actual inline fun <reified T : RoomDatabase> createPlatformInMemoryBuilder(
-  noinline factory: () -> T,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T> {
-  return Room.inMemoryDatabaseBuilder(
-    context = StitchRuntime.getContext().context,
-    factory = factory,
-  )
+    return Room.inMemoryDatabaseBuilder(
+        context = StitchRuntime.getContext().context,
+        factory = factory,
+    )
 }
 
 @PublishedApi

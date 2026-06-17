@@ -29,51 +29,51 @@ import dev.teogor.stitch.codegen.writers.RepositoryOutputWriter
 import dev.teogor.stitch.codegen.writers.StitchModuleOutputWriter
 
 class CodeGenerator(
-  private val codeOutputStreamMaker: CodeOutputStreamMaker,
-  private val codeGenConfig: CodeGenConfig,
+    private val codeOutputStreamMaker: CodeOutputStreamMaker,
+    private val codeGenConfig: CodeGenConfig,
 ) {
 
-  private val repositoryOutputWriter = RepositoryOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
+    private val repositoryOutputWriter = RepositoryOutputWriter(
+        codeOutputStreamMaker,
+        codeGenConfig,
+    )
 
-  private val repositoryImplOutputWriter = RepositoryImplOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
+    private val repositoryImplOutputWriter = RepositoryImplOutputWriter(
+        codeOutputStreamMaker,
+        codeGenConfig,
+    )
 
-  private val operationOutputWriter = OperationOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
+    private val operationOutputWriter = OperationOutputWriter(
+        codeOutputStreamMaker,
+        codeGenConfig,
+    )
 
-  private val stitchModuleOutputWriter = StitchModuleOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
+    private val stitchModuleOutputWriter = StitchModuleOutputWriter(
+        codeOutputStreamMaker,
+        codeGenConfig,
+    )
 
-  private val databaseConstructorOutputWriter = DatabaseConstructorOutputWriter(
-    codeOutputStreamMaker,
-    codeGenConfig,
-  )
+    private val databaseConstructorOutputWriter = DatabaseConstructorOutputWriter(
+        codeOutputStreamMaker,
+        codeGenConfig,
+    )
 
-  fun generate(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
-    databaseConstructorOutputWriter.write(databaseModels)
-    roomModels.filter { it.hasDao }.forEach { roomModel ->
-      val repositoryType = repositoryOutputWriter.write(roomModel)
-      if (codeGenConfig.enableRepositoryImplGeneration) {
-        val database = databaseModels.firstOrNull {
-          it.entities.contains(roomModel.entity) || it.views.contains(roomModel.entity)
-        } ?: databaseModels.firstOrNull()
-        repositoryImplOutputWriter.write(roomModel, repositoryType, database?.type)
-      }
+    fun generate(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
+        databaseConstructorOutputWriter.write(databaseModels)
+        roomModels.filter { it.hasDao }.forEach { roomModel ->
+            val repositoryType = repositoryOutputWriter.write(roomModel)
+            if (codeGenConfig.enableRepositoryImplGeneration) {
+                val database = databaseModels.firstOrNull {
+                    it.entities.contains(roomModel.entity) || it.views.contains(roomModel.entity)
+                } ?: databaseModels.firstOrNull()
+                repositoryImplOutputWriter.write(roomModel, repositoryType, database?.type)
+            }
+        }
+
+        stitchModuleOutputWriter.write(databaseModels, roomModels)
+
+        if (codeGenConfig.enableOperationGeneration) {
+            operationOutputWriter.write(databaseModels, roomModels)
+        }
     }
-
-    stitchModuleOutputWriter.write(databaseModels, roomModels)
-
-    if (codeGenConfig.enableOperationGeneration) {
-      operationOutputWriter.write(databaseModels, roomModels)
-    }
-  }
 }

@@ -26,161 +26,161 @@ package dev.teogor.stitch.api
  * @see dev.teogor.stitch.Plugin
  */
 interface StitchExtension {
-  /**
-   * Controls whether to generate documentation comments in the generated code.
-   *
-   * By default, this is set to `true`. Setting it to `false` will disable documentation
-   * generation.
-   *
-   * @return `true` if documentation is generated, `false` otherwise.
-   */
-  var addDocumentation: Boolean
+    /**
+     * Controls whether to generate documentation comments in the generated code.
+     *
+     * By default, this is set to `true`. Setting it to `false` will disable documentation
+     * generation.
+     *
+     * @return `true` if documentation is generated, `false` otherwise.
+     */
+    var addDocumentation: Boolean
 
-  /**
-   * Controls the overall generation of operation classes for DAO methods.
-   *
-   * Use this property to enable or disable operation generation entirely.
-   * By default, this is set to `true`. Setting it to `false` will disable operation generation
-   * even for methods annotated with [dev.teogor.stitch.RawOperation].
-   *
-   * For more granular control over operation generation, consider using the
-   * [operationGenerationLevel] property.
-   *
-   * @return `true` to enable operation generation, `false` to disable it.
-   */
-  var enableOperationGeneration: Boolean
+    /**
+     * Controls the overall generation of operation classes for DAO methods.
+     *
+     * Use this property to enable or disable operation generation entirely.
+     * By default, this is set to `true`. Setting it to `false` will disable operation generation
+     * even for methods annotated with [dev.teogor.stitch.RawOperation].
+     *
+     * For more granular control over operation generation, consider using the
+     * [operationGenerationLevel] property.
+     *
+     * @return `true` to enable operation generation, `false` to disable it.
+     */
+    var enableOperationGeneration: Boolean
 
-  /**
-   * Defines the level of generation for Stitch operation classes.
-   *
-   * This property offers more fine-grained control over how operation classes are generated.
-   * You can choose from the following options:
-   *
-   * - **[OperationGenerationLevel.ALL]:** Generate operations for all methods in DAOs.
-   * - **[OperationGenerationLevel.EXPLICIT]:** Generate operations only for methods annotated
-   * with [dev.teogor.stitch.RawOperation].
-   * - **[OperationGenerationLevel.AUTOMATIC]:** Use heuristics or rules to automatically choose
-   * whether to generate for each method.
-   * - **[OperationGenerationLevel.DISABLED]:** Do not generate any operation classes, even for
-   * annotated methods.
-   *
-   * By default, this is set to [OperationGenerationLevel.EXPLICIT].
-   *
-   * @return The desired level of operation generation.
-   */
-  var operationGenerationLevel: OperationGenerationLevel
+    /**
+     * Defines the level of generation for Stitch operation classes.
+     *
+     * This property offers more fine-grained control over how operation classes are generated.
+     * You can choose from the following options:
+     *
+     * - **[OperationGenerationLevel.ALL]:** Generate operations for all methods in DAOs.
+     * - **[OperationGenerationLevel.EXPLICIT]:** Generate operations only for methods annotated
+     * with [dev.teogor.stitch.RawOperation].
+     * - **[OperationGenerationLevel.AUTOMATIC]:** Use heuristics or rules to automatically choose
+     * whether to generate for each method.
+     * - **[OperationGenerationLevel.DISABLED]:** Do not generate any operation classes, even for
+     * annotated methods.
+     *
+     * By default, this is set to [OperationGenerationLevel.EXPLICIT].
+     *
+     * @return The desired level of operation generation.
+     */
+    var operationGenerationLevel: OperationGenerationLevel
 
-  /**
-   * Specifies the base package name for generated code or artifacts.
-   *
-   * This property defines the root package where your Stitch-generated code will be placed.
-   * Ensure it aligns with your project's package structure to avoid conflicts.
-   *
-   * @return The base package name for generated code.
-   */
-  var generatedPackageName: String
+    /**
+     * Specifies the base package name for generated code or artifacts.
+     *
+     * This property defines the root package where your Stitch-generated code will be placed.
+     * Ensure it aligns with your project's package structure to avoid conflicts.
+     *
+     * @return The base package name for generated code.
+     */
+    var generatedPackageName: String
 
-  /**
-   * The suffix to append to the generated repository interfaces.
-   *
-   * By default, this is set to `"Repository"`.
-   */
-  var repositorySuffix: String
+    /**
+     * The suffix to append to the generated repository interfaces.
+     *
+     * By default, this is set to `"Repository"`.
+     */
+    var repositorySuffix: String
 
-  /**
-   * The suffix to append to the generated operation classes.
-   *
-   * By default, this is set to `"Operation"`.
-   */
-  var operationSuffix: String
+    /**
+     * The suffix to append to the generated operation classes.
+     *
+     * By default, this is set to `"Operation"`.
+     */
+    var operationSuffix: String
 
-  /**
-   * Optional package name override for generated repository interfaces.
-   *
-   * If not specified, the repository will be placed in `${basePackage}.data.repository`.
-   */
-  var repositoryPackage: String?
+    /**
+     * Optional package name override for generated repository interfaces.
+     *
+     * If not specified, the repository will be placed in `${basePackage}.data.repository`.
+     */
+    var repositoryPackage: String?
 
-  /**
-   * Optional package name override for generated repository implementations.
-   *
-   * If not specified, the implementation will be placed in `${basePackage}.data.repository.impl`.
-   */
-  var repositoryImplPackage: String?
+    /**
+     * Optional package name override for generated repository implementations.
+     *
+     * If not specified, the implementation will be placed in `${basePackage}.data.repository.impl`.
+     */
+    var repositoryImplPackage: String?
 
-  /**
-   * Optional package name override for generated operation classes.
-   *
-   * If not specified, the operations will be placed in `${basePackage}.database.operation`.
-   */
-  var operationPackage: String?
+    /**
+     * Optional package name override for generated operation classes.
+     *
+     * If not specified, the operations will be placed in `${basePackage}.database.operation`.
+     */
+    var operationPackage: String?
 
-  /**
-   * Optional package name override for the generated DI module.
-   *
-   * If not specified, the module will be placed in `${basePackage}.di`.
-   */
-  var diPackage: String?
+    /**
+     * Optional package name override for the generated DI module.
+     *
+     * If not specified, the module will be placed in `${basePackage}.di`.
+     */
+    var diPackage: String?
 
-  /**
-   * Controls whether to integrate with Metro for dependency injection.
-   *
-   * When enabled (default), Stitch will generate Metro-specific annotations and
-   * binding containers. If disabled, Stitch will generate vanilla code without
-   * Metro dependencies.
-   *
-   * @return `true` if Metro integration is enabled, `false` otherwise.
-   */
-  @Deprecated(
-    message = "Use diFramework instead.",
-    replaceWith = ReplaceWith("diFramework"),
-  )
-  var enableMetro: Boolean
+    /**
+     * Controls whether to integrate with Metro for dependency injection.
+     *
+     * When enabled (default), Stitch will generate Metro-specific annotations and
+     * binding containers. If disabled, Stitch will generate vanilla code without
+     * Metro dependencies.
+     *
+     * @return `true` if Metro integration is enabled, `false` otherwise.
+     */
+    @Deprecated(
+        message = "Use diFramework instead.",
+        replaceWith = ReplaceWith("diFramework"),
+    )
+    var enableMetro: Boolean
 
-  /**
-   * Specifies the dependency injection framework to use for generated code.
-   *
-   * By default, this is set to [DiFramework.METRO] for backward compatibility.
-   */
-  var diFramework: DiFramework
+    /**
+     * Specifies the dependency injection framework to use for generated code.
+     *
+     * By default, this is set to [DiFramework.METRO] for backward compatibility.
+     */
+    var diFramework: DiFramework
 
-  /**
-   * Optional override for the `@Inject` annotation used in generated code.
-   *
-   * If specified, this fully qualified class name will be used for injection.
-   * This is useful when using [DiFramework.CUSTOM].
-   */
-  var injectAnnotation: String?
+    /**
+     * Optional override for the `@Inject` annotation used in generated code.
+     *
+     * If specified, this fully qualified class name will be used for injection.
+     * This is useful when using [DiFramework.CUSTOM].
+     */
+    var injectAnnotation: String?
 
-  /**
-   * Optional base class or interface for generated repository interfaces.
-   *
-   * If specified, all generated repository interfaces will extend this class/interface.
-   * Provide the fully qualified name.
-   */
-  var repositoryBaseClass: String?
+    /**
+     * Optional base class or interface for generated repository interfaces.
+     *
+     * If specified, all generated repository interfaces will extend this class/interface.
+     * Provide the fully qualified name.
+     */
+    var repositoryBaseClass: String?
 
-  /**
-   * Defines the visibility for generated classes and interfaces.
-   *
-   * By default, this is set to [Visibility.PUBLIC].
-   */
-  var visibility: Visibility
+    /**
+     * Defines the visibility for generated classes and interfaces.
+     *
+     * By default, this is set to [Visibility.PUBLIC].
+     */
+    var visibility: Visibility
 
-  /**
-   * Controls whether to generate repository implementation classes.
-   *
-   * By default, this is set to `true`. Setting it to `false` will only generate
-   * repository interfaces.
-   *
-   * @return `true` if implementations are generated, `false` otherwise.
-   */
-  var enableRepositoryImplGeneration: Boolean
+    /**
+     * Controls whether to generate repository implementation classes.
+     *
+     * By default, this is set to `true`. Setting it to `false` will only generate
+     * repository interfaces.
+     *
+     * @return `true` if implementations are generated, `false` otherwise.
+     */
+    var enableRepositoryImplGeneration: Boolean
 
-  /**
-   * Controls whether to generate database builder functions for your Stitch schema.
-   *
-   * By default, this is set to `false`.
-   */
-  var enableDatabaseBuilderGeneration: Boolean
+    /**
+     * Controls whether to generate database builder functions for your Stitch schema.
+     *
+     * By default, this is set to `false`.
+     */
+    var enableDatabaseBuilderGeneration: Boolean
 }

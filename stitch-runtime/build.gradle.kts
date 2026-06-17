@@ -20,69 +20,69 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-  alias(libs.plugins.stitch.kmp.library)
-  alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.stitch.kmp.library)
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 kotlin {
-  kmpLibraryAll(
-    project = project,
-    frameworkBaseName = "StitchRuntime",
-  )
+    kmpLibraryAll(
+        project = project,
+        frameworkBaseName = "StitchRuntime",
+    )
 
-  androidTarget(project) {
-    namespace = "dev.teogor.stitch.runtime"
-    compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_11)
-    }
-  }
-
-  sourceSets {
-    val commonMain by getting {
-      dependencies {
-        api(libs.room.runtime)
-        implementation(libs.compose.runtime)
-        api(libs.kotlinx.coroutines.core)
-      }
+    androidTarget(project) {
+        namespace = "dev.teogor.stitch.runtime"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
     }
 
-    val androidMain by getting {
-      dependencies {
-        api(libs.sqlite.bundled)
-        implementation(libs.androidx.startup)
-      }
-    }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(libs.room.runtime)
+                implementation(libs.compose.runtime)
+                api(libs.kotlinx.coroutines.core)
+            }
+        }
 
-    val jvmMain by getting {
-      dependencies {
-        api(libs.sqlite.bundled)
-      }
-    }
+        val androidMain by getting {
+            dependencies {
+                api(libs.sqlite.bundled)
+                implementation(libs.androidx.startup)
+            }
+        }
 
-    val iosMain by getting {
-      dependencies {
-        api(libs.sqlite.bundled)
-      }
-    }
+        val jvmMain by getting {
+            dependencies {
+                api(libs.sqlite.bundled)
+            }
+        }
 
-    val webMain by getting {
-      dependencies {
-        api(libs.sqlite.web)
-        api(project(":stitch-web"))
-      }
-    }
+        val iosMain by getting {
+            dependencies {
+                api(libs.sqlite.bundled)
+            }
+        }
 
-    val jsMain by getting {
-      dependencies {
-        implementation(libs.wrappers.browser)
-      }
-    }
+        val webMain by getting {
+            dependencies {
+                api(libs.sqlite.web)
+                api(project(":stitch-web"))
+            }
+        }
 
-    @OptIn(ExperimentalWasmDsl::class)
-    val wasmJsMain by getting {
-      dependencies {
-        implementation(libs.wrappers.browser)
-      }
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.wrappers.browser)
+            }
+        }
+
+        @OptIn(ExperimentalWasmDsl::class)
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.wrappers.browser)
+            }
+        }
     }
-  }
 }

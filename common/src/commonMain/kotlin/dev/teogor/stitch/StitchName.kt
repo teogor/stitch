@@ -28,6 +28,6 @@ package dev.teogor.stitch
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
 annotation class StitchName(
-  val repository: String = "",
-  val implementation: String = "",
+    val repository: String = "",
+    val implementation: String = "",
 )

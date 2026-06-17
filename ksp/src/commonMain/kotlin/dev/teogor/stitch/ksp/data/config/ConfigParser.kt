@@ -24,106 +24,108 @@ import dev.teogor.stitch.api.Visibility
 import dev.teogor.stitch.codegen.model.CodeGenConfig
 
 class ConfigParser(
-  private val options: Map<String, String>,
+    private val options: Map<String, String>,
 ) {
 
-  companion object {
-    private const val PREFIX = "stitch"
+    companion object {
+        private const val PREFIX = "stitch"
 
-    // Configs
-    private const val ADD_DOCUMENTATION = "$PREFIX.addDocumentation"
-    private const val ENABLE_OPERATION_GENERATION = "$PREFIX.enableOperationGeneration"
-    private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
-    private const val OPERATION_GENERATION_LEVEL = "$PREFIX.operationGenerationLevel"
-    private const val REPOSITORY_SUFFIX = "$PREFIX.repositorySuffix"
-    private const val OPERATION_SUFFIX = "$PREFIX.operationSuffix"
-    private const val REPOSITORY_PACKAGE = "$PREFIX.repositoryPackage"
-    private const val REPOSITORY_IMPL_PACKAGE = "$PREFIX.repositoryImplPackage"
-    private const val OPERATION_PACKAGE = "$PREFIX.operationPackage"
-    private const val DI_PACKAGE = "$PREFIX.diPackage"
-    private const val ENABLE_METRO = "$PREFIX.enableMetro"
-    private const val DI_FRAMEWORK = "$PREFIX.diFramework"
-    private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
-    private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
-    private const val VISIBILITY = "$PREFIX.visibility"
-    private const val ENABLE_REPOSITORY_IMPL_GENERATION = "$PREFIX.enableRepositoryImplGeneration"
-    private const val ENABLE_KMP_SUPPORT = "$PREFIX.enableKmpSupport"
-    private const val ENABLE_DATABASE_BUILDER_GENERATION = "$PREFIX.enableDatabaseBuilderGeneration"
-  }
-
-  fun parse(): CodeGenConfig {
-    val addDocumentation = parseBoolean(ADD_DOCUMENTATION) ?: true
-    val enableOperationGeneration = parseBoolean(ENABLE_OPERATION_GENERATION) ?: true
-    val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
-    val operationGenerationLevel = getOperationGenerationLevel()
-    val repositorySuffix = options[REPOSITORY_SUFFIX]?.trim() ?: "Repository"
-    val operationSuffix = options[OPERATION_SUFFIX]?.trim() ?: "Operation"
-    val repositoryPackage = options[REPOSITORY_PACKAGE]?.trim()
-    val repositoryImplPackage = options[REPOSITORY_IMPL_PACKAGE]?.trim()
-    val operationPackage = options[OPERATION_PACKAGE]?.trim()
-    val diPackage = options[DI_PACKAGE]?.trim()
-    val enableMetro = parseBoolean(ENABLE_METRO) ?: true
-    val diFramework = getDiFramework(enableMetro)
-    val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
-    val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
-    val visibility = getVisibility()
-    val enableRepositoryImplGeneration = parseBoolean(ENABLE_REPOSITORY_IMPL_GENERATION) ?: true
-    val enableKmpSupport = parseBoolean(ENABLE_KMP_SUPPORT) ?: false
-    val enableDatabaseBuilderGeneration = parseBoolean(ENABLE_DATABASE_BUILDER_GENERATION) ?: false
-
-    return CodeGenConfig(
-      addDocumentation = addDocumentation,
-      enableOperationGeneration = enableOperationGeneration,
-      generatedPackageName = generatedPackageName,
-      operationGenerationLevel = operationGenerationLevel,
-      repositorySuffix = repositorySuffix,
-      operationSuffix = operationSuffix,
-      repositoryPackage = repositoryPackage,
-      repositoryImplPackage = repositoryImplPackage,
-      operationPackage = operationPackage,
-      diPackage = diPackage,
-      enableMetro = enableMetro,
-      diFramework = diFramework,
-      injectAnnotation = injectAnnotation,
-      repositoryBaseClass = repositoryBaseClass,
-      visibility = visibility,
-      enableRepositoryImplGeneration = enableRepositoryImplGeneration,
-      enableKmpSupport = enableKmpSupport,
-      enableDatabaseBuilderGeneration = enableDatabaseBuilderGeneration,
-    )
-  }
-
-  private fun getVisibility(): Visibility {
-    val stringValue = options[VISIBILITY]?.trim()
-    stringValue ?: return Visibility.PUBLIC
-
-    return Visibility.from(stringValue)
-  }
-
-  private fun getDiFramework(enableMetro: Boolean): DiFramework {
-    val stringValue = options[DI_FRAMEWORK]?.trim()
-    if (stringValue == null) {
-      return if (enableMetro) DiFramework.METRO else DiFramework.NONE
+        // Configs
+        private const val ADD_DOCUMENTATION = "$PREFIX.addDocumentation"
+        private const val ENABLE_OPERATION_GENERATION = "$PREFIX.enableOperationGeneration"
+        private const val GENERATED_PACKAGE_NAME = "$PREFIX.generatedPackageName"
+        private const val OPERATION_GENERATION_LEVEL = "$PREFIX.operationGenerationLevel"
+        private const val REPOSITORY_SUFFIX = "$PREFIX.repositorySuffix"
+        private const val OPERATION_SUFFIX = "$PREFIX.operationSuffix"
+        private const val REPOSITORY_PACKAGE = "$PREFIX.repositoryPackage"
+        private const val REPOSITORY_IMPL_PACKAGE = "$PREFIX.repositoryImplPackage"
+        private const val OPERATION_PACKAGE = "$PREFIX.operationPackage"
+        private const val DI_PACKAGE = "$PREFIX.diPackage"
+        private const val ENABLE_METRO = "$PREFIX.enableMetro"
+        private const val DI_FRAMEWORK = "$PREFIX.diFramework"
+        private const val INJECT_ANNOTATION = "$PREFIX.injectAnnotation"
+        private const val REPOSITORY_BASE_CLASS = "$PREFIX.repositoryBaseClass"
+        private const val VISIBILITY = "$PREFIX.visibility"
+        private const val ENABLE_REPOSITORY_IMPL_GENERATION = "$PREFIX.enableRepositoryImplGeneration"
+        private const val ENABLE_KMP_SUPPORT = "$PREFIX.enableKmpSupport"
+        private const val ENABLE_DATABASE_BUILDER_GENERATION = "$PREFIX.enableDatabaseBuilderGeneration"
     }
 
-    return DiFramework.from(stringValue)
-  }
+    fun parse(): CodeGenConfig {
+        val addDocumentation = parseBoolean(ADD_DOCUMENTATION) ?: true
+        val enableOperationGeneration = parseBoolean(ENABLE_OPERATION_GENERATION) ?: true
+        val generatedPackageName = options[GENERATED_PACKAGE_NAME]?.trim()?.removeSuffix(".")
+        val operationGenerationLevel = getOperationGenerationLevel()
+        val repositorySuffix = options[REPOSITORY_SUFFIX]?.trim() ?: "Repository"
+        val operationSuffix = options[OPERATION_SUFFIX]?.trim() ?: "Operation"
+        val repositoryPackage = options[REPOSITORY_PACKAGE]?.trim()
+        val repositoryImplPackage = options[REPOSITORY_IMPL_PACKAGE]?.trim()
+        val operationPackage = options[OPERATION_PACKAGE]?.trim()
+        val diPackage = options[DI_PACKAGE]?.trim()
+        val enableMetro = parseBoolean(ENABLE_METRO) ?: true
+        val diFramework = getDiFramework(enableMetro)
+        val injectAnnotation = options[INJECT_ANNOTATION]?.trim()
+        val repositoryBaseClass = options[REPOSITORY_BASE_CLASS]?.trim()
+        val visibility = getVisibility()
+        val enableRepositoryImplGeneration = parseBoolean(ENABLE_REPOSITORY_IMPL_GENERATION) ?: true
+        val enableKmpSupport = parseBoolean(ENABLE_KMP_SUPPORT) ?: false
+        val enableDatabaseBuilderGeneration = parseBoolean(
+            ENABLE_DATABASE_BUILDER_GENERATION,
+        ) ?: false
 
-  private fun getOperationGenerationLevel(): OperationGenerationLevel {
-    val stringValue = options[OPERATION_GENERATION_LEVEL]?.trim()
-    stringValue ?: return OperationGenerationLevel.EXPLICIT
-
-    return OperationGenerationLevel.from(stringValue)
-  }
-
-  private fun parseBoolean(key: String): Boolean? {
-    return options[key]?.runCatching {
-      toBooleanStrict()
-    }?.getOrElse {
-      throw WrongConfigurationSetup("$key must be a boolean value!", cause = it)
+        return CodeGenConfig(
+            addDocumentation = addDocumentation,
+            enableOperationGeneration = enableOperationGeneration,
+            generatedPackageName = generatedPackageName,
+            operationGenerationLevel = operationGenerationLevel,
+            repositorySuffix = repositorySuffix,
+            operationSuffix = operationSuffix,
+            repositoryPackage = repositoryPackage,
+            repositoryImplPackage = repositoryImplPackage,
+            operationPackage = operationPackage,
+            diPackage = diPackage,
+            enableMetro = enableMetro,
+            diFramework = diFramework,
+            injectAnnotation = injectAnnotation,
+            repositoryBaseClass = repositoryBaseClass,
+            visibility = visibility,
+            enableRepositoryImplGeneration = enableRepositoryImplGeneration,
+            enableKmpSupport = enableKmpSupport,
+            enableDatabaseBuilderGeneration = enableDatabaseBuilderGeneration,
+        )
     }
-  }
+
+    private fun getVisibility(): Visibility {
+        val stringValue = options[VISIBILITY]?.trim()
+        stringValue ?: return Visibility.PUBLIC
+
+        return Visibility.from(stringValue)
+    }
+
+    private fun getDiFramework(enableMetro: Boolean): DiFramework {
+        val stringValue = options[DI_FRAMEWORK]?.trim()
+        if (stringValue == null) {
+            return if (enableMetro) DiFramework.METRO else DiFramework.NONE
+        }
+
+        return DiFramework.from(stringValue)
+    }
+
+    private fun getOperationGenerationLevel(): OperationGenerationLevel {
+        val stringValue = options[OPERATION_GENERATION_LEVEL]?.trim()
+        stringValue ?: return OperationGenerationLevel.EXPLICIT
+
+        return OperationGenerationLevel.from(stringValue)
+    }
+
+    private fun parseBoolean(key: String): Boolean? {
+        return options[key]?.runCatching {
+            toBooleanStrict()
+        }?.getOrElse {
+            throw WrongConfigurationSetup("$key must be a boolean value!", cause = it)
+        }
+    }
 }
 
 class WrongConfigurationSetup(message: String, cause: Throwable? = null) :
-  RuntimeException(message, cause)
+    RuntimeException(message, cause)

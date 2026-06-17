@@ -20,9 +20,9 @@ import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 import kotlinx.coroutines.flow.Flow
 
 interface DemoRepository {
-  fun observeAll(): Flow<List<DemoModel>>
-  suspend fun getById(id: Long): DemoModel?
-  suspend fun insert(item: DemoModel)
-  suspend fun bulkInsert(items: List<DemoModel>)
-  suspend fun delete(item: DemoModel)
+    fun observeAll(): Flow<List<DemoModel>>
+    suspend fun getById(id: Long): DemoModel?
+    suspend fun insert(item: DemoModel)
+    suspend fun bulkInsert(items: List<DemoModel>)
+    suspend fun delete(item: DemoModel)
 }

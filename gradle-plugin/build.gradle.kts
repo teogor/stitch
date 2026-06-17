@@ -14,51 +14,51 @@
  * limitations under the License.
  */
 plugins {
-  `kotlin-dsl`
-  alias(libs.plugins.stitch.gradle.plugin)
-  alias(libs.plugins.gradle.publish)
-  alias(libs.plugins.build.config)
+    `kotlin-dsl`
+    alias(libs.plugins.stitch.gradle.plugin)
+    alias(libs.plugins.gradle.publish)
+    alias(libs.plugins.build.config)
 }
 
 dependencies {
-  api(project(":gradle-plugin-api"))
-  api(project(":common"))
+    api(project(":gradle-plugin-api"))
+    api(project(":common"))
 
-  implementation(gradleApi())
-  implementation(libs.android.gradle.plugin)
-  implementation(libs.kotlin.gradle.plugin)
-  implementation(libs.ksp.gradle.plugin)
+    implementation(gradleApi())
+    implementation(libs.android.gradle.plugin)
+    implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.ksp.gradle.plugin)
 }
 
 @Suppress("UnstableApiUsage")
 gradlePlugin {
-  website.set("https://source.teogor.dev/stitch")
-  vcsUrl.set("https://github.com/teogor/stitch")
+    website.set("https://source.teogor.dev/stitch")
+    vcsUrl.set("https://github.com/teogor/stitch")
 
-  plugins {
-    register("stitchPlugin") {
-      id = "dev.teogor.stitch"
-      implementationClass = "dev.teogor.stitch.Plugin"
-      displayName = "Stitch Plugin"
-      description = "Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations."
-      tags = listOf("dependency-injection", "kotlin", "productivity", "tools", "dsl", "code-generation", "teogor")
+    plugins {
+        register("stitchPlugin") {
+            id = "dev.teogor.stitch"
+            implementationClass = "dev.teogor.stitch.Plugin"
+            displayName = "Stitch Plugin"
+            description = "Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations."
+            tags = listOf("dependency-injection", "kotlin", "productivity", "tools", "dsl", "code-generation", "teogor")
+        }
     }
-  }
 }
 
 winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "gradle-plugin"
+    moduleMetadata {
+        artifactDescriptor {
+            name = "gradle-plugin"
+        }
     }
-  }
 }
 
 buildConfig {
-  packageName("dev.teogor.stitch")
+    packageName("dev.teogor.stitch")
 
-  afterEvaluate {
-    buildConfigField("String", "NAME", "\"${group}\"")
-    buildConfigField("String", "VERSION", "\"${version}\"")
-  }
+    afterEvaluate {
+        buildConfigField("String", "NAME", "\"${group}\"")
+        buildConfigField("String", "VERSION", "\"${version}\"")
+    }
 }

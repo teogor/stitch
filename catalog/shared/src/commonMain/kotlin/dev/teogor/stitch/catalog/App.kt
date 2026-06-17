@@ -34,31 +34,31 @@ import dev.teogor.stitch.catalog.ui.theme.AppTheme
 @Composable
 @Suppress("ktlint:standard:function-naming")
 fun App() {
-  AppTheme {
-    Scaffold(
-      topBar = {
-        CenterAlignedTopAppBar(
-          title = {
-            Text(
-              text = "Stitch Catalog",
-              style = MaterialTheme.typography.titleLarge,
-            )
-          },
-          colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-          ),
-        )
-      },
-    ) { innerPadding ->
-      Surface(
-        modifier = Modifier
-          .fillMaxSize()
-          .padding(innerPadding),
-        color = MaterialTheme.colorScheme.background,
-      ) {
-        DemoScreen()
-      }
+    AppTheme {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = "Stitch Catalog",
+                            style = MaterialTheme.typography.titleLarge,
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
+                )
+            },
+        ) { innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                color = MaterialTheme.colorScheme.background,
+            ) {
+                DemoScreen()
+            }
+        }
     }
-  }
 }

@@ -34,5 +34,5 @@ package dev.teogor.stitch
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 annotation class RawOperation(
-  val generate: Boolean = true,
+    val generate: Boolean = true,
 )

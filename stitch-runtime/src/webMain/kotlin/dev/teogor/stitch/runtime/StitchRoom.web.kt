@@ -23,23 +23,23 @@ import dev.teogor.stitch.web.createSQLiteWebDriver
 
 @PublishedApi
 internal actual inline fun <reified T : RoomDatabase> createPlatformBuilder(
-  resolvedPath: String,
-  noinline factory: () -> T,
+    resolvedPath: String,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T> {
-  val driver = createSQLiteWebDriver()
-  return Room.databaseBuilder<T>(
-    name = resolvedPath,
-    factory = factory,
-  ).setDriver(driver)
+    val driver = createSQLiteWebDriver()
+    return Room.databaseBuilder<T>(
+        name = resolvedPath,
+        factory = factory,
+    ).setDriver(driver)
 }
 
 @PublishedApi
 internal actual inline fun <reified T : RoomDatabase> createPlatformInMemoryBuilder(
-  noinline factory: () -> T,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T> {
-  return Room.inMemoryDatabaseBuilder(
-    factory = factory,
-  )
+    return Room.inMemoryDatabaseBuilder(
+        factory = factory,
+    )
 }
 
 @PublishedApi

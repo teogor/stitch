@@ -16,27 +16,27 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-  alias(libs.plugins.jetbrains.kotlin.jvm)
-  alias(libs.plugins.jetbrains.compose)
-  alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 dependencies {
-  implementation(project(":catalog:shared"))
-  implementation(libs.kotlinx.coroutines.swing)
-  implementation(compose.desktop.currentOs)
-  implementation(libs.room.runtime)
-  implementation(libs.sqlite.bundled)
+    implementation(project(":catalog:shared"))
+    implementation(libs.kotlinx.coroutines.swing)
+    implementation(compose.desktop.currentOs)
+    implementation(libs.room.runtime)
+    implementation(libs.sqlite.bundled)
 }
 
 compose.desktop {
-  application {
-    mainClass = "dev.teogor.stitch.catalog.MainKt"
+    application {
+        mainClass = "dev.teogor.stitch.catalog.MainKt"
 
-    nativeDistributions {
-      targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-      packageName = "dev.teogor.stitch.catalog"
-      packageVersion = "1.0.0"
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "dev.teogor.stitch.catalog"
+            packageVersion = "1.0.0"
+        }
     }
-  }
 }

@@ -20,16 +20,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 actual object StitchRuntime {
-  /**
-   * Safe no-op initialization layer for non-Android target environments.
-   */
-  @PublishedApi
-  internal actual fun initialize(context: PlatformContext) {
-  }
+    /**
+     * Safe no-op initialization layer for non-Android target environments.
+     */
+    @PublishedApi
+    internal actual fun initialize(context: PlatformContext) {
+    }
 
-  @PublishedApi
-  internal actual fun getContext(): PlatformContext = PlatformContext()
+    @PublishedApi
+    internal actual fun getContext(): PlatformContext = PlatformContext()
 
-  actual val ioDispatcher: CoroutineDispatcher
-    get() = Dispatchers.IO
+    actual val ioDispatcher: CoroutineDispatcher
+        get() = Dispatchers.IO
 }

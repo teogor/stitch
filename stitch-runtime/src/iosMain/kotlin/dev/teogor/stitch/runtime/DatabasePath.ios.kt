@@ -24,33 +24,33 @@ import platform.Foundation.NSUserDomainMask
 
 @PublishedApi
 internal actual object StitchPathResolver {
-  @OptIn(ExperimentalForeignApi::class)
-  actual fun resolve(name: String, strategy: DatabasePath): String {
-    return when (strategy) {
-      is DatabasePath.Internal -> {
-        val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
-          directory = NSDocumentDirectory,
-          inDomain = NSUserDomainMask,
-          appropriateForURL = null,
-          create = false,
-          error = null,
-        )
-        (documentDirectory?.path ?: "") + "/$name"
-      }
+    @OptIn(ExperimentalForeignApi::class)
+    actual fun resolve(name: String, strategy: DatabasePath): String {
+        return when (strategy) {
+            is DatabasePath.Internal -> {
+                val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSDocumentDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )
+                (documentDirectory?.path ?: "") + "/$name"
+            }
 
-      is DatabasePath.Temporary -> {
-        val cacheDirectory = NSFileManager.defaultManager.URLForDirectory(
-          directory = NSCachesDirectory,
-          inDomain = NSUserDomainMask,
-          appropriateForURL = null,
-          create = false,
-          error = null,
-        )
-        (cacheDirectory?.path ?: "") + "/$name"
-      }
+            is DatabasePath.Temporary -> {
+                val cacheDirectory = NSFileManager.defaultManager.URLForDirectory(
+                    directory = NSCachesDirectory,
+                    inDomain = NSUserDomainMask,
+                    appropriateForURL = null,
+                    create = false,
+                    error = null,
+                )
+                (cacheDirectory?.path ?: "") + "/$name"
+            }
 
-      is DatabasePath.Custom -> "${strategy.absoluteDirectoryPath}/$name"
-      is DatabasePath.InMemory -> ""
+            is DatabasePath.Custom -> "${strategy.absoluteDirectoryPath}/$name"
+            is DatabasePath.InMemory -> ""
+        }
     }
-  }
 }

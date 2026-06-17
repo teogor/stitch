@@ -17,86 +17,86 @@ import dev.teogor.stitch.convention.androidTarget
 import dev.teogor.stitch.convention.kmpLibraryAll
 
 plugins {
-  alias(libs.plugins.stitch.kmp.library)
-  alias(libs.plugins.jetbrains.compose)
-  alias(libs.plugins.jetbrains.compose.compiler)
-  alias(libs.plugins.ksp)
-  alias(libs.plugins.room3)
+    alias(libs.plugins.stitch.kmp.library)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room3)
 }
 
 room3 {
-  schemaDirectory("$projectDir/schemas")
+    schemaDirectory("$projectDir/schemas")
 }
 
 kotlin {
-  kmpLibraryAll(project, "Shared") {
-    sourceSets {
-      commonMain.dependencies {
-        implementation(libs.compose.runtime)
-        implementation(libs.compose.foundation)
-        implementation(libs.compose.material3)
-        implementation(libs.compose.ui)
-        implementation(libs.material.icons.core)
-        implementation(libs.material.icons.extended)
-        implementation(libs.compose.components.resources)
-        implementation(libs.compose.uiToolingPreview)
-        implementation(libs.androidx.lifecycle.viewmodelCompose)
-        implementation(libs.androidx.lifecycle.runtimeCompose)
+    kmpLibraryAll(project, "Shared") {
+        sourceSets {
+            commonMain.dependencies {
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material3)
+                implementation(libs.compose.ui)
+                implementation(libs.material.icons.core)
+                implementation(libs.material.icons.extended)
+                implementation(libs.compose.components.resources)
+                implementation(libs.compose.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
 
-        implementation(libs.kotlinx.coroutines.core)
-        api(libs.room.common)
-        implementation(libs.room.runtime)
-        api(libs.sqlite.common)
-        implementation(libs.metro.runtime)
-        implementation(project(":common"))
-        implementation(project(":stitch-runtime"))
-      }
+                implementation(libs.kotlinx.coroutines.core)
+                api(libs.room.common)
+                implementation(libs.room.runtime)
+                api(libs.sqlite.common)
+                implementation(libs.metro.runtime)
+                implementation(project(":common"))
+                implementation(project(":stitch-runtime"))
+            }
 
-      androidMain.dependencies {
-        implementation(libs.androidx.ui.tooling.preview)
-        implementation(libs.room.runtime)
-        implementation(libs.sqlite.bundled)
-      }
-      jvmMain.dependencies {
-        implementation(libs.room.runtime)
-        implementation(libs.sqlite.bundled)
-      }
-      iosMain.dependencies {
-        implementation(libs.room.runtime)
-        implementation(libs.sqlite.bundled)
-      }
+            androidMain.dependencies {
+                implementation(libs.androidx.ui.tooling.preview)
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+            }
+            jvmMain.dependencies {
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+            }
+            iosMain.dependencies {
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.bundled)
+            }
 
-      webMain.dependencies {
-        implementation(libs.room.runtime)
-        implementation(libs.sqlite.web)
-        api(project(":stitch-web"))
-      }
+            webMain.dependencies {
+                implementation(libs.room.runtime)
+                implementation(libs.sqlite.web)
+                api(project(":stitch-web"))
+            }
 
-      jsMain.dependencies {
-        implementation(libs.wrappers.browser)
-      }
+            jsMain.dependencies {
+                implementation(libs.wrappers.browser)
+            }
+        }
     }
-  }
 
-  androidTarget(project) {
-    withHostTest {
-      isIncludeAndroidResources = true
+    androidTarget(project) {
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
     }
-  }
 }
 
 dependencies {
-  add("androidRuntimeClasspath", libs.androidx.ui.tooling)
-  add("kspAndroid", libs.room.compiler)
-  add("kspJvm", libs.room.compiler)
-  add("kspIosArm64", libs.room.compiler)
-  add("kspIosSimulatorArm64", libs.room.compiler)
-  add("kspJs", libs.room.compiler)
-  add("kspWasmJs", libs.room.compiler)
+    add("androidRuntimeClasspath", libs.androidx.ui.tooling)
+    add("kspAndroid", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspJs", libs.room.compiler)
+    add("kspWasmJs", libs.room.compiler)
 }
 
 tasks.configureEach {
-  if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
-    enabled = false
-  }
+    if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
+        enabled = false
+    }
 }

@@ -25,54 +25,54 @@ import androidx.room3.RoomDatabase
  * all supported KMP platforms, handling path resolution and platform-specific builder creation.
  */
 object StitchRoom {
-  /**
-   * Constructs a managed platform-wrapped RoomDatabase.Builder inside common KMP layers.
-   *
-   * @param T The type of the RoomDatabase.
-   * @param name The name of the database file. Ignored if [StitchRoomConfig.pathStrategy] is [DatabasePath.InMemory].
-   * @param factory The factory function to create the RoomDatabase instance.
-   * @param block Configuration block for [StitchRoomConfig].
-   * @return A [RoomDatabase.Builder] configured according to the provided [block].
-   */
-  inline fun <reified T : RoomDatabase> databaseBuilder(
-    name: String,
-    noinline factory: () -> T,
-    block: StitchRoomConfig<T>.() -> Unit = {},
-  ): RoomDatabase.Builder<T> {
-    val config = StitchRoomConfig<T>().apply(block)
+    /**
+     * Constructs a managed platform-wrapped RoomDatabase.Builder inside common KMP layers.
+     *
+     * @param T The type of the RoomDatabase.
+     * @param name The name of the database file. Ignored if [StitchRoomConfig.pathStrategy] is [DatabasePath.InMemory].
+     * @param factory The factory function to create the RoomDatabase instance.
+     * @param block Configuration block for [StitchRoomConfig].
+     * @return A [RoomDatabase.Builder] configured according to the provided [block].
+     */
+    inline fun <reified T : RoomDatabase> databaseBuilder(
+        name: String,
+        noinline factory: () -> T,
+        block: StitchRoomConfig<T>.() -> Unit = {},
+    ): RoomDatabase.Builder<T> {
+        val config = StitchRoomConfig<T>().apply(block)
 
-    val builder = if (config.pathStrategy is DatabasePath.InMemory) {
-      createPlatformInMemoryBuilder(factory)
-    } else {
-      val fullyQualifiedPath = StitchPathResolver.resolve(name, config.pathStrategy)
-      createPlatformBuilder(fullyQualifiedPath, factory)
+        val builder = if (config.pathStrategy is DatabasePath.InMemory) {
+            createPlatformInMemoryBuilder(factory)
+        } else {
+            val fullyQualifiedPath = StitchPathResolver.resolve(name, config.pathStrategy)
+            createPlatformBuilder(fullyQualifiedPath, factory)
+        }
+
+        config.applyTo(builder)
+
+        return builder
     }
 
-    config.applyTo(builder)
-
-    return builder
-  }
-
-  /**
-   * Constructs an in-memory platform-wrapped RoomDatabase.Builder inside common KMP layers.
-   *
-   * @param T The type of the RoomDatabase.
-   * @param factory The factory function to create the RoomDatabase instance.
-   * @param block Configuration block for [StitchRoomConfig].
-   * @return A [RoomDatabase.Builder] configured according to the provided [block].
-   */
-  inline fun <reified T : RoomDatabase> inMemoryDatabaseBuilder(
-    noinline factory: () -> T,
-    block: StitchRoomConfig<T>.() -> Unit = {},
-  ): RoomDatabase.Builder<T> {
-    val config = StitchRoomConfig<T>().apply {
-      pathStrategy = DatabasePath.InMemory
-      block()
+    /**
+     * Constructs an in-memory platform-wrapped RoomDatabase.Builder inside common KMP layers.
+     *
+     * @param T The type of the RoomDatabase.
+     * @param factory The factory function to create the RoomDatabase instance.
+     * @param block Configuration block for [StitchRoomConfig].
+     * @return A [RoomDatabase.Builder] configured according to the provided [block].
+     */
+    inline fun <reified T : RoomDatabase> inMemoryDatabaseBuilder(
+        noinline factory: () -> T,
+        block: StitchRoomConfig<T>.() -> Unit = {},
+    ): RoomDatabase.Builder<T> {
+        val config = StitchRoomConfig<T>().apply {
+            pathStrategy = DatabasePath.InMemory
+            block()
+        }
+        val builder = createPlatformInMemoryBuilder(factory)
+        config.applyTo(builder)
+        return builder
     }
-    val builder = createPlatformInMemoryBuilder(factory)
-    config.applyTo(builder)
-    return builder
-  }
 }
 
 /**
@@ -80,8 +80,8 @@ object StitchRoom {
  */
 @PublishedApi
 internal expect inline fun <reified T : RoomDatabase> createPlatformBuilder(
-  resolvedPath: String,
-  noinline factory: () -> T,
+    resolvedPath: String,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T>
 
 /**
@@ -89,5 +89,5 @@ internal expect inline fun <reified T : RoomDatabase> createPlatformBuilder(
  */
 @PublishedApi
 internal expect inline fun <reified T : RoomDatabase> createPlatformInMemoryBuilder(
-  noinline factory: () -> T,
+    noinline factory: () -> T,
 ): RoomDatabase.Builder<T>

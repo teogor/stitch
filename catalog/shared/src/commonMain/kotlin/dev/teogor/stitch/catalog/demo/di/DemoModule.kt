@@ -25,25 +25,25 @@ import dev.teogor.stitch.catalog.demo.domain.usecase.SaveDemoItemUseCase
 import dev.teogor.stitch.runtime.StitchRoom
 
 object DemoModule {
-  private val database: AppDatabase by lazy {
-    StitchRoom.databaseBuilder(
-      name = "demo_database.db",
-      factory = AppDatabaseConstructor::initialize,
-    ) {
-      loggingEnabled = true
-      logger = { println("DemoLog: $it") }
-    }.build()
-  }
+    private val database: AppDatabase by lazy {
+        StitchRoom.databaseBuilder(
+            name = "demo_database.db",
+            factory = AppDatabaseConstructor::initialize,
+        ) {
+            loggingEnabled = true
+            logger = { println("DemoLog: $it") }
+        }.build()
+    }
 
-  val demoRepository: DemoRepository by lazy {
-    DemoRepositoryImpl(database)
-  }
+    val demoRepository: DemoRepository by lazy {
+        DemoRepositoryImpl(database)
+    }
 
-  val getDemoItemsUseCase by lazy {
-    GetDemoItemsUseCase(demoRepository)
-  }
+    val getDemoItemsUseCase by lazy {
+        GetDemoItemsUseCase(demoRepository)
+    }
 
-  val saveDemoItemUseCase by lazy {
-    SaveDemoItemUseCase(demoRepository)
-  }
+    val saveDemoItemUseCase by lazy {
+        SaveDemoItemUseCase(demoRepository)
+    }
 }

@@ -39,117 +39,117 @@ import dev.teogor.stitch.ksp.mappers.RoomModelMapper
 import kotlin.reflect.KClass
 
 class StitchProcessor(
-  private val codeGenerator: KSPCodeGenerator,
-  private val logger: KSPLogger,
-  private val options: Map<String, String>,
+    private val codeGenerator: KSPCodeGenerator,
+    private val logger: KSPLogger,
+    private val options: Map<String, String>,
 ) : SymbolProcessor {
 
-  @OptIn(KspExperimental::class)
-  override fun process(resolver: Resolver): List<KSAnnotated> {
-    Logger.instance = KspLogger(logger)
+    @OptIn(KspExperimental::class)
+    override fun process(resolver: Resolver): List<KSAnnotated> {
+        Logger.instance = KspLogger(logger)
 
-    val annotatedDao = resolver.getDao()
-    val annotatedEntities = resolver.getEntities()
-    val annotatedViews = resolver.getViews()
-    val annotatedDatabases = resolver.getDatabases()
+        val annotatedDao = resolver.getDao()
+        val annotatedEntities = resolver.getEntities()
+        val annotatedViews = resolver.getViews()
+        val annotatedDatabases = resolver.getDatabases()
 
-    if (
-      !annotatedDao.iterator().hasNext() &&
-      !annotatedEntities.iterator().hasNext() &&
-      !annotatedViews.iterator().hasNext() &&
-      !annotatedDatabases.iterator().hasNext()
-    ) {
-      return emptyList()
+        if (
+            !annotatedDao.iterator().hasNext() &&
+            !annotatedEntities.iterator().hasNext() &&
+            !annotatedViews.iterator().hasNext() &&
+            !annotatedDatabases.iterator().hasNext()
+        ) {
+            return emptyList()
+        }
+
+        if (!validate(resolver)) {
+            return emptyList()
+        }
+
+        val databaseModelMapper = DatabaseModelMapper()
+        val databaseModels = annotatedDatabases.map { database ->
+            databaseModelMapper.map(database)
+        }
+
+        val roomModelMapper = RoomModelMapper(annotatedDao)
+        val roomModels = (annotatedEntities + annotatedViews)
+            .mapNotNull { entity ->
+                roomModelMapper.map(entity)
+            }
+            .toList()
+            .distinctBy { it.dao }
+
+        CodeGenerator(
+            codeOutputStreamMaker = KspCodeOutputStreamMaker(
+                codeGenerator = codeGenerator,
+                sourceMapper = KspToCodeGenDestinationsMapper(resolver),
+            ),
+            codeGenConfig = ConfigParser(options).parse(),
+        ).generate(
+            databaseModels = databaseModels,
+            roomModels = roomModels,
+        )
+
+        return emptyList()
     }
 
-    if (!validate(resolver)) {
-      return emptyList()
+    private fun validate(resolver: Resolver): Boolean {
+        var isValid = true
+
+        // Validate @MapTo usage
+        resolver.getSymbolsWithAnnotation(MapTo::class.qualifiedName!!)
+            .filterIsInstance<KSClassDeclaration>()
+            .forEach { classDecl ->
+                val hasEntity = classDecl.annotations.any {
+                    it.shortName.asString() == Entity::class.simpleName
+                }
+                if (!hasEntity) {
+                    logger.error(
+                        "@MapTo can only be applied to Room @Entity classes.",
+                        classDecl,
+                    )
+                    isValid = false
+                }
+            }
+
+        // Validate @StitchName usage
+        resolver.getSymbolsWithAnnotation(StitchName::class.qualifiedName!!)
+            .filterIsInstance<KSClassDeclaration>()
+            .forEach { classDecl ->
+                val hasDao = classDecl.annotations.any {
+                    it.shortName.asString() == Dao::class.simpleName
+                }
+                if (!hasDao) {
+                    logger.error(
+                        "@StitchName can only be applied to Room @Dao interfaces or classes.",
+                        classDecl,
+                    )
+                    isValid = false
+                }
+            }
+
+        return isValid
     }
 
-    val databaseModelMapper = DatabaseModelMapper()
-    val databaseModels = annotatedDatabases.map { database ->
-      databaseModelMapper.map(database)
-    }
-
-    val roomModelMapper = RoomModelMapper(annotatedDao)
-    val roomModels = (annotatedEntities + annotatedViews)
-      .mapNotNull { entity ->
-        roomModelMapper.map(entity)
-      }
-      .toList()
-      .distinctBy { it.dao }
-
-    CodeGenerator(
-      codeOutputStreamMaker = KspCodeOutputStreamMaker(
-        codeGenerator = codeGenerator,
-        sourceMapper = KspToCodeGenDestinationsMapper(resolver),
-      ),
-      codeGenConfig = ConfigParser(options).parse(),
-    ).generate(
-      databaseModels = databaseModels,
-      roomModels = roomModels,
+    private fun Resolver.findAnnotations(kClass: KClass<*>) = getSymbolsWithAnnotation(
+        kClass.qualifiedName.toString(),
     )
 
-    return emptyList()
-  }
+    private fun Resolver.getDao(): Sequence<KSClassDeclaration> {
+        return findAnnotations(Dao::class).filterIsInstance<KSClassDeclaration>()
+    }
 
-  private fun validate(resolver: Resolver): Boolean {
-    var isValid = true
+    private fun Resolver.getEntities(): Sequence<KSClassDeclaration> {
+        return findAnnotations(Entity::class).filterIsInstance<KSClassDeclaration>()
+    }
 
-    // Validate @MapTo usage
-    resolver.getSymbolsWithAnnotation(MapTo::class.qualifiedName!!)
-      .filterIsInstance<KSClassDeclaration>()
-      .forEach { classDecl ->
-        val hasEntity = classDecl.annotations.any {
-          it.shortName.asString() == Entity::class.simpleName
-        }
-        if (!hasEntity) {
-          logger.error(
-            "@MapTo can only be applied to Room @Entity classes.",
-            classDecl,
-          )
-          isValid = false
-        }
-      }
+    private fun Resolver.getViews(): Sequence<KSClassDeclaration> {
+        return findAnnotations(DatabaseView::class).filterIsInstance<KSClassDeclaration>()
+    }
 
-    // Validate @StitchName usage
-    resolver.getSymbolsWithAnnotation(StitchName::class.qualifiedName!!)
-      .filterIsInstance<KSClassDeclaration>()
-      .forEach { classDecl ->
-        val hasDao = classDecl.annotations.any {
-          it.shortName.asString() == Dao::class.simpleName
-        }
-        if (!hasDao) {
-          logger.error(
-            "@StitchName can only be applied to Room @Dao interfaces or classes.",
-            classDecl,
-          )
-          isValid = false
-        }
-      }
-
-    return isValid
-  }
-
-  private fun Resolver.findAnnotations(kClass: KClass<*>) = getSymbolsWithAnnotation(
-    kClass.qualifiedName.toString(),
-  )
-
-  private fun Resolver.getDao(): Sequence<KSClassDeclaration> {
-    return findAnnotations(Dao::class).filterIsInstance<KSClassDeclaration>()
-  }
-
-  private fun Resolver.getEntities(): Sequence<KSClassDeclaration> {
-    return findAnnotations(Entity::class).filterIsInstance<KSClassDeclaration>()
-  }
-
-  private fun Resolver.getViews(): Sequence<KSClassDeclaration> {
-    return findAnnotations(DatabaseView::class).filterIsInstance<KSClassDeclaration>()
-  }
-
-  private fun Resolver.getDatabases(): Sequence<KSClassDeclaration> {
-    return findAnnotations(Database::class).filterIsInstance<KSClassDeclaration>()
-  }
+    private fun Resolver.getDatabases(): Sequence<KSClassDeclaration> {
+        return findAnnotations(Database::class).filterIsInstance<KSClassDeclaration>()
+    }
 }
 
 typealias KSPClassKind = com.google.devtools.ksp.symbol.ClassKind

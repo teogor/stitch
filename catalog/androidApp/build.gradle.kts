@@ -14,36 +14,36 @@
  * limitations under the License.
  */
 plugins {
-  alias(libs.plugins.stitch.android.application)
-  alias(libs.plugins.jetbrains.compose)
-  alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.stitch.android.application)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 android {
-  namespace = "dev.teogor.stitch.catalog"
+    namespace = "dev.teogor.stitch.catalog"
 
-  defaultConfig {
-    applicationId = "dev.teogor.stitch.catalog"
-    versionCode = 1
-    versionName = "1.0.0"
-  }
-
-  packaging {
-    resources {
-      excludes += "/META-INF/{AL2.0,LGPL2.1}"
+    defaultConfig {
+        applicationId = "dev.teogor.stitch.catalog"
+        versionCode = 1
+        versionName = "1.0.0"
     }
-  }
 
-  buildTypes {
-    getByName("release") {
-      isMinifyEnabled = false
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
-  }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
 }
 
 dependencies {
-  implementation(project(":catalog:shared"))
-  implementation(libs.androidx.activity.compose)
-  implementation(libs.compose.uiToolingPreview)
-  debugImplementation(libs.compose.uiTooling)
+    implementation(project(":catalog:shared"))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.uiToolingPreview)
+    debugImplementation(libs.compose.uiTooling)
 }

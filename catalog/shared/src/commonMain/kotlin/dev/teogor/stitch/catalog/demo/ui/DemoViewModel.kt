@@ -26,24 +26,24 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DemoViewModel : ViewModel() {
-  private val getDemoItemsUseCase = DemoModule.getDemoItemsUseCase
-  private val saveDemoItemUseCase = DemoModule.saveDemoItemUseCase
+    private val getDemoItemsUseCase = DemoModule.getDemoItemsUseCase
+    private val saveDemoItemUseCase = DemoModule.saveDemoItemUseCase
 
-  val items: StateFlow<List<DemoModel>> = getDemoItemsUseCase()
-    .stateIn(
-      scope = viewModelScope,
-      started = SharingStarted.WhileSubscribed(5_000),
-      initialValue = emptyList(),
-    )
+    val items: StateFlow<List<DemoModel>> = getDemoItemsUseCase()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList(),
+        )
 
-  fun addItem(title: String, description: String) {
-    viewModelScope.launch {
-      saveDemoItemUseCase(
-        DemoModel(
-          title = title,
-          description = description,
-        ),
-      )
+    fun addItem(title: String, description: String) {
+        viewModelScope.launch {
+            saveDemoItemUseCase(
+                DemoModel(
+                    title = title,
+                    description = description,
+                ),
+            )
+        }
     }
-  }
 }

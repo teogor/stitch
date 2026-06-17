@@ -24,6 +24,8 @@ import org.w3c.dom.Worker
  * [js] implementation of [createSQLiteWebDriver].
  */
 actual fun createSQLiteWebDriver(): SQLiteDriver {
-    val worker = js("new Worker(new URL('sqlite-wasm-worker/worker.js', import.meta.url), { type: 'module' })").unsafeCast<Worker>()
+    val worker = js(
+        "new Worker(new URL('sqlite-wasm-worker/worker.js', import.meta.url), { type: 'module' })",
+    ).unsafeCast<Worker>()
     return WebWorkerSQLiteDriver(worker)
 }

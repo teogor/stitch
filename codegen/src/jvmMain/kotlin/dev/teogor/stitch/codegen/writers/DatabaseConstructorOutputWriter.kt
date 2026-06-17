@@ -29,46 +29,46 @@ import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.DatabaseModel
 
 class DatabaseConstructorOutputWriter(
-  private val codeOutputStreamMaker: CodeOutputStreamMaker,
-  codeGenConfig: CodeGenConfig,
+    private val codeOutputStreamMaker: CodeOutputStreamMaker,
+    codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(databaseModels: Sequence<DatabaseModel>) {
-    if (!codeGenConfig.enableKmpSupport) {
-      return
-    }
+    fun write(databaseModels: Sequence<DatabaseModel>) {
+        if (!codeGenConfig.enableKmpSupport) {
+            return
+        }
 
-    databaseModels.forEach { databaseModel ->
-      val databaseType = databaseModel.type as ClassName
-      val packageName = databaseType.packageName
-      val databaseName = databaseType.simpleName
-      val constructorName = "${databaseName}Constructor"
+        databaseModels.forEach { databaseModel ->
+            val databaseType = databaseModel.type as ClassName
+            val packageName = databaseType.packageName
+            val databaseName = databaseType.simpleName
+            val constructorName = "${databaseName}Constructor"
 
-      fileBuilder(
-        packageName = packageName,
-        fileName = constructorName,
-      ) {
-        addType(
-          TypeSpec.objectBuilder(constructorName)
-            .addModifiers(KModifier.EXPECT)
-            .addAnnotation(
-              AnnotationSpec.builder(Suppress::class)
-                .addMember("%S", "KotlinNoActualForExpect")
-                .build(),
-            )
-            .addSuperinterface(
-              ClassName("androidx.room3", "RoomDatabaseConstructor")
-                .parameterizedBy(databaseType),
-            )
-            .addFunction(
-              FunSpec.builder("initialize")
-                .addModifiers(KModifier.OVERRIDE)
-                .returns(databaseType)
-                .build(),
-            )
-            .build(),
-        )
-      }.writeWith(codeOutputStreamMaker)
+            fileBuilder(
+                packageName = packageName,
+                fileName = constructorName,
+            ) {
+                addType(
+                    TypeSpec.objectBuilder(constructorName)
+                        .addModifiers(KModifier.EXPECT)
+                        .addAnnotation(
+                            AnnotationSpec.builder(Suppress::class)
+                                .addMember("%S", "KotlinNoActualForExpect")
+                                .build(),
+                        )
+                        .addSuperinterface(
+                            ClassName("androidx.room3", "RoomDatabaseConstructor")
+                                .parameterizedBy(databaseType),
+                        )
+                        .addFunction(
+                            FunSpec.builder("initialize")
+                                .addModifiers(KModifier.OVERRIDE)
+                                .returns(databaseType)
+                                .build(),
+                        )
+                        .build(),
+                )
+            }.writeWith(codeOutputStreamMaker)
+        }
     }
-  }
 }

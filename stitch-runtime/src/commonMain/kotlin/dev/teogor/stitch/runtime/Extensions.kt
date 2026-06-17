@@ -29,10 +29,9 @@ import androidx.room3.useWriterConnection
  * @param block The block of code to execute within the transaction.
  * @return The result of the transaction block.
  */
-suspend fun <R> RoomDatabase.withTransaction(
-  block: suspend () -> R,
-): R = useWriterConnection { transactor ->
-  transactor.immediateTransaction {
-    block()
-  }
-}
+suspend fun <R> RoomDatabase.withTransaction(block: suspend () -> R): R =
+    useWriterConnection { transactor ->
+        transactor.immediateTransaction {
+            block()
+        }
+    }

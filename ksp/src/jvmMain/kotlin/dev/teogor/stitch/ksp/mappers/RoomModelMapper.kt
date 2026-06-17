@@ -52,155 +52,155 @@ import dev.teogor.stitch.ksp.commons.findArgumentValue
 import dev.teogor.stitch.ksp.commons.firstAnnotation
 
 class RoomModelMapper(
-  private val annotatedDao: Sequence<KSClassDeclaration>,
+    private val annotatedDao: Sequence<KSClassDeclaration>,
 ) {
 
-  @OptIn(KspExperimental::class)
-  fun map(entity: KSClassDeclaration): RoomModel? {
-    if (entity.isAnnotationPresent(StitchIgnore::class)) return null
+    @OptIn(KspExperimental::class)
+    fun map(entity: KSClassDeclaration): RoomModel? {
+        if (entity.isAnnotationPresent(StitchIgnore::class)) return null
 
-    val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
-    annotatedDao.forEach { daoClass ->
-      val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
-      if (explicitEntities != null) {
-        val entities = explicitEntities
-          .findArgumentValue<ArrayList<KSType>>("entities")
-          ?.toList()
-        daoToEntitiesMap[daoClass] = entities ?: emptyList()
-      }
-    }
-    val matchingDaoKeys = daoToEntitiesMap.keys.filter { daoClass ->
-      daoToEntitiesMap[daoClass]?.any { entityTest ->
-        entityTest.declaration.closestClassDeclaration() == entity
-      } ?: false
-    }
-
-    val matchingEntityClass = matchingDaoKeys.firstOrNull()
-
-    val potentialDao = annotatedDao.firstOrNull {
-      it.simpleName.asString().startsWith(
-        entity.simpleName.asString(),
-      )
-    }
-    val dao = when {
-      matchingEntityClass != null -> {
-        matchingEntityClass
-      }
-
-      potentialDao != null -> potentialDao
-      else -> null
-    }
-
-    if (dao == null || dao.isAnnotationPresent(StitchIgnore::class)) return null
-
-    val stitchNameAnnotation = dao.firstAnnotation<StitchName>()
-    val repositoryName = stitchNameAnnotation?.findArgumentValue<String>("repository")?.let {
-      if (it.isEmpty()) null else it
-    }
-    val repositoryImplName = stitchNameAnnotation?.findArgumentValue<String>(
-      "implementation",
-    )?.let {
-      if (it.isEmpty()) null else it
-    }
-
-    val mapToAnnotation = entity.firstAnnotation<MapTo>()
-    val mapTo = mapToAnnotation?.findArgumentValue<KSType>("target")?.toTypeName()
-    val toDomain = mapToAnnotation?.findArgumentValue<String>("toDomain") ?: "toDomain"
-    val toEntity = mapToAnnotation?.findArgumentValue<String>("toEntity") ?: "toEntity"
-    val mapperType = mapToAnnotation?.findArgumentValue<KSType>("mapper")
-    val mapper = mapperType?.toTypeName()?.let {
-      if (it.toString() == "kotlin.Nothing") null else it
-    }
-
-    var isToDomainSuspend = false
-    var isToEntitySuspend = false
-
-    mapperType?.declaration?.let { mapperDecl ->
-      if (mapperDecl is KSClassDeclaration) {
-        val mapperFunctions = mapperDecl.getDeclaredFunctions()
-        isToDomainSuspend = mapperFunctions.any {
-          it.simpleName.asString() == toDomain && it.modifiers.contains(Modifier.SUSPEND)
+        val daoToEntitiesMap = mutableMapOf<KSClassDeclaration, List<KSType>>()
+        annotatedDao.forEach { daoClass ->
+            val explicitEntities = daoClass.firstAnnotation<ExplicitEntities>()
+            if (explicitEntities != null) {
+                val entities = explicitEntities
+                    .findArgumentValue<ArrayList<KSType>>("entities")
+                    ?.toList()
+                daoToEntitiesMap[daoClass] = entities ?: emptyList()
+            }
         }
-        isToEntitySuspend = mapperFunctions.any {
-          it.simpleName.asString() == toEntity && it.modifiers.contains(Modifier.SUSPEND)
-        }
-      }
-    }
-
-    val fields = entity.primaryConstructor?.parameters?.map { parameter ->
-      val fieldName = parameter.name!!.asString()
-      val fieldType = parameter.type.resolve()
-      FieldKind(
-        name = fieldName,
-        type = ClassName(
-          fieldType.declaration.packageName.asString(),
-          fieldType.declaration.simpleName.asString(),
-        ),
-        isEmbedded = parameter.isAnnotationPresent(Embedded::class),
-        isRelation = parameter.isAnnotationPresent(Relation::class),
-      )
-    } ?: emptyList()
-
-    val functions = dao.getDeclaredFunctions().toList()
-      .filter { !it.isAnnotationPresent(StitchIgnore::class) }
-      .map { function ->
-        val rawOperation = function.firstAnnotation<RawOperation>()
-        val fieldName = function.simpleName.asString()
-        val fieldType = function.returnType?.resolve().let {
-          it?.toTypeName() ?: UNIT
-        }
-        val parameters = function.parameters.map { parameter ->
-          ParameterKind(
-            name = parameter.toString(),
-            type = parameter.type.toTypeName(),
-          )
-        }
-        val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-
-        val operationType = when {
-          function.isAnnotationPresent(Query::class) -> OperationType.QUERY
-          function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
-          function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
-          function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
-          function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
-          function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
-          else -> OperationType.QUERY
+        val matchingDaoKeys = daoToEntitiesMap.keys.filter { daoClass ->
+            daoToEntitiesMap[daoClass]?.any { entityTest ->
+                entityTest.declaration.closestClassDeclaration() == entity
+            } ?: false
         }
 
-        FunctionKind(
-          name = fieldName,
-          returnType = fieldType,
-          parameters = parameters,
-          isSuspend = isSuspend,
-          operationType = operationType,
-          isTransaction = function.isAnnotationPresent(Transaction::class),
-          enableRawOperationGeneration = rawOperation?.findArgumentValue<Boolean>(
-            "generate",
-          ) ?: (rawOperation != null),
+        val matchingEntityClass = matchingDaoKeys.firstOrNull()
+
+        val potentialDao = annotatedDao.firstOrNull {
+            it.simpleName.asString().startsWith(
+                entity.simpleName.asString(),
+            )
+        }
+        val dao = when {
+            matchingEntityClass != null -> {
+                matchingEntityClass
+            }
+
+            potentialDao != null -> potentialDao
+            else -> null
+        }
+
+        if (dao == null || dao.isAnnotationPresent(StitchIgnore::class)) return null
+
+        val stitchNameAnnotation = dao.firstAnnotation<StitchName>()
+        val repositoryName = stitchNameAnnotation?.findArgumentValue<String>("repository")?.let {
+            if (it.isEmpty()) null else it
+        }
+        val repositoryImplName = stitchNameAnnotation?.findArgumentValue<String>(
+            "implementation",
+        )?.let {
+            if (it.isEmpty()) null else it
+        }
+
+        val mapToAnnotation = entity.firstAnnotation<MapTo>()
+        val mapTo = mapToAnnotation?.findArgumentValue<KSType>("target")?.toTypeName()
+        val toDomain = mapToAnnotation?.findArgumentValue<String>("toDomain") ?: "toDomain"
+        val toEntity = mapToAnnotation?.findArgumentValue<String>("toEntity") ?: "toEntity"
+        val mapperType = mapToAnnotation?.findArgumentValue<KSType>("mapper")
+        val mapper = mapperType?.toTypeName()?.let {
+            if (it.toString() == "kotlin.Nothing") null else it
+        }
+
+        var isToDomainSuspend = false
+        var isToEntitySuspend = false
+
+        mapperType?.declaration?.let { mapperDecl ->
+            if (mapperDecl is KSClassDeclaration) {
+                val mapperFunctions = mapperDecl.getDeclaredFunctions()
+                isToDomainSuspend = mapperFunctions.any {
+                    it.simpleName.asString() == toDomain && it.modifiers.contains(Modifier.SUSPEND)
+                }
+                isToEntitySuspend = mapperFunctions.any {
+                    it.simpleName.asString() == toEntity && it.modifiers.contains(Modifier.SUSPEND)
+                }
+            }
+        }
+
+        val fields = entity.primaryConstructor?.parameters?.map { parameter ->
+            val fieldName = parameter.name!!.asString()
+            val fieldType = parameter.type.resolve()
+            FieldKind(
+                name = fieldName,
+                type = ClassName(
+                    fieldType.declaration.packageName.asString(),
+                    fieldType.declaration.simpleName.asString(),
+                ),
+                isEmbedded = parameter.isAnnotationPresent(Embedded::class),
+                isRelation = parameter.isAnnotationPresent(Relation::class),
+            )
+        } ?: emptyList()
+
+        val functions = dao.getDeclaredFunctions().toList()
+            .filter { !it.isAnnotationPresent(StitchIgnore::class) }
+            .map { function ->
+                val rawOperation = function.firstAnnotation<RawOperation>()
+                val fieldName = function.simpleName.asString()
+                val fieldType = function.returnType?.resolve().let {
+                    it?.toTypeName() ?: UNIT
+                }
+                val parameters = function.parameters.map { parameter ->
+                    ParameterKind(
+                        name = parameter.toString(),
+                        type = parameter.type.toTypeName(),
+                    )
+                }
+                val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+
+                val operationType = when {
+                    function.isAnnotationPresent(Query::class) -> OperationType.QUERY
+                    function.isAnnotationPresent(Insert::class) -> OperationType.INSERT
+                    function.isAnnotationPresent(Update::class) -> OperationType.UPDATE
+                    function.isAnnotationPresent(Delete::class) -> OperationType.DELETE
+                    function.isAnnotationPresent(Upsert::class) -> OperationType.UPSERT
+                    function.isAnnotationPresent(RawQuery::class) -> OperationType.RAW_QUERY
+                    else -> OperationType.QUERY
+                }
+
+                FunctionKind(
+                    name = fieldName,
+                    returnType = fieldType,
+                    parameters = parameters,
+                    isSuspend = isSuspend,
+                    operationType = operationType,
+                    isTransaction = function.isAnnotationPresent(Transaction::class),
+                    enableRawOperationGeneration = rawOperation?.findArgumentValue<Boolean>(
+                        "generate",
+                    ) ?: (rawOperation != null),
+                )
+            }
+
+        return RoomModel(
+            name = getCommonBase(
+                entity.simpleName.asString(),
+                dao.simpleName.asString(),
+            ),
+            packageName = findCommonBase(
+                string1 = entity.packageName.asString(),
+                string2 = dao.packageName.asString(),
+            ),
+            fields = fields,
+            functions = functions,
+            entity = entity.toClassName(),
+            mapTo = mapTo,
+            toDomain = toDomain,
+            toEntity = toEntity,
+            mapper = mapper,
+            isToDomainSuspend = isToDomainSuspend,
+            isToEntitySuspend = isToEntitySuspend,
+            repositoryName = repositoryName,
+            repositoryImplName = repositoryImplName,
+            dao = dao.toClassName(),
         )
-      }
-
-    return RoomModel(
-      name = getCommonBase(
-        entity.simpleName.asString(),
-        dao.simpleName.asString(),
-      ),
-      packageName = findCommonBase(
-        string1 = entity.packageName.asString(),
-        string2 = dao.packageName.asString(),
-      ),
-      fields = fields,
-      functions = functions,
-      entity = entity.toClassName(),
-      mapTo = mapTo,
-      toDomain = toDomain,
-      toEntity = toEntity,
-      mapper = mapper,
-      isToDomainSuspend = isToDomainSuspend,
-      isToEntitySuspend = isToEntitySuspend,
-      repositoryName = repositoryName,
-      repositoryImplName = repositoryImplName,
-      dao = dao.toClassName(),
-    )
-  }
+    }
 }

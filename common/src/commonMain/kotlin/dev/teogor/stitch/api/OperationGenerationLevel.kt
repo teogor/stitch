@@ -35,24 +35,24 @@ package dev.teogor.stitch.api
  * methods.
  */
 enum class OperationGenerationLevel {
-  ALL,
-  EXPLICIT,
-  AUTOMATIC,
-  DISABLED,
-  ;
+    ALL,
+    EXPLICIT,
+    AUTOMATIC,
+    DISABLED,
+    ;
 
-  companion object {
-    /**
-     * Converts a string representation to the corresponding [OperationGenerationLevel].
-     *
-     * This function supports case-insensitive matching and throws an exception for invalid input.
-     *
-     * @param string The string to convert.
-     * @return The corresponding [OperationGenerationLevel] or throws an [IllegalArgumentException].
-     */
-    fun from(string: String): OperationGenerationLevel {
-      return values().firstOrNull { it.name.lowercase() == string.lowercase() }
-        ?: throw IllegalArgumentException("Invalid OperationGenerationLevel: $string")
+    companion object {
+        /**
+         * Converts a string representation to the corresponding [OperationGenerationLevel].
+         *
+         * This function supports case-insensitive matching and throws an exception for invalid input.
+         *
+         * @param string The string to convert.
+         * @return The corresponding [OperationGenerationLevel] or throws an [IllegalArgumentException].
+         */
+        fun from(string: String): OperationGenerationLevel {
+            return values().firstOrNull { it.name.lowercase() == string.lowercase() }
+                ?: throw IllegalArgumentException("Invalid OperationGenerationLevel: $string")
+        }
     }
-  }
 }

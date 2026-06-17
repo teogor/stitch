@@ -27,31 +27,31 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DemoRepositoryImpl(
-  private val db: AppDatabase,
-  private val demoDao: DemoDao = db.demoDao(),
+    private val db: AppDatabase,
+    private val demoDao: DemoDao = db.demoDao(),
 ) : DemoRepository {
 
-  override fun observeAll(): Flow<List<DemoModel>> {
-    return demoDao.observeAll().map { entities ->
-      entities.map { it.toDomain() }
+    override fun observeAll(): Flow<List<DemoModel>> {
+        return demoDao.observeAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
     }
-  }
 
-  override suspend fun getById(id: Long): DemoModel? {
-    return demoDao.getById(id)?.toDomain()
-  }
-
-  override suspend fun insert(item: DemoModel) {
-    demoDao.insert(item.toEntity())
-  }
-
-  override suspend fun bulkInsert(items: List<DemoModel>) {
-    db.withTransaction {
-      items.forEach { insert(it) }
+    override suspend fun getById(id: Long): DemoModel? {
+        return demoDao.getById(id)?.toDomain()
     }
-  }
 
-  override suspend fun delete(item: DemoModel) {
-    demoDao.delete(item.toEntity())
-  }
+    override suspend fun insert(item: DemoModel) {
+        demoDao.insert(item.toEntity())
+    }
+
+    override suspend fun bulkInsert(items: List<DemoModel>) {
+        db.withTransaction {
+            items.forEach { insert(it) }
+        }
+    }
+
+    override suspend fun delete(item: DemoModel) {
+        demoDao.delete(item.toEntity())
+    }
 }

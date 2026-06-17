@@ -16,37 +16,37 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-  alias(libs.plugins.jetbrains.kotlin.multiplatform)
-  alias(libs.plugins.jetbrains.compose)
-  alias(libs.plugins.jetbrains.compose.compiler)
+    alias(libs.plugins.jetbrains.kotlin.multiplatform)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 kotlin {
-  js {
-    browser()
-    binaries.executable()
-  }
-
-  @OptIn(ExperimentalWasmDsl::class)
-  wasmJs {
-    browser()
-    binaries.executable()
-  }
-
-  sourceSets {
-    val webMain by creating {
-      dependsOn(commonMain.get())
-      dependencies {
-        implementation(project(":catalog:shared"))
-        implementation(libs.compose.runtime)
-        implementation(libs.compose.foundation)
-        implementation(libs.compose.material3)
-        implementation(libs.compose.ui)
-        implementation(libs.androidx.lifecycle.viewmodelCompose)
-        implementation(libs.androidx.lifecycle.runtimeCompose)
-      }
+    js {
+        browser()
+        binaries.executable()
     }
-    jsMain.get().dependsOn(webMain)
-    wasmJsMain.get().dependsOn(webMain)
-  }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
+    sourceSets {
+        val webMain by creating {
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(project(":catalog:shared"))
+                implementation(libs.compose.runtime)
+                implementation(libs.compose.foundation)
+                implementation(libs.compose.material3)
+                implementation(libs.compose.ui)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
+            }
+        }
+        jsMain.get().dependsOn(webMain)
+        wasmJsMain.get().dependsOn(webMain)
+    }
 }

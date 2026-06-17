@@ -19,58 +19,58 @@ package dev.teogor.stitch.codegen.model
 import com.squareup.kotlinpoet.TypeName
 
 data class DatabaseModel(
-  val entities: List<TypeName>,
-  val views: List<TypeName> = emptyList(),
-  val type: TypeName,
-  val functions: List<FunctionKind>,
+    val entities: List<TypeName>,
+    val views: List<TypeName> = emptyList(),
+    val type: TypeName,
+    val functions: List<FunctionKind>,
 )
 
 data class RoomModel(
-  val name: String,
-  val packageName: String,
-  val entity: TypeName,
-  val mapTo: TypeName? = null,
-  val toDomain: String = "toDomain",
-  val toEntity: String = "toEntity",
-  val mapper: TypeName? = null,
-  val isToDomainSuspend: Boolean = false,
-  val isToEntitySuspend: Boolean = false,
-  val repositoryName: String? = null,
-  val repositoryImplName: String? = null,
-  val dao: TypeName? = null,
-  val fields: List<FieldKind>,
-  val functions: List<FunctionKind>,
+    val name: String,
+    val packageName: String,
+    val entity: TypeName,
+    val mapTo: TypeName? = null,
+    val toDomain: String = "toDomain",
+    val toEntity: String = "toEntity",
+    val mapper: TypeName? = null,
+    val isToDomainSuspend: Boolean = false,
+    val isToEntitySuspend: Boolean = false,
+    val repositoryName: String? = null,
+    val repositoryImplName: String? = null,
+    val dao: TypeName? = null,
+    val fields: List<FieldKind>,
+    val functions: List<FunctionKind>,
 ) {
-  val hasDao: Boolean = dao != null
+    val hasDao: Boolean = dao != null
 }
 
 data class FieldKind(
-  val name: String,
-  val type: TypeName,
-  val isEmbedded: Boolean = false,
-  val isRelation: Boolean = false,
+    val name: String,
+    val type: TypeName,
+    val isEmbedded: Boolean = false,
+    val isRelation: Boolean = false,
 )
 
 data class FunctionKind(
-  val name: String,
-  val isSuspend: Boolean,
-  val returnType: TypeName,
-  val parameters: List<ParameterKind>,
-  val operationType: OperationType = OperationType.QUERY,
-  val isTransaction: Boolean = false,
-  val enableRawOperationGeneration: Boolean = false,
+    val name: String,
+    val isSuspend: Boolean,
+    val returnType: TypeName,
+    val parameters: List<ParameterKind>,
+    val operationType: OperationType = OperationType.QUERY,
+    val isTransaction: Boolean = false,
+    val enableRawOperationGeneration: Boolean = false,
 )
 
 enum class OperationType {
-  QUERY,
-  INSERT,
-  UPDATE,
-  DELETE,
-  UPSERT,
-  RAW_QUERY,
+    QUERY,
+    INSERT,
+    UPDATE,
+    DELETE,
+    UPSERT,
+    RAW_QUERY,
 }
 
 data class ParameterKind(
-  val name: String,
-  val type: TypeName,
+    val name: String,
+    val type: TypeName,
 )

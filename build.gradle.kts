@@ -1,3 +1,18 @@
+/*
+ * Copyright 2026 teogor (Teodor Grigor)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import dev.teogor.winds.api.ArtifactIdFormat
 import dev.teogor.winds.api.License
 import dev.teogor.winds.api.NameFormat
@@ -12,141 +27,185 @@ import org.jetbrains.dokka.gradle.DokkaPlugin
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-  alias(libs.plugins.android.application) apply false
-  alias(libs.plugins.jetbrains.kotlin.android) apply false
-  alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
-  alias(libs.plugins.jetbrains.kotlin.jvm) apply false
-  alias(libs.plugins.jetbrains.compose.compiler) apply false
-  alias(libs.plugins.metro) apply false
-  alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.jetbrains.compose.compiler) apply false
+    alias(libs.plugins.metro) apply false
+    alias(libs.plugins.ksp) apply false
 
-  alias(libs.plugins.winds) apply true
-  alias(libs.plugins.vanniktech.maven) apply true
-  alias(libs.plugins.dokka) apply true
-  alias(libs.plugins.spotless) apply true
-  alias(libs.plugins.api.validator) apply true
+    alias(libs.plugins.winds) apply true
+    alias(libs.plugins.vanniktech.maven) apply true
+    alias(libs.plugins.dokka) apply true
+    alias(libs.plugins.spotless) apply true
+    alias(libs.plugins.api.validator) apply true
 }
 
 winds {
-  features {
-    mavenPublishing = true
-    docsGenerator = true
-  }
-
-  moduleMetadata {
-    name = "Stitch"
-    description =
-      "\uD83E\uDEA1 Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations."
-    yearCreated = 2024
-
-    websiteUrl = "https://source.teogor.dev/stitch"
-    apiDocsUrl = "https://source.teogor.dev/stitch"
-
-    artifactDescriptor {
-      group = "dev.teogor.stitch"
-      name = "stitch"
-      version = createVersion(1, 0, 0) {
-        alphaRelease(2)
-      }
-      nameFormat = NameFormat.FULL
-      artifactIdFormat = ArtifactIdFormat.MODULE_NAME_ONLY
+    features {
+        mavenPublishing = true
+        docsGenerator = true
     }
 
-    scm<Scm.GitHub> {
-      owner = "teogor"
-      repository = "stitch"
+    moduleMetadata {
+        name = "Stitch"
+        description =
+            "\uD83E\uDEA1 Stitch handles the Room boilerplate, including automatic generation of repositories, dependency injection integration, and flexible customizations."
+        yearCreated = 2024
+
+        websiteUrl = "https://source.teogor.dev/stitch"
+        apiDocsUrl = "https://source.teogor.dev/stitch"
+
+        artifactDescriptor {
+            group = "dev.teogor.stitch"
+            name = "stitch"
+            version = createVersion(1, 0, 0) {
+                alphaRelease(2)
+            }
+            nameFormat = NameFormat.FULL
+            artifactIdFormat = ArtifactIdFormat.MODULE_NAME_ONLY
+        }
+
+        scm<Scm.GitHub> {
+            owner = "teogor"
+            repository = "stitch"
+        }
+
+        ticketSystem<TicketSystem.GitHub> {
+            owner = "teogor"
+            repository = "stitch"
+        }
+
+        licensedUnder(License.Apache2())
+
+        person<Person.DeveloperContributor> {
+            id = "teogor"
+            name = "Teodor Grigor"
+            email = "open-source@teogor.dev"
+            url = "https://teogor.dev"
+            roles = listOf("Code Owner", "Developer", "Designer", "Maintainer")
+            timezone = "UTC+2"
+            organization = "Teogor"
+            organizationUrl = "https://github.com/teogor"
+        }
     }
 
-    ticketSystem<TicketSystem.GitHub> {
-      owner = "teogor"
-      repository = "stitch"
+    publishing {
+        enabled = false
+        enablePublicationSigning = false
+        optInForVanniktechPlugin = true
+        cascade = true
+        automaticPublishing = true
     }
-
-    licensedUnder(License.Apache2())
-
-    person<Person.DeveloperContributor> {
-      id = "teogor"
-      name = "Teodor Grigor"
-      email = "open-source@teogor.dev"
-      url = "https://teogor.dev"
-      roles = listOf("Code Owner", "Developer", "Designer", "Maintainer")
-      timezone = "UTC+2"
-      organization = "Teogor"
-      organizationUrl = "https://github.com/teogor"
-    }
-  }
-
-  publishing {
-    enabled = false
-    enablePublicationSigning = false
-    optInForVanniktechPlugin = true
-    cascade = true
-    automaticPublishing = true
-  }
 }
 
 val excludedProjects = listOf(
-  project.name,
+    project.name,
 )
 
-subprojects {
-  apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
-  configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+spotless {
     kotlin {
-      target("**/*.kt")
-      targetExclude("**/build/**/*.kt")
-      ktlint("1.2.1")
-        .editorConfigOverride(
-          mapOf(
-            "ij_kotlin_allow_trailing_comma" to "true",
-            "disabled_rules" to
-              "filename," +
-              "annotation,annotation-spacing," +
-              "argument-list-wrapping," +
-              "double-colon-spacing," +
-              "enum-entry-name-case," +
-              "multiline-if-else," +
-              "no-empty-first-line-in-method-block," +
-              "package-name," +
-              "trailing-comma," +
-              "spacing-around-angle-brackets," +
-              "spacing-between-declarations-with-annotations," +
-              "spacing-between-declarations-with-comments," +
-              "unary-op-spacing," +
-              "no-trailing-spaces," +
-              "no-wildcard-imports," +
-              "standard:function-naming,standard:property-naming," +
-              "max-line-length",
-          ),
-        )
-      licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
-      trimTrailingWhitespace()
-      endWithNewline()
+        target("**/*.kt")
+        targetExclude("**/build/**/*.kt", "**/spotless/**/*.kt")
+        ktlint("1.2.1")
+            .editorConfigOverride(
+                mapOf(
+                    "indent_size" to "4",
+                    "continuation_indent_size" to "4",
+                    "ij_kotlin_allow_trailing_comma" to "true",
+                    "disabled_rules" to
+                        "filename," +
+                        "annotation,annotation-spacing," +
+                        "argument-list-wrapping," +
+                        "double-colon-spacing," +
+                        "enum-entry-name-case," +
+                        "multiline-if-else," +
+                        "no-empty-first-line-in-method-block," +
+                        "package-name," +
+                        "trailing-comma," +
+                        "spacing-around-angle-brackets," +
+                        "spacing-between-declarations-with-annotations," +
+                        "spacing-between-declarations-with-comments," +
+                        "unary-op-spacing," +
+                        "no-trailing-spaces," +
+                        "no-wildcard-imports," +
+                        "standard:function-naming,standard:property-naming," +
+                        "max-line-length",
+                ),
+            )
+        licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+        trimTrailingWhitespace()
+        endWithNewline()
     }
-    format("kts") {
-      target("**/*.kts")
-      targetExclude("**/build/**/*.kts")
-      // Look for the first line that doesn't have a block comment (assumed to be the license)
-      licenseHeaderFile(rootProject.file("spotless/copyright.kts"), "(^(?![\\/ ]\\*).*$)")
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        targetExclude("**/build/**/*.gradle.kts", "**/spotless/**/*.gradle.kts")
+        ktlint("1.2.1")
+            .editorConfigOverride(
+                mapOf(
+                    "indent_size" to "4",
+                    "continuation_indent_size" to "4",
+                    "max_line_length" to "off",
+                ),
+            )
+        licenseHeaderFile(
+            rootProject.file("spotless/copyright.kts"),
+            "(^(?![\\/ ]\\*).*$)",
+        )
+        trimTrailingWhitespace()
+        endWithNewline()
     }
     format("xml") {
-      target("**/*.xml")
-      targetExclude("**/build/**/*.xml")
-      // Look for the first XML tag that isn't a comment (<!--) or the xml declaration (<?xml)
-      licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
+        target("**/*.xml")
+        targetExclude("**/build/**/*.xml", "**/spotless/**/*.xml")
+        licenseHeaderFile(rootProject.file("spotless/copyright.xml"), "(<[^!?])")
+        trimTrailingWhitespace()
+        endWithNewline()
+        leadingTabsToSpaces(4)
     }
-  }
+    format("json") {
+        target("**/*.json")
+        targetExclude("**/build/**/*.json")
+        trimTrailingWhitespace()
+        endWithNewline()
+        leadingTabsToSpaces(4)
+    }
+    format("yaml") {
+        target("**/*.yaml", "**/*.yml")
+        targetExclude("**/build/**/*.yaml", "**/build/**/*.yml")
+        trimTrailingWhitespace()
+        endWithNewline()
+        leadingTabsToSpaces(4)
+    }
+    format("toml") {
+        target("**/*.toml")
+        targetExclude("**/build/**/*.toml")
+        trimTrailingWhitespace()
+        endWithNewline()
+        leadingTabsToSpaces(4)
+    }
+    format("properties") {
+        target("**/*.properties")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format("markdown") {
+        target("**/*.md")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 apiValidation {
-  /**
-   * Subprojects that are excluded from API validation
-   */
-  ignoredProjects.addAll(excludedProjects)
+    /**
+     * Subprojects that are excluded from API validation
+     */
+    ignoredProjects.addAll(excludedProjects)
 }
 
 subprojects {
-  if (!excludedProjects.contains(project.name)) {
-    apply<DokkaPlugin>()
-  }
+    if (!excludedProjects.contains(project.name)) {
+        apply<DokkaPlugin>()
+    }
 }

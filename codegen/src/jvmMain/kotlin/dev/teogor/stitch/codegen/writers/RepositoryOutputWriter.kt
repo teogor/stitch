@@ -33,27 +33,27 @@ import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.RoomModel
 
 class RepositoryOutputWriter(
-  private val codeOutputStreamMaker: CodeOutputStreamMaker,
-  codeGenConfig: CodeGenConfig,
+    private val codeOutputStreamMaker: CodeOutputStreamMaker,
+    codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(roomModel: RoomModel): TypeName {
-    val repositoryName = roomModel.getRepositoryName()
-    val repositoryPackage = roomModel.getRepositoryPackage()
-    fileBuilder(
-      packageName = repositoryPackage,
-      fileName = repositoryName,
-    ) {
-      addType(
-        TypeSpec.interfaceBuilder(repositoryName)
-          .addModifiers(getVisibility())
-          .apply {
-            codeGenConfig.repositoryBaseClass?.let { baseClass ->
-              addSuperinterface(ClassName.bestGuess(baseClass))
-            }
-          }
-          .addDocumentation(
-            """
+    fun write(roomModel: RoomModel): TypeName {
+        val repositoryName = roomModel.getRepositoryName()
+        val repositoryPackage = roomModel.getRepositoryPackage()
+        fileBuilder(
+            packageName = repositoryPackage,
+            fileName = repositoryName,
+        ) {
+            addType(
+                TypeSpec.interfaceBuilder(repositoryName)
+                    .addModifiers(getVisibility())
+                    .apply {
+                        codeGenConfig.repositoryBaseClass?.let { baseClass ->
+                            addSuperinterface(ClassName.bestGuess(baseClass))
+                        }
+                    }
+                    .addDocumentation(
+                        """
             Interface for accessing and managing [${roomModel.name}] data.
 
             This repository provides a high-level abstraction for interacting with [${roomModel.name}]'s,
@@ -63,102 +63,105 @@ class RepositoryOutputWriter(
 
             @see [${roomModel.name}]
             @see [${roomModel.dao.shortName}]
-            """.trimIndent(),
-          )
-          .apply {
-            roomModel.functions.forEach { function ->
-              val returnType = function.returnType.mapTo(roomModel)
-              addFunction(
-                FunSpec.builder(function.name)
-                  .addModifiers(KModifier.ABSTRACT)
-                  .apply {
-                    val kdoc = buildString {
-                      appendLine(
-                        "Performs the ${function.name} operation on [${roomModel.name}]s.",
-                      )
+                        """.trimIndent(),
+                    )
+                    .apply {
+                        roomModel.functions.forEach { function ->
+                            val returnType = function.returnType.mapTo(roomModel)
+                            addFunction(
+                                FunSpec.builder(function.name)
+                                    .addModifiers(KModifier.ABSTRACT)
+                                    .apply {
+                                        val kdoc = buildString {
+                                            appendLine(
+                                                "Performs the ${function.name} operation on [${roomModel.name}]s.",
+                                            )
 
-                      if (function.isSuspend) {
-                        appendLine()
-                        appendLine(
-                          "This function is executed asynchronously and might block the calling thread.",
-                        )
-                        appendLine(
-                          "Use it within coroutines or with appropriate thread management.",
-                        )
-                      }
+                                            if (function.isSuspend) {
+                                                appendLine()
+                                                appendLine(
+                                                    "This function is executed asynchronously and might block the calling thread.",
+                                                )
+                                                appendLine(
+                                                    "Use it within coroutines or with appropriate thread management.",
+                                                )
+                                            }
 
-                      if (function.isTransaction) {
-                        appendLine()
-                        appendLine(
-                          "Note: This operation is executed within a database transaction.",
-                        )
-                      }
+                                            if (function.isTransaction) {
+                                                appendLine()
+                                                appendLine(
+                                                    "Note: This operation is executed within a database transaction.",
+                                                )
+                                            }
 
-                      if (function.parameters.isNotEmpty()) {
-                        appendLine()
-                        appendLine(
-                          function.parameters.joinToString(
-                            separator = "\n",
-                          ) { "@param ${it.name}" },
-                        )
-                      }
+                                            if (function.parameters.isNotEmpty()) {
+                                                appendLine()
+                                                appendLine(
+                                                    function.parameters.joinToString(
+                                                        separator = "\n",
+                                                    ) { "@param ${it.name}" },
+                                                )
+                                            }
 
-                      if (returnType != UNIT) {
-                        appendLine()
-                        appendLine(
-                          "@return ${returnType.shortName}",
-                        )
-                      }
-                    }
+                                            if (returnType != UNIT) {
+                                                appendLine()
+                                                appendLine(
+                                                    "@return ${returnType.shortName}",
+                                                )
+                                            }
+                                        }
 
-                    addDocumentation(kdoc.trimIndent())
-                  }
-                  .apply {
-                    if (returnType != UNIT) {
-                      returns(returnType)
-                    }
-                    function.parameters.forEach { parameter ->
-                      addParameter(parameter.name, parameter.type.mapTo(roomModel))
-                    }
-                    if (function.isSuspend) {
-                      addModifiers(KModifier.SUSPEND)
-                    }
-                  }
-                  .build(),
-              )
-            }
+                                        addDocumentation(kdoc.trimIndent())
+                                    }
+                                    .apply {
+                                        if (returnType != UNIT) {
+                                            returns(returnType)
+                                        }
+                                        function.parameters.forEach { parameter ->
+                                            addParameter(
+                                                parameter.name,
+                                                parameter.type.mapTo(roomModel),
+                                            )
+                                        }
+                                        if (function.isSuspend) {
+                                            addModifiers(KModifier.SUSPEND)
+                                        }
+                                    }
+                                    .build(),
+                            )
+                        }
 
-            addFunction(
-              FunSpec.builder("transaction")
-                .addModifiers(KModifier.ABSTRACT)
-                .addModifiers(KModifier.SUSPEND)
-                .addTypeVariable(TypeVariableName("R"))
-                .addParameter(
-                  "block",
-                  LambdaTypeName.get(
-                    receiver = ClassName(repositoryPackage, repositoryName),
-                    returnType = TypeVariableName("R"),
-                  ).copy(suspending = true),
-                )
-                .returns(TypeVariableName("R"))
-                .addDocumentation(
-                  """
+                        addFunction(
+                            FunSpec.builder("transaction")
+                                .addModifiers(KModifier.ABSTRACT)
+                                .addModifiers(KModifier.SUSPEND)
+                                .addTypeVariable(TypeVariableName("R"))
+                                .addParameter(
+                                    "block",
+                                    LambdaTypeName.get(
+                                        receiver = ClassName(repositoryPackage, repositoryName),
+                                        returnType = TypeVariableName("R"),
+                                    ).copy(suspending = true),
+                                )
+                                .returns(TypeVariableName("R"))
+                                .addDocumentation(
+                                    """
                   Executes the given block within a database transaction.
 
                   @param block The block of code to execute within the transaction.
                   @return The result of the transaction block.
-                  """.trimIndent(),
-                )
-                .build(),
+                                    """.trimIndent(),
+                                )
+                                .build(),
+                        )
+                    }
+                    .build(),
             )
-          }
-          .build(),
-      )
-    }.writeWith(codeOutputStreamMaker)
+        }.writeWith(codeOutputStreamMaker)
 
-    return ClassName(
-      repositoryPackage,
-      repositoryName,
-    )
-  }
+        return ClassName(
+            repositoryPackage,
+            repositoryName,
+        )
+    }
 }

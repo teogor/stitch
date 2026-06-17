@@ -16,32 +16,32 @@
 import dev.teogor.stitch.convention.kmpLibraryAll
 
 plugins {
-  alias(libs.plugins.stitch.kmp.library)
+    alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  kmpLibraryAll(project, "StitchKsp") {
-    sourceSets {
-      commonMain.dependencies {
-        api(project(":common"))
-        implementation(project(":codegen"))
-      }
-      jvmMain {
-        compilerOptions {
-          freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+    kmpLibraryAll(project, "StitchKsp") {
+        sourceSets {
+            commonMain.dependencies {
+                api(project(":common"))
+                implementation(project(":codegen"))
+            }
+            jvmMain {
+                compilerOptions {
+                    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+                }
+                dependencies {
+                    implementation(libs.ksp.api)
+                }
+            }
         }
-        dependencies {
-          implementation(libs.ksp.api)
-        }
-      }
     }
-  }
 }
 
 winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "ksp"
+    moduleMetadata {
+        artifactDescriptor {
+            name = "ksp"
+        }
     }
-  }
 }

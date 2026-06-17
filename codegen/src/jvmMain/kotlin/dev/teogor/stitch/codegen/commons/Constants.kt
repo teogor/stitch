@@ -19,40 +19,40 @@ package dev.teogor.stitch.codegen.commons
 import com.squareup.kotlinpoet.ClassName
 
 val METRO_BINDING_CONTAINER = ClassName(
-  packageName = "dev.zacsweers.metro",
-  "BindingContainer",
+    packageName = "dev.zacsweers.metro",
+    "BindingContainer",
 )
 val METRO_PROVIDES = ClassName(
-  packageName = "dev.zacsweers.metro",
-  "Provides",
+    packageName = "dev.zacsweers.metro",
+    "Provides",
 )
 val METRO_CONTRIBUTES_TO = ClassName(
-  packageName = "dev.zacsweers.metro",
-  "ContributesTo",
+    packageName = "dev.zacsweers.metro",
+    "ContributesTo",
 )
 val STITCH_SCOPE = ClassName(
-  packageName = "dev.teogor.stitch.di",
-  "StitchScope",
+    packageName = "dev.teogor.stitch.di",
+    "StitchScope",
 )
 val METRO_SINGLE_IN = ClassName(
-  packageName = "dev.zacsweers.metro",
-  "SingleIn",
+    packageName = "dev.zacsweers.metro",
+    "SingleIn",
 )
 val METRO_INJECT = ClassName(
-  packageName = "dev.zacsweers.metro",
-  "Inject",
+    packageName = "dev.zacsweers.metro",
+    "Inject",
 )
 val JAVAX_INJECT = ClassName(
-  packageName = "javax.inject",
-  "Inject",
+    packageName = "javax.inject",
+    "Inject",
 )
 val JAVAX_SINGLETON = ClassName(
-  packageName = "javax.inject",
-  "Singleton",
+    packageName = "javax.inject",
+    "Singleton",
 )
 val JAVAX_NAMED = ClassName(
-  packageName = "javax.inject",
-  "Named",
+    packageName = "javax.inject",
+    "Named",
 )
 
 val DAGGER_MODULE = ClassName("dagger", "Module")

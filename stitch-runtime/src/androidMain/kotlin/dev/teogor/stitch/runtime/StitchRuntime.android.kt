@@ -21,27 +21,27 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 actual object StitchRuntime {
-  private var applicationContext: Context? = null
+    private var applicationContext: Context? = null
 
-  /**
-   * Initializes Stitch framework configuration bounds for Android targets.
-   * This is called automatically by [dev.teogor.stitch.runtime.startup.StitchInitializer].
-   */
-  @PublishedApi
-  internal actual fun initialize(context: PlatformContext) {
-    if (applicationContext == null) {
-      applicationContext = context.context.applicationContext
+    /**
+     * Initializes Stitch framework configuration bounds for Android targets.
+     * This is called automatically by [dev.teogor.stitch.runtime.startup.StitchInitializer].
+     */
+    @PublishedApi
+    internal actual fun initialize(context: PlatformContext) {
+        if (applicationContext == null) {
+            applicationContext = context.context.applicationContext
+        }
     }
-  }
 
-  @PublishedApi
-  internal actual fun getContext(): PlatformContext {
-    val context = applicationContext ?: throw IllegalStateException(
-      "Stitch Framework has not been initialized! Please ensure App Startup is working.",
-    )
-    return PlatformContext(context)
-  }
+    @PublishedApi
+    internal actual fun getContext(): PlatformContext {
+        val context = applicationContext ?: throw IllegalStateException(
+            "Stitch Framework has not been initialized! Please ensure App Startup is working.",
+        )
+        return PlatformContext(context)
+    }
 
-  actual val ioDispatcher: CoroutineDispatcher
-    get() = Dispatchers.IO
+    actual val ioDispatcher: CoroutineDispatcher
+        get() = Dispatchers.IO
 }

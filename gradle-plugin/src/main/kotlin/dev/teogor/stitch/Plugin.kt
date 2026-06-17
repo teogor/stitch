@@ -32,24 +32,24 @@ import org.gradle.kotlin.dsl.create
  * @see StitchExtension interface for configuration options.
  */
 class Plugin : Plugin<Project> {
-  override fun apply(target: Project) {
-    with(target) {
-      // Create a named extension instance for configuration
-      val extension = extensions.create(
-        publicType = StitchExtension::class,
-        name = "stitch",
-        instanceType = StitchExtensionImpl::class,
-      )
+    override fun apply(target: Project) {
+        with(target) {
+            // Create a named extension instance for configuration
+            val extension = extensions.create(
+                publicType = StitchExtension::class,
+                name = "stitch",
+                instanceType = StitchExtensionImpl::class,
+            )
 
-      // Apply the KSP plugin
-      pluginManager.apply("com.google.devtools.ksp")
+            // Apply the KSP plugin
+            pluginManager.apply("com.google.devtools.ksp")
 
-      // Configure KSP extension after project evaluation
-      afterEvaluate {
-        extensions.configure<KspExtension> {
-          arg(StitchSchemaArgProvider.from(extension))
+            // Configure KSP extension after project evaluation
+            afterEvaluate {
+                extensions.configure<KspExtension> {
+                    arg(StitchSchemaArgProvider.from(extension))
+                }
+            }
         }
-      }
     }
-  }
 }

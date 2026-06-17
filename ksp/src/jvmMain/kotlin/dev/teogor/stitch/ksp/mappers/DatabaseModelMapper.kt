@@ -30,50 +30,50 @@ import dev.teogor.stitch.codegen.model.ParameterKind
 
 class DatabaseModelMapper {
 
-  fun map(database: KSClassDeclaration): DatabaseModel {
-    val annotation = database.annotations.find {
-      it.shortName.asString() == Database::class.simpleName
-    }!!
-    val entities = (
-      annotation.arguments.find {
-        it.name!!.getShortName() == "entities"
-      }?.value as? List<*>
-      )?.filterIsInstance<KSType>()?.map {
-      (it.declaration as KSClassDeclaration).toClassName()
-    } ?: emptyList()
+    fun map(database: KSClassDeclaration): DatabaseModel {
+        val annotation = database.annotations.find {
+            it.shortName.asString() == Database::class.simpleName
+        }!!
+        val entities = (
+            annotation.arguments.find {
+                it.name!!.getShortName() == "entities"
+            }?.value as? List<*>
+            )?.filterIsInstance<KSType>()?.map {
+            (it.declaration as KSClassDeclaration).toClassName()
+        } ?: emptyList()
 
-    val views = (
-      annotation.arguments.find {
-        it.name!!.getShortName() == "views"
-      }?.value as? List<*>
-      )?.filterIsInstance<KSType>()?.map {
-      (it.declaration as KSClassDeclaration).toClassName()
-    } ?: emptyList()
+        val views = (
+            annotation.arguments.find {
+                it.name!!.getShortName() == "views"
+            }?.value as? List<*>
+            )?.filterIsInstance<KSType>()?.map {
+            (it.declaration as KSClassDeclaration).toClassName()
+        } ?: emptyList()
 
-    val functions = database.getDeclaredFunctions().toList().map { function ->
-      val fieldName = function.simpleName.asString()
-      val fieldType = function.returnType?.resolve().let {
-        it?.toTypeName() ?: UNIT
-      }
-      val parameters = function.parameters.map { parameter ->
-        ParameterKind(
-          name = parameter.toString(),
-          type = parameter.type.toTypeName(),
+        val functions = database.getDeclaredFunctions().toList().map { function ->
+            val fieldName = function.simpleName.asString()
+            val fieldType = function.returnType?.resolve().let {
+                it?.toTypeName() ?: UNIT
+            }
+            val parameters = function.parameters.map { parameter ->
+                ParameterKind(
+                    name = parameter.toString(),
+                    type = parameter.type.toTypeName(),
+                )
+            }
+            val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
+            FunctionKind(
+                name = fieldName,
+                returnType = fieldType,
+                parameters = parameters,
+                isSuspend = isSuspend,
+            )
+        }
+        return DatabaseModel(
+            entities = entities,
+            views = views,
+            type = database.toClassName(),
+            functions = functions,
         )
-      }
-      val isSuspend = function.modifiers.contains(Modifier.SUSPEND)
-      FunctionKind(
-        name = fieldName,
-        returnType = fieldType,
-        parameters = parameters,
-        isSuspend = isSuspend,
-      )
     }
-    return DatabaseModel(
-      entities = entities,
-      views = views,
-      type = database.toClassName(),
-      functions = functions,
-    )
-  }
 }

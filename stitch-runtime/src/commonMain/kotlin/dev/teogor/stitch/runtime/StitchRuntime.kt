@@ -22,21 +22,21 @@ import kotlinx.coroutines.CoroutineDispatcher
  * Global entry point for the Stitch framework lifecycle management.
  */
 expect object StitchRuntime {
-  /**
-   * Returns the platform-specific IO dispatcher.
-   */
-  val ioDispatcher: CoroutineDispatcher
+    /**
+     * Returns the platform-specific IO dispatcher.
+     */
+    val ioDispatcher: CoroutineDispatcher
 
-  /**
-   * Internal function to initialize the framework.
-   * On Android, this is handled automatically by App Startup.
-   */
-  @PublishedApi
-  internal fun initialize(context: PlatformContext)
+    /**
+     * Internal function to initialize the framework.
+     * On Android, this is handled automatically by App Startup.
+     */
+    @PublishedApi
+    internal fun initialize(context: PlatformContext)
 
-  /**
-   * Returns the current platform context.
-   */
-  @PublishedApi
-  internal fun getContext(): PlatformContext
+    /**
+     * Returns the current platform context.
+     */
+    @PublishedApi
+    internal fun getContext(): PlatformContext
 }

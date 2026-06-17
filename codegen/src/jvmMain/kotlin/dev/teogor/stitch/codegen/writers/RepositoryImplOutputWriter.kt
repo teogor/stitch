@@ -34,34 +34,34 @@ import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.RoomModel
 
 class RepositoryImplOutputWriter(
-  private val codeOutputStreamMaker: CodeOutputStreamMaker,
-  codeGenConfig: CodeGenConfig,
+    private val codeOutputStreamMaker: CodeOutputStreamMaker,
+    codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(roomModel: RoomModel, repositoryType: TypeName, databaseType: TypeName?) {
-    val repositoryImplName = roomModel.getRepositoryImplName()
-    val repositoryImplPackage = roomModel.getRepositoryImplPackage()
-    fileBuilder(
-      packageName = repositoryImplPackage,
-      fileName = repositoryImplName,
-    ) {
-      if (roomModel.functions.any { it.returnType != it.returnType.mapTo(roomModel) }) {
-        addImport("kotlinx.coroutines.flow", "map")
-        if (roomModel.isToDomainSuspend) {
-          addImport("kotlinx.coroutines.flow", "asFlow")
-          addImport("kotlinx.coroutines.flow", "toList")
-        }
-      }
-      if (databaseType != null) {
-        addImport("androidx.room3", "useWriterConnection")
-        addImport("androidx.room3", "immediateTransaction")
-      }
-      addType(
-        TypeSpec.classBuilder(repositoryImplName)
-          .addModifiers(getVisibility())
-          .addSuperinterface(repositoryType)
-          .addDocumentation(
-            """
+    fun write(roomModel: RoomModel, repositoryType: TypeName, databaseType: TypeName?) {
+        val repositoryImplName = roomModel.getRepositoryImplName()
+        val repositoryImplPackage = roomModel.getRepositoryImplPackage()
+        fileBuilder(
+            packageName = repositoryImplPackage,
+            fileName = repositoryImplName,
+        ) {
+            if (roomModel.functions.any { it.returnType != it.returnType.mapTo(roomModel) }) {
+                addImport("kotlinx.coroutines.flow", "map")
+                if (roomModel.isToDomainSuspend) {
+                    addImport("kotlinx.coroutines.flow", "asFlow")
+                    addImport("kotlinx.coroutines.flow", "toList")
+                }
+            }
+            if (databaseType != null) {
+                addImport("androidx.room3", "useWriterConnection")
+                addImport("androidx.room3", "immediateTransaction")
+            }
+            addType(
+                TypeSpec.classBuilder(repositoryImplName)
+                    .addModifiers(getVisibility())
+                    .addSuperinterface(repositoryType)
+                    .addDocumentation(
+                        """
             Implementation of the [${roomModel.getRepositoryName()}] interface, providing access
             to [${roomModel.name}] data using a [${roomModel.dao!!.shortName}].
 
@@ -74,215 +74,218 @@ class RepositoryImplOutputWriter(
             @see [${roomModel.name}]
             @see [${roomModel.getRepositoryName()}]
             @see [${roomModel.dao.shortName}]
-            """.trimIndent(),
-          )
-          .apply {
-            primaryConstructor(
-              FunSpec.constructorBuilder()
-                .addParameter("dao", roomModel.dao!!)
-                .apply {
-                  databaseType?.let {
-                    addParameter("db", it)
-                  }
-                  roomModel.mapper?.let { mapper ->
-                    addParameter("mapper", mapper)
-                  }
-                }
-                .build(),
-            )
-            addProperty(
-              PropertySpec.builder("dao", roomModel.dao)
-                .initializer("dao")
-                .addModifiers(KModifier.PRIVATE)
-                .build(),
-            )
-            databaseType?.let {
-              addProperty(
-                PropertySpec.builder("db", it)
-                  .initializer("db")
-                  .addModifiers(KModifier.PRIVATE)
-                  .build(),
-              )
-            }
-            roomModel.mapper?.let { mapper ->
-              addProperty(
-                PropertySpec.builder("mapper", mapper)
-                  .initializer("mapper")
-                  .addModifiers(KModifier.PRIVATE)
-                  .build(),
-              )
-            }
-
-            roomModel.functions.forEach { function ->
-              val returnType = function.returnType.mapTo(roomModel)
-              addFunction(
-                FunSpec.builder(function.name)
-                  .addModifiers(KModifier.OVERRIDE)
-                  .addDocumentation(
-                    buildString {
-                      appendLine(
-                        "Performs the ${function.name} operation on [${roomModel.name}]s.",
-                      )
-
-                      if (function.isSuspend) {
-                        appendLine(
-                          "This function is executed asynchronously and might block the calling thread.",
-                        )
-                        appendLine(
-                          "Use it within coroutines or with appropriate thread management.",
-                        )
-                      }
-
-                      if (function.parameters.isNotEmpty()) {
-                        appendLine()
-                        appendLine(
-                          function.parameters.joinToString(
-                            separator = "\n",
-                          ) { "@param ${it.name}" },
-                        )
-                      }
-
-                      if (returnType != UNIT) {
-                        appendLine()
-                        appendLine(
-                          "@return ${returnType.shortName}",
-                        )
-                      }
-                    }.trimIndent(),
-                  )
-                  .apply {
-                    val args = function.parameters.joinToString(
-                      separator = ",",
-                    ) { parameter ->
-                      if (parameter.type != parameter.type.mapTo(roomModel)) {
-                        if (roomModel.mapper != null) {
-                          "mapper.${roomModel.toEntity}(${parameter.name})"
-                        } else {
-                          "${parameter.name}.${roomModel.toEntity}()"
-                        }
-                      } else {
-                        parameter.name
-                      }
-                    }
-                    val invokeCode = "dao.${function.name}($args)"
-                    val (mappingCode, isMappingSuspend) = generateMappingCode(
-                      function.returnType,
-                      returnType,
-                      invokeCode,
-                      roomModel,
+                        """.trimIndent(),
                     )
-                    if (returnType != UNIT) {
-                      returns(returnType)
-                      if (function.returnType != returnType) {
-                        addCode("return $mappingCode")
-                      } else {
-                        addCode("return $invokeCode")
-                      }
-                    } else {
-                      addCode(invokeCode)
-                    }
-                    function.parameters.forEach { parameter ->
-                      addParameter(parameter.name, parameter.type.mapTo(roomModel))
-                    }
-                    val isAnyParamMappingSuspend = function.parameters.any { parameter ->
-                      parameter.type != parameter.type.mapTo(
-                        roomModel,
-                      ) && roomModel.isToEntitySuspend
-                    }
-                    if (function.isSuspend || isMappingSuspend || isAnyParamMappingSuspend) {
-                      addModifiers(KModifier.SUSPEND)
-                    }
-                  }
-                  .build(),
-              )
-            }
+                    .apply {
+                        primaryConstructor(
+                            FunSpec.constructorBuilder()
+                                .addParameter("dao", roomModel.dao!!)
+                                .apply {
+                                    databaseType?.let {
+                                        addParameter("db", it)
+                                    }
+                                    roomModel.mapper?.let { mapper ->
+                                        addParameter("mapper", mapper)
+                                    }
+                                }
+                                .build(),
+                        )
+                        addProperty(
+                            PropertySpec.builder("dao", roomModel.dao)
+                                .initializer("dao")
+                                .addModifiers(KModifier.PRIVATE)
+                                .build(),
+                        )
+                        databaseType?.let {
+                            addProperty(
+                                PropertySpec.builder("db", it)
+                                    .initializer("db")
+                                    .addModifiers(KModifier.PRIVATE)
+                                    .build(),
+                            )
+                        }
+                        roomModel.mapper?.let { mapper ->
+                            addProperty(
+                                PropertySpec.builder("mapper", mapper)
+                                    .initializer("mapper")
+                                    .addModifiers(KModifier.PRIVATE)
+                                    .build(),
+                            )
+                        }
 
-            if (databaseType != null) {
-              addFunction(
-                FunSpec.builder("transaction")
-                  .addModifiers(KModifier.OVERRIDE)
-                  .addModifiers(KModifier.SUSPEND)
-                  .addTypeVariable(TypeVariableName("R"))
-                  .addParameter(
-                    "block",
-                    LambdaTypeName.get(
-                      receiver = repositoryType,
-                      returnType = TypeVariableName("R"),
-                    ).copy(suspending = true),
-                  )
-                  .returns(TypeVariableName("R"))
-                  .addDocumentation(
-                    """
+                        roomModel.functions.forEach { function ->
+                            val returnType = function.returnType.mapTo(roomModel)
+                            addFunction(
+                                FunSpec.builder(function.name)
+                                    .addModifiers(KModifier.OVERRIDE)
+                                    .addDocumentation(
+                                        buildString {
+                                            appendLine(
+                                                "Performs the ${function.name} operation on [${roomModel.name}]s.",
+                                            )
+
+                                            if (function.isSuspend) {
+                                                appendLine(
+                                                    "This function is executed asynchronously and might block the calling thread.",
+                                                )
+                                                appendLine(
+                                                    "Use it within coroutines or with appropriate thread management.",
+                                                )
+                                            }
+
+                                            if (function.parameters.isNotEmpty()) {
+                                                appendLine()
+                                                appendLine(
+                                                    function.parameters.joinToString(
+                                                        separator = "\n",
+                                                    ) { "@param ${it.name}" },
+                                                )
+                                            }
+
+                                            if (returnType != UNIT) {
+                                                appendLine()
+                                                appendLine(
+                                                    "@return ${returnType.shortName}",
+                                                )
+                                            }
+                                        }.trimIndent(),
+                                    )
+                                    .apply {
+                                        val args = function.parameters.joinToString(
+                                            separator = ",",
+                                        ) { parameter ->
+                                            if (parameter.type != parameter.type.mapTo(roomModel)) {
+                                                if (roomModel.mapper != null) {
+                                                    "mapper.${roomModel.toEntity}(${parameter.name})"
+                                                } else {
+                                                    "${parameter.name}.${roomModel.toEntity}()"
+                                                }
+                                            } else {
+                                                parameter.name
+                                            }
+                                        }
+                                        val invokeCode = "dao.${function.name}($args)"
+                                        val (mappingCode, isMappingSuspend) = generateMappingCode(
+                                            function.returnType,
+                                            returnType,
+                                            invokeCode,
+                                            roomModel,
+                                        )
+                                        if (returnType != UNIT) {
+                                            returns(returnType)
+                                            if (function.returnType != returnType) {
+                                                addCode("return $mappingCode")
+                                            } else {
+                                                addCode("return $invokeCode")
+                                            }
+                                        } else {
+                                            addCode(invokeCode)
+                                        }
+                                        function.parameters.forEach { parameter ->
+                                            addParameter(
+                                                parameter.name,
+                                                parameter.type.mapTo(roomModel),
+                                            )
+                                        }
+                                        val isAnyParamMappingSuspend = function.parameters.any { parameter ->
+                                            parameter.type != parameter.type.mapTo(
+                                                roomModel,
+                                            ) && roomModel.isToEntitySuspend
+                                        }
+                                        if (function.isSuspend || isMappingSuspend || isAnyParamMappingSuspend) {
+                                            addModifiers(KModifier.SUSPEND)
+                                        }
+                                    }
+                                    .build(),
+                            )
+                        }
+
+                        if (databaseType != null) {
+                            addFunction(
+                                FunSpec.builder("transaction")
+                                    .addModifiers(KModifier.OVERRIDE)
+                                    .addModifiers(KModifier.SUSPEND)
+                                    .addTypeVariable(TypeVariableName("R"))
+                                    .addParameter(
+                                        "block",
+                                        LambdaTypeName.get(
+                                            receiver = repositoryType,
+                                            returnType = TypeVariableName("R"),
+                                        ).copy(suspending = true),
+                                    )
+                                    .returns(TypeVariableName("R"))
+                                    .addDocumentation(
+                                        """
                     Executes the given block within a database transaction.
 
                     @param block The block of code to execute within the transaction.
                     @return The result of the transaction block.
-                    """.trimIndent(),
-                  )
-                  .addStatement(
-                    "return db.useWriterConnection { it.immediateTransaction { this@$repositoryImplName.block() } }",
-                  )
-                  .build(),
-              )
+                                        """.trimIndent(),
+                                    )
+                                    .addStatement(
+                                        "return db.useWriterConnection { it.immediateTransaction { this@$repositoryImplName.block() } }",
+                                    )
+                                    .build(),
+                            )
+                        }
+                    }
+                    .build(),
+            )
+        }.writeWith(codeOutputStreamMaker)
+    }
+
+    private fun generateMappingCode(
+        sourceType: TypeName,
+        targetType: TypeName,
+        expression: String,
+        roomModel: RoomModel,
+        usedNames: Set<String> = emptySet(),
+    ): Pair<String, Boolean> {
+        if (sourceType == targetType) return expression to false
+
+        val toDomain = roomModel.toDomain
+        val mapper = roomModel.mapper
+        val isToDomainSuspend = roomModel.isToDomainSuspend
+
+        if (sourceType is ParameterizedTypeName && targetType is ParameterizedTypeName) {
+            val rawSource = sourceType.rawType
+            val rawTarget = targetType.rawType
+            if (rawSource == rawTarget) {
+                val sourceArg = sourceType.typeArguments[0]
+                val targetArg = targetType.typeArguments[0]
+
+                var paramName = if (sourceArg is ParameterizedTypeName && sourceArg.rawType.simpleName == "List") {
+                    "list"
+                } else {
+                    "item"
+                }
+
+                if (usedNames.contains(paramName)) {
+                    paramName += usedNames.size
+                }
+
+                val (mapping, isInnerSuspend) = generateMappingCode(
+                    sourceArg,
+                    targetArg,
+                    paramName,
+                    roomModel,
+                    usedNames + paramName,
+                )
+
+                return if (rawSource.simpleName == "List" && isInnerSuspend) {
+                    ("$expression.asFlow().map { $paramName -> $mapping }.toList()") to true
+                } else if (rawSource.simpleName == "Flow") {
+                    ("$expression.map { $paramName -> $mapping }") to false
+                } else {
+                    ("$expression.map { $paramName -> $mapping }") to isInnerSuspend
+                }
             }
-          }
-          .build(),
-      )
-    }.writeWith(codeOutputStreamMaker)
-  }
+        }
 
-  private fun generateMappingCode(
-    sourceType: TypeName,
-    targetType: TypeName,
-    expression: String,
-    roomModel: RoomModel,
-    usedNames: Set<String> = emptySet(),
-  ): Pair<String, Boolean> {
-    if (sourceType == targetType) return expression to false
-
-    val toDomain = roomModel.toDomain
-    val mapper = roomModel.mapper
-    val isToDomainSuspend = roomModel.isToDomainSuspend
-
-    if (sourceType is ParameterizedTypeName && targetType is ParameterizedTypeName) {
-      val rawSource = sourceType.rawType
-      val rawTarget = targetType.rawType
-      if (rawSource == rawTarget) {
-        val sourceArg = sourceType.typeArguments[0]
-        val targetArg = targetType.typeArguments[0]
-
-        var paramName = if (sourceArg is ParameterizedTypeName && sourceArg.rawType.simpleName == "List") {
-          "list"
+        return if (mapper != null) {
+            "mapper.$toDomain($expression)" to isToDomainSuspend
         } else {
-          "item"
+            "$expression.$toDomain()" to false
         }
-
-        if (usedNames.contains(paramName)) {
-          paramName += usedNames.size
-        }
-
-        val (mapping, isInnerSuspend) = generateMappingCode(
-          sourceArg,
-          targetArg,
-          paramName,
-          roomModel,
-          usedNames + paramName,
-        )
-
-        return if (rawSource.simpleName == "List" && isInnerSuspend) {
-          ("$expression.asFlow().map { $paramName -> $mapping }.toList()") to true
-        } else if (rawSource.simpleName == "Flow") {
-          ("$expression.map { $paramName -> $mapping }") to false
-        } else {
-          ("$expression.map { $paramName -> $mapping }") to isInnerSuspend
-        }
-      }
     }
-
-    return if (mapper != null) {
-      "mapper.$toDomain($expression)" to isToDomainSuspend
-    } else {
-      "$expression.$toDomain()" to false
-    }
-  }
 }
