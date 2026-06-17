@@ -86,6 +86,8 @@ fun KotlinMultiplatformExtension.androidTarget(
 val Project.defaultNamespace: String
     get() {
         val basePackage = "dev.teogor.stitch"
-        val suffix = path.replace(":", ".").removePrefix(".")
+        val suffix = path.replace(":", ".")
+            .removePrefix(".")
+            .replace("stitch-", "")
         return if (suffix.isEmpty()) basePackage else "$basePackage.$suffix"
     }
