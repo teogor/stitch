@@ -4,6 +4,14 @@ Thank you for your interest in contributing to Stitch! To maintain high code qua
 
 ## Technical Requirements (SOP)
 
+Stitch uses `pre-commit` to ensure code quality and consistency. To set up your environment, run:
+
+```bash
+./gradlew installPreCommit
+```
+
+This will install hooks that run during `git commit` (Spotless, API Dump) and `git push` (All Tests).
+
 These requirements apply to all contributors. If you are using an AI agent for development, provide the following prompt in your planning session to ensure compliance:
 
 ### AI Planning Prompt
@@ -28,7 +36,12 @@ These requirements apply to all contributors. If you are using an AI agent for d
 
 ## Workflow Details
 
-### 1. Isolated Branches
+### 1. Development Setup
+- Ensure you have the Android SDK installed.
+- **Install Hooks:** Run `./gradlew installPreCommit` to install the required Git hooks.
+- **Manual Verification:** You can manually run the quality gates using `./gradlew spotlessApply`, `./gradlew apiDumpAll`, and `./gradlew allTests`.
+
+### 2. Isolated Branches
 - **Branch per Task:** Every distinct feature, cleanup, or bug fix must have its own dedicated branch (e.g., `feature/x`, `cleanup/y`, `docs/z`).
 - **No `main` Commits:** Never work directly on the `main` branch. All changes must be merged via Pull Requests.
 
@@ -47,8 +60,7 @@ After every step or commit, the following commands **must** be run to ensure pro
 ### 4. Finalization & Pull Requests
 - **Remote Push:** Push your branch to the remote repository once the task is complete and all quality gates pass.
 - **PR Creation:** Create a Pull Request with a descriptive title and a body explaining the changes.
-- **Clean Cleanup:** Once a PR is merged, the feature branch should be deleted.
+- `atomic commit`: Commit often with descriptive messages.
 
 ## Development Setup
-- Ensure you have the Android SDK installed.
 - Stitch uses Kotlin Symbol Processing (KSP) extensively. Always run a build or KSP task after modifying DAOs or Entities to see the generated code.

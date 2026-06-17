@@ -1,0 +1,96 @@
+public abstract interface class dev/teogor/stitch/runtime/DatabasePath {
+}
+
+public final class dev/teogor/stitch/runtime/DatabasePath$Custom : dev/teogor/stitch/runtime/DatabasePath {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/teogor/stitch/runtime/DatabasePath$Custom;
+	public static synthetic fun copy$default (Ldev/teogor/stitch/runtime/DatabasePath$Custom;Ljava/lang/String;ILjava/lang/Object;)Ldev/teogor/stitch/runtime/DatabasePath$Custom;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAbsoluteDirectoryPath ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/runtime/DatabasePath$InMemory : dev/teogor/stitch/runtime/DatabasePath {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/DatabasePath$InMemory;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/runtime/DatabasePath$Internal : dev/teogor/stitch/runtime/DatabasePath {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/DatabasePath$Internal;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/runtime/DatabasePath$Temporary : dev/teogor/stitch/runtime/DatabasePath {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/DatabasePath$Temporary;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/runtime/ExtensionsKt {
+	public static final fun withTransaction (Landroidx/room3/RoomDatabase;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/teogor/stitch/runtime/PlatformContext {
+	public static final field $stable I
+	public fun <init> ()V
+}
+
+public final class dev/teogor/stitch/runtime/StitchPathResolver {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/StitchPathResolver;
+	public final fun resolve (Ljava/lang/String;Ldev/teogor/stitch/runtime/DatabasePath;)Ljava/lang/String;
+}
+
+public final class dev/teogor/stitch/runtime/StitchRoom {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/StitchRoom;
+}
+
+public final class dev/teogor/stitch/runtime/StitchRoomConfig {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun addCallbacks ([Landroidx/room3/RoomDatabase$Callback;)V
+	public final fun addMigrations ([Landroidx/room3/migration/Migration;)V
+	public final fun addTypeConverters ([Ljava/lang/Object;)V
+	public final synthetic fun applyTo (Landroidx/room3/RoomDatabase$Builder;)V
+	public final fun fallbackToDestructiveMigration (Z)V
+	public static synthetic fun fallbackToDestructiveMigration$default (Ldev/teogor/stitch/runtime/StitchRoomConfig;ZILjava/lang/Object;)V
+	public final fun getDriver ()Landroidx/sqlite/SQLiteDriver;
+	public final fun getJournalMode ()Landroidx/room3/RoomDatabase$JournalMode;
+	public final fun getLogger ()Lkotlin/jvm/functions/Function1;
+	public final fun getLoggingEnabled ()Z
+	public final fun getPathStrategy ()Ldev/teogor/stitch/runtime/DatabasePath;
+	public final fun getQueryDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
+	public final fun getUseBundledSQLite ()Z
+	public final fun setDriver (Landroidx/sqlite/SQLiteDriver;)V
+	public final fun setJournalMode (Landroidx/room3/RoomDatabase$JournalMode;)V
+	public final fun setLogger (Lkotlin/jvm/functions/Function1;)V
+	public final fun setLoggingEnabled (Z)V
+	public final fun setPathStrategy (Ldev/teogor/stitch/runtime/DatabasePath;)V
+	public final fun setQueryDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
+	public final fun setUseBundledSQLite (Z)V
+}
+
+public final class dev/teogor/stitch/runtime/StitchRoom_jvmKt {
+	public static final fun getBundledSQLiteDriver ()Landroidx/sqlite/SQLiteDriver;
+}
+
+public final class dev/teogor/stitch/runtime/StitchRuntime {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/teogor/stitch/runtime/StitchRuntime;
+	public final fun getContext ()Ldev/teogor/stitch/runtime/PlatformContext;
+	public final fun getIoDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
+	public final fun initialize (Ldev/teogor/stitch/runtime/PlatformContext;)V
+}
+
