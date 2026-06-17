@@ -56,4 +56,3 @@ public final class dev/teogor/stitch/ksp/processors/StitchProcessor : com/google
 	public fun onError ()V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
-

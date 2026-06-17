@@ -13,21 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import dev.teogor.stitch.convention.kmpLibraryAll
+
 plugins {
-    `kotlin-dsl`
-    alias(libs.plugins.stitch.gradle.plugin)
+    alias(libs.plugins.stitch.kmp.library)
 }
 
-dependencies {
-    api(project(":common"))
-    api(libs.android.gradle.plugin)
-    api(libs.kotlin.gradle.plugin)
+kotlin {
+    kmpLibraryAll(project, "StitchCodegen") {
+        sourceSets {
+            commonMain.dependencies {
+                api(project(":stitch-common"))
+            }
+            jvmMain.dependencies {
+                api(libs.kotlin.poet)
+                api(libs.kotlin.poet.ksp)
+            }
+        }
+    }
 }
 
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "gradle-plugin-api"
+            name = "stitch-codegen"
         }
     }
 }

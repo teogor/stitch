@@ -56,4 +56,3 @@ public final class dev/teogor/stitch/ksp/processors/WrongConfigurationSetup : ja
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
-

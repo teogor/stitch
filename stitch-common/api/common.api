@@ -15,4 +15,3 @@ public abstract interface annotation class dev/teogor/stitch/RawOperation : java
 
 public abstract class dev/teogor/stitch/di/StitchScope {
 }
-

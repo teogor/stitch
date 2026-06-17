@@ -21,8 +21,8 @@ plugins {
 }
 
 dependencies {
-    api(project(":gradle-plugin-api"))
-    api(project(":common"))
+    api(project(":stitch-gradle-plugin-api"))
+    api(project(":stitch-common"))
 
     implementation(gradleApi())
     implementation(libs.android.gradle.plugin)
@@ -49,7 +49,7 @@ gradlePlugin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "gradle-plugin"
+            name = "stitch-gradle-plugin"
         }
     }
 }

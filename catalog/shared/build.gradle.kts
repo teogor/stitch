@@ -48,7 +48,7 @@ kotlin {
                 implementation(libs.room.runtime)
                 api(libs.sqlite.common)
                 implementation(libs.metro.runtime)
-                implementation(project(":common"))
+                implementation(project(":stitch-common"))
                 implementation(project(":stitch-runtime"))
             }
 

@@ -112,4 +112,3 @@ public final class dev/teogor/stitch/api/Visibility$Companion {
 
 public abstract class dev/teogor/stitch/di/StitchScope {
 }
-

@@ -52,4 +52,3 @@ public final class dev/teogor/stitch/StitchSchemaArgProvider : org/gradle/proces
 public final class dev/teogor/stitch/StitchSchemaArgProvider$Companion {
 	public final fun from (Ldev/teogor/stitch/api/StitchExtension;)Ldev/teogor/stitch/StitchSchemaArgProvider;
 }
-

@@ -33,11 +33,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Stitch"
 
-include(":common")
-include(":codegen")
-include(":ksp")
-include(":gradle-plugin")
-include(":gradle-plugin-api")
+include(":stitch-common")
+include(":stitch-codegen")
+include(":stitch-ksp")
+include(":stitch-gradle-plugin")
+include(":stitch-gradle-plugin-api")
 include(":stitch-web")
 include(":stitch-runtime")
 

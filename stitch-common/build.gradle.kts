@@ -20,19 +20,11 @@ plugins {
 }
 
 kotlin {
-    kmpLibraryAll(project, "StitchKsp") {
+    kmpLibraryAll(project, "StitchCommon") {
         sourceSets {
             commonMain.dependencies {
-                api(project(":common"))
-                implementation(project(":codegen"))
-            }
-            jvmMain {
-                compilerOptions {
-                    freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-                }
-                dependencies {
-                    implementation(libs.ksp.api)
-                }
+                api(libs.room.common)
+                compileOnly(libs.metro.runtime)
             }
         }
     }
@@ -41,7 +33,7 @@ kotlin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "ksp"
+            name = "stitch-common"
         }
     }
 }
