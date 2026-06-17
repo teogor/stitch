@@ -40,6 +40,6 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.CLASS)
 annotation class ExplicitEntities(
-  val entities: Array<KClass<*>> = [],
-  val isExclusive: Boolean = false,
+    val entities: Array<KClass<*>> = [],
+    val isExclusive: Boolean = false,
 )

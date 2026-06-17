@@ -21,5 +21,5 @@ import dev.teogor.stitch.catalog.demo.domain.repository.DemoRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetDemoItemsUseCase(private val repository: DemoRepository) {
-  operator fun invoke(): Flow<List<DemoModel>> = repository.observeAll()
+    operator fun invoke(): Flow<List<DemoModel>> = repository.observeAll()
 }

@@ -25,11 +25,11 @@ import dev.teogor.stitch.runtime.StitchRuntime
  * Automates Stitch framework initialization on Android using App Startup.
  */
 class StitchInitializer : Initializer<Unit> {
-  override fun create(context: Context) {
-    StitchRuntime.initialize(PlatformContext(context))
-  }
+    override fun create(context: Context) {
+        StitchRuntime.initialize(PlatformContext(context))
+    }
 
-  override fun dependencies(): List<Class<out Initializer<*>>> {
-    return emptyList()
-  }
+    override fun dependencies(): List<Class<out Initializer<*>>> {
+        return emptyList()
+    }
 }

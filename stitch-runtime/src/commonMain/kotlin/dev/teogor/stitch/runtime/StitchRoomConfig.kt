@@ -26,131 +26,131 @@ import kotlin.jvm.JvmSynthetic
  * Configuration DSL for Room KMP database instances.
  */
 class StitchRoomConfig<T : RoomDatabase> {
-  /**
-   * The strategy used to resolve the database file path.
-   * Defaults to [DatabasePath.Internal].
-   */
-  var pathStrategy: DatabasePath = DatabasePath.Internal
+    /**
+     * The strategy used to resolve the database file path.
+     * Defaults to [DatabasePath.Internal].
+     */
+    var pathStrategy: DatabasePath = DatabasePath.Internal
 
-  /**
-   * Custom SQLite driver. If null, the platform-best driver will be used.
-   * On most platforms, the bundled SQLite driver is recommended.
-   */
-  var driver: SQLiteDriver? = null
+    /**
+     * Custom SQLite driver. If null, the platform-best driver will be used.
+     * On most platforms, the bundled SQLite driver is recommended.
+     */
+    var driver: SQLiteDriver? = null
 
-  /**
-   * Dispatcher used for database queries.
-   * Defaults to [StitchRuntime.ioDispatcher].
-   */
-  var queryDispatcher: CoroutineDispatcher = StitchRuntime.ioDispatcher
+    /**
+     * Dispatcher used for database queries.
+     * Defaults to [StitchRuntime.ioDispatcher].
+     */
+    var queryDispatcher: CoroutineDispatcher = StitchRuntime.ioDispatcher
 
-  /**
-   * Whether to use the bundled SQLite driver.
-   * If true, it overrides the [driver] property with a bundled driver if [driver] is null.
-   */
-  var useBundledSQLite: Boolean = true
+    /**
+     * Whether to use the bundled SQLite driver.
+     * If true, it overrides the [driver] property with a bundled driver if [driver] is null.
+     */
+    var useBundledSQLite: Boolean = true
 
-  /**
-   * The journal mode for the database.
-   * Defaults to [RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING].
-   */
-  var journalMode: RoomDatabase.JournalMode = RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING
+    /**
+     * The journal mode for the database.
+     * Defaults to [RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING].
+     */
+    var journalMode: RoomDatabase.JournalMode = RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING
 
-  /**
-   * Whether to enable SQL query logging.
-   * If true, all executed SQL queries and their parameters will be logged using [logger].
-   */
-  var loggingEnabled: Boolean = false
+    /**
+     * Whether to enable SQL query logging.
+     * If true, all executed SQL queries and their parameters will be logged using [logger].
+     */
+    var loggingEnabled: Boolean = false
 
-  /**
-   * The logger function used for SQL query logging.
-   * Defaults to printing to the console.
-   */
-  var logger: (String) -> Unit = { println(it) }
+    /**
+     * The logger function used for SQL query logging.
+     * Defaults to printing to the console.
+     */
+    var logger: (String) -> Unit = { println(it) }
 
-  private val migrations = mutableListOf<Migration>()
-  private val callbacks = mutableListOf<RoomDatabase.Callback>()
-  private val typeConverters = mutableListOf<Any>()
-  private var fallbackToDestructiveMigration: Boolean = false
-  private var dropAllTablesOnDestructiveMigration: Boolean = true
+    private val migrations = mutableListOf<Migration>()
+    private val callbacks = mutableListOf<RoomDatabase.Callback>()
+    private val typeConverters = mutableListOf<Any>()
+    private var fallbackToDestructiveMigration: Boolean = false
+    private var dropAllTablesOnDestructiveMigration: Boolean = true
 
-  /**
-   * Adds migrations to the database builder.
-   *
-   * @param migration The migrations to add.
-   */
-  fun addMigrations(vararg migration: Migration) {
-    migrations.addAll(migration)
-  }
-
-  /**
-   * Adds callbacks to the database builder.
-   *
-   * @param callback The callbacks to add.
-   */
-  fun addCallbacks(vararg callback: RoomDatabase.Callback) {
-    callbacks.addAll(callback)
-  }
-
-  /**
-   * Adds type converters to the database builder.
-   *
-   * @param converter The type converters to add.
-   */
-  fun addTypeConverters(vararg converter: Any) {
-    typeConverters.addAll(converter)
-  }
-
-  /**
-   * Allows Room to destructively recreate database tables if Migrations are not found.
-   *
-   * @param dropAllTables Whether to drop all tables or only Room-managed ones.
-   */
-  fun fallbackToDestructiveMigration(dropAllTables: Boolean = true) {
-    fallbackToDestructiveMigration = true
-    dropAllTablesOnDestructiveMigration = dropAllTables
-  }
-
-  /**
-   * Internal function to apply this configuration to a [RoomDatabase.Builder].
-   */
-  @PublishedApi
-  @JvmSynthetic
-  internal fun applyTo(builder: RoomDatabase.Builder<T>) {
-    builder.setQueryCoroutineContext(queryDispatcher)
-    builder.setJournalMode(journalMode)
-
-    if (migrations.isNotEmpty()) {
-      builder.addMigrations(*migrations.toTypedArray())
+    /**
+     * Adds migrations to the database builder.
+     *
+     * @param migration The migrations to add.
+     */
+    fun addMigrations(vararg migration: Migration) {
+        migrations.addAll(migration)
     }
 
-    if (callbacks.isNotEmpty()) {
-      callbacks.forEach { builder.addCallback(it) }
+    /**
+     * Adds callbacks to the database builder.
+     *
+     * @param callback The callbacks to add.
+     */
+    fun addCallbacks(vararg callback: RoomDatabase.Callback) {
+        callbacks.addAll(callback)
     }
 
-    if (typeConverters.isNotEmpty()) {
-      typeConverters.forEach { builder.addTypeConverter(it) }
+    /**
+     * Adds type converters to the database builder.
+     *
+     * @param converter The type converters to add.
+     */
+    fun addTypeConverters(vararg converter: Any) {
+        typeConverters.addAll(converter)
     }
 
-    if (fallbackToDestructiveMigration) {
-      builder.fallbackToDestructiveMigration(dropAllTablesOnDestructiveMigration)
+    /**
+     * Allows Room to destructively recreate database tables if Migrations are not found.
+     *
+     * @param dropAllTables Whether to drop all tables or only Room-managed ones.
+     */
+    fun fallbackToDestructiveMigration(dropAllTables: Boolean = true) {
+        fallbackToDestructiveMigration = true
+        dropAllTablesOnDestructiveMigration = dropAllTables
     }
 
-    val sqliteDriver = driver ?: if (useBundledSQLite) {
-      getBundledSQLiteDriver()
-    } else {
-      null
-    }
+    /**
+     * Internal function to apply this configuration to a [RoomDatabase.Builder].
+     */
+    @PublishedApi
+    @JvmSynthetic
+    internal fun applyTo(builder: RoomDatabase.Builder<T>) {
+        builder.setQueryCoroutineContext(queryDispatcher)
+        builder.setJournalMode(journalMode)
 
-    sqliteDriver?.let {
-      val finalDriver = if (loggingEnabled) {
-        LoggingSQLiteDriver(it, logger)
-      } else {
-        it
-      }
-      builder.setDriver(finalDriver)
+        if (migrations.isNotEmpty()) {
+            builder.addMigrations(*migrations.toTypedArray())
+        }
+
+        if (callbacks.isNotEmpty()) {
+            callbacks.forEach { builder.addCallback(it) }
+        }
+
+        if (typeConverters.isNotEmpty()) {
+            typeConverters.forEach { builder.addTypeConverter(it) }
+        }
+
+        if (fallbackToDestructiveMigration) {
+            builder.fallbackToDestructiveMigration(dropAllTablesOnDestructiveMigration)
+        }
+
+        val sqliteDriver = driver ?: if (useBundledSQLite) {
+            getBundledSQLiteDriver()
+        } else {
+            null
+        }
+
+        sqliteDriver?.let {
+            val finalDriver = if (loggingEnabled) {
+                LoggingSQLiteDriver(it, logger)
+            } else {
+                it
+            }
+            builder.setDriver(finalDriver)
+        }
     }
-  }
 }
 
 /**

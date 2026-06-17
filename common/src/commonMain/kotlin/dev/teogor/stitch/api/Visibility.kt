@@ -20,30 +20,30 @@ package dev.teogor.stitch.api
  * Defines the visibility levels for generated Stitch code.
  */
 enum class Visibility {
-  /**
-   * Generated code will be public.
-   */
-  PUBLIC,
-
-  /**
-   * Generated code will be internal to the module.
-   */
-  INTERNAL,
-
-  ;
-
-  companion object {
     /**
-     * Converts a string representation to the corresponding [Visibility].
-     *
-     * This function supports case-insensitive matching and returns [PUBLIC] for invalid input.
-     *
-     * @param string The string to convert.
-     * @return The corresponding [Visibility] or [PUBLIC] if not found.
+     * Generated code will be public.
      */
-    fun from(string: String): Visibility {
-      return entries.firstOrNull { it.name.lowercase() == string.lowercase() }
-        ?: PUBLIC
+    PUBLIC,
+
+    /**
+     * Generated code will be internal to the module.
+     */
+    INTERNAL,
+
+    ;
+
+    companion object {
+        /**
+         * Converts a string representation to the corresponding [Visibility].
+         *
+         * This function supports case-insensitive matching and returns [PUBLIC] for invalid input.
+         *
+         * @param string The string to convert.
+         * @return The corresponding [Visibility] or [PUBLIC] if not found.
+         */
+        fun from(string: String): Visibility {
+            return entries.firstOrNull { it.name.lowercase() == string.lowercase() }
+                ?: PUBLIC
+        }
     }
-  }
 }

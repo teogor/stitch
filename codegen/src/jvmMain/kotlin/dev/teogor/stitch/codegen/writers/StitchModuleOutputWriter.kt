@@ -47,295 +47,315 @@ import dev.teogor.stitch.codegen.model.DatabaseModel
 import dev.teogor.stitch.codegen.model.RoomModel
 
 class StitchModuleOutputWriter(
-  private val codeOutputStreamMaker: CodeOutputStreamMaker,
-  codeGenConfig: CodeGenConfig,
+    private val codeOutputStreamMaker: CodeOutputStreamMaker,
+    codeGenConfig: CodeGenConfig,
 ) : OutputWriter(codeGenConfig) {
 
-  fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
-    val diFramework = codeGenConfig.diFramework
-    if (diFramework == DiFramework.NONE) {
-      return
-    }
+    fun write(databaseModels: Sequence<DatabaseModel>, roomModels: List<RoomModel>) {
+        val diFramework = codeGenConfig.diFramework
+        if (diFramework == DiFramework.NONE) {
+            return
+        }
 
-    val firstRoom = roomModels.firstOrNull() ?: return
-    val packageName = firstRoom.getDiPackage()
-    fileBuilder(
-      packageName = packageName,
-      fileName = "StitchModule",
-    ) {
-      addType(
-        TypeSpec.objectBuilder("StitchModule")
-          .addModifiers(getVisibility())
-          .apply {
-            when (diFramework) {
-              DiFramework.METRO -> {
-                addAnnotation(METRO_BINDING_CONTAINER)
-                addAnnotation(
-                  AnnotationSpec.builder(METRO_CONTRIBUTES_TO)
-                    .addMember("%T::class", STITCH_SCOPE)
-                    .build(),
-                )
-              }
+        val firstRoom = roomModels.firstOrNull() ?: return
+        val packageName = firstRoom.getDiPackage()
+        fileBuilder(
+            packageName = packageName,
+            fileName = "StitchModule",
+        ) {
+            addType(
+                TypeSpec.objectBuilder("StitchModule")
+                    .addModifiers(getVisibility())
+                    .apply {
+                        when (diFramework) {
+                            DiFramework.METRO -> {
+                                addAnnotation(METRO_BINDING_CONTAINER)
+                                addAnnotation(
+                                    AnnotationSpec.builder(METRO_CONTRIBUTES_TO)
+                                        .addMember("%T::class", STITCH_SCOPE)
+                                        .build(),
+                                )
+                            }
 
-              DiFramework.HILT -> {
-                addAnnotation(DAGGER_MODULE)
-                addAnnotation(
-                  AnnotationSpec.builder(HILT_INSTALL_IN)
-                    .addMember("%T::class", HILT_SINGLETON_COMPONENT)
-                    .build(),
-                )
-              }
+                            DiFramework.HILT -> {
+                                addAnnotation(DAGGER_MODULE)
+                                addAnnotation(
+                                    AnnotationSpec.builder(HILT_INSTALL_IN)
+                                        .addMember("%T::class", HILT_SINGLETON_COMPONENT)
+                                        .build(),
+                                )
+                            }
 
-              DiFramework.DAGGER -> {
-                addAnnotation(DAGGER_MODULE)
-              }
+                            DiFramework.DAGGER -> {
+                                addAnnotation(DAGGER_MODULE)
+                            }
 
-              else -> {}
-            }
-          }
-          .addDocumentation(
-            """
+                            else -> {}
+                        }
+                    }
+                    .addDocumentation(
+                        """
             This object provides the Stitch module for dependency injection.
 
             It configures and provides necessary dependencies for Stitch-related components,
             including DAOs and repositories.
-            """.trimIndent(),
-          )
-          .apply {
-            databaseModels.forEach { databaseModel ->
-              val databaseName = databaseModel.type.let {
-                if (it is ClassName) {
-                  val packageNameParts = it.packageName.split(".")
-                  val uniquePrefix = packageNameParts.takeLast(2).joinToString("") { part ->
-                    part.titleCase()
-                  }
-                  "$uniquePrefix${it.simpleName}"
-                } else {
-                  it.shortName
-                }
-              }
-              if (codeGenConfig.enableDatabaseBuilderGeneration) {
-                val constructorName = "${databaseModel.type.shortName}Constructor"
-                addFunction(
-                  FunSpec.builder("provide${databaseName}Builder")
-                    .apply {
-                      when (diFramework) {
-                        DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
-                        DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(DAGGER_PROVIDES)
-                        else -> {}
-                      }
-                    }
-                    .returns(
-                      ClassName(
-                        "androidx.room3",
-                        "RoomDatabase",
-                        "Builder",
-                      ).parameterizedBy(databaseModel.type),
+                        """.trimIndent(),
                     )
-                    .addDocumentation(
-                      """
+                    .apply {
+                        databaseModels.forEach { databaseModel ->
+                            val databaseName = databaseModel.type.let {
+                                if (it is ClassName) {
+                                    val packageNameParts = it.packageName.split(".")
+                                    val uniquePrefix = packageNameParts.takeLast(
+                                        2,
+                                    ).joinToString("") { part ->
+                                        part.titleCase()
+                                    }
+                                    "$uniquePrefix${it.simpleName}"
+                                } else {
+                                    it.shortName
+                                }
+                            }
+                            if (codeGenConfig.enableDatabaseBuilderGeneration) {
+                                val constructorName = "${databaseModel.type.shortName}Constructor"
+                                addFunction(
+                                    FunSpec.builder("provide${databaseName}Builder")
+                                        .apply {
+                                            when (diFramework) {
+                                                DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
+                                                DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(
+                                                    DAGGER_PROVIDES,
+                                                )
+                                                else -> {}
+                                            }
+                                        }
+                                        .returns(
+                                            ClassName(
+                                                "androidx.room3",
+                                                "RoomDatabase",
+                                                "Builder",
+                                            ).parameterizedBy(databaseModel.type),
+                                        )
+                                        .addDocumentation(
+                                            """
                       Provides an instance of the [RoomDatabase.Builder] for [${databaseModel.type.shortName}].
 
                       @return The [RoomDatabase.Builder] instance.
-                      """.trimIndent(),
-                    )
-                    .addStatement(
-                      "return %T.databaseBuilder(name = %S, factory = %T::initialize)",
-                      STITCH_ROOM,
-                      "app.db",
-                      ClassName((databaseModel.type as ClassName).packageName, constructorName),
-                    )
-                    .build(),
-                )
-              }
-              addFunction(
-                FunSpec.builder("provide$databaseName")
-                  .apply {
-                    when (diFramework) {
-                      DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
-                      DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(DAGGER_PROVIDES)
-                      else -> {}
-                    }
-                    codeGenConfig.ioDispatcherName?.let { ioDispatcherName ->
-                      addParameter(
-                        ParameterSpec.builder("ioDispatcher", COROUTINE_DISPATCHER)
-                          .apply {
-                            if (diFramework == DiFramework.HILT || diFramework == DiFramework.DAGGER) {
-                              addAnnotation(
-                                AnnotationSpec.builder(JAVAX_NAMED)
-                                  .addMember("%S", ioDispatcherName)
-                                  .build(),
-                              )
+                                            """.trimIndent(),
+                                        )
+                                        .addStatement(
+                                            "return %T.databaseBuilder(name = %S, factory = %T::initialize)",
+                                            STITCH_ROOM,
+                                            "app.db",
+                                            ClassName(
+                                                (databaseModel.type as ClassName).packageName,
+                                                constructorName,
+                                            ),
+                                        )
+                                        .build(),
+                                )
                             }
-                          }
-                          .build(),
-                      )
-                    }
-                  }
-                  .addParameter(
-                    "databaseBuilder",
-                    ClassName(
-                      "androidx.room3",
-                      "RoomDatabase",
-                      "Builder",
-                    ).parameterizedBy(databaseModel.type),
-                  )
-                  .returns(databaseModel.type)
-                  .addDocumentation(
-                    """
+                            addFunction(
+                                FunSpec.builder("provide$databaseName")
+                                    .apply {
+                                        when (diFramework) {
+                                            DiFramework.METRO -> addAnnotation(METRO_PROVIDES)
+                                            DiFramework.HILT, DiFramework.DAGGER -> addAnnotation(
+                                                DAGGER_PROVIDES,
+                                            )
+                                            else -> {}
+                                        }
+                                        codeGenConfig.ioDispatcherName?.let { ioDispatcherName ->
+                                            addParameter(
+                                                ParameterSpec.builder(
+                                                    "ioDispatcher",
+                                                    COROUTINE_DISPATCHER,
+                                                )
+                                                    .apply {
+                                                        if (diFramework == DiFramework.HILT || diFramework == DiFramework.DAGGER) {
+                                                            addAnnotation(
+                                                                AnnotationSpec.builder(JAVAX_NAMED)
+                                                                    .addMember(
+                                                                        "%S",
+                                                                        ioDispatcherName,
+                                                                    )
+                                                                    .build(),
+                                                            )
+                                                        }
+                                                    }
+                                                    .build(),
+                                            )
+                                        }
+                                    }
+                                    .addParameter(
+                                        "databaseBuilder",
+                                        ClassName(
+                                            "androidx.room3",
+                                            "RoomDatabase",
+                                            "Builder",
+                                        ).parameterizedBy(databaseModel.type),
+                                    )
+                                    .returns(databaseModel.type)
+                                    .addDocumentation(
+                                        """
                   Provides an instance of the [$databaseName] for dependency injection.
 
                   @param databaseBuilder The Room database builder.
 ${if (codeGenConfig.ioDispatcherName != null) "                  @param ioDispatcher The IO dispatcher.\n" else ""}
                   @return The created [$databaseName] instance.
-                    """.trimIndent(),
-                  )
-                  .apply {
-                    if (codeGenConfig.ioDispatcherName != null) {
-                      addStatement(
-                        "return databaseBuilder.setQueryCoroutineContext(ioDispatcher).build()",
-                      )
-                    } else {
-                      addStatement(
-                        "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
-                        DISPATCHERS,
-                      )
-                    }
-                  }
-                  .build(),
-              )
-            }
-            roomModels.filter { it.hasDao }.forEach { roomModel ->
-              val database = databaseModels.firstOrNull {
-                it.entities.contains(roomModel.entity) || it.views.contains(roomModel.entity)
-              } ?: databaseModels.firstOrNull()
+                                        """.trimIndent(),
+                                    )
+                                    .apply {
+                                        if (codeGenConfig.ioDispatcherName != null) {
+                                            addStatement(
+                                                "return databaseBuilder.setQueryCoroutineContext(ioDispatcher).build()",
+                                            )
+                                        } else {
+                                            addStatement(
+                                                "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
+                                                DISPATCHERS,
+                                            )
+                                        }
+                                    }
+                                    .build(),
+                            )
+                        }
+                        roomModels.filter { it.hasDao }.forEach { roomModel ->
+                            val database = databaseModels.firstOrNull {
+                                it.entities.contains(
+                                    roomModel.entity,
+                                ) || it.views.contains(roomModel.entity)
+                            } ?: databaseModels.firstOrNull()
 
-              if (database != null) {
-                val function = database.functions.firstOrNull { it.returnType == roomModel.dao }
-                if (function != null) {
-                  addFunction(
-                    FunSpec.builder("provide${roomModel.name}Dao")
-                      .addDocumentation(
-                        """
+                            if (database != null) {
+                                val function = database.functions.firstOrNull { it.returnType == roomModel.dao }
+                                if (function != null) {
+                                    addFunction(
+                                        FunSpec.builder("provide${roomModel.name}Dao")
+                                            .addDocumentation(
+                                                """
                       Provides the [${roomModel.name}Dao] instance.
 
                       @param db The [${database.type.shortName}] instance.
 
                       @see [${roomModel.name}Dao]
                       @see [${database.type.shortName}]
-                        """.trimIndent(),
-                      )
-                      .apply {
-                        when (diFramework) {
-                          DiFramework.METRO -> {
-                            addAnnotation(
-                              AnnotationSpec.builder(METRO_SINGLE_IN)
-                                .addMember("%T::class", STITCH_SCOPE)
-                                .build(),
-                            )
-                            addAnnotation(METRO_PROVIDES)
-                          }
+                                                """.trimIndent(),
+                                            )
+                                            .apply {
+                                                when (diFramework) {
+                                                    DiFramework.METRO -> {
+                                                        addAnnotation(
+                                                            AnnotationSpec.builder(METRO_SINGLE_IN)
+                                                                .addMember(
+                                                                    "%T::class",
+                                                                    STITCH_SCOPE,
+                                                                )
+                                                                .build(),
+                                                        )
+                                                        addAnnotation(METRO_PROVIDES)
+                                                    }
 
-                          DiFramework.HILT, DiFramework.DAGGER -> {
-                            addAnnotation(JAVAX_SINGLETON)
-                            addAnnotation(DAGGER_PROVIDES)
-                          }
+                                                    DiFramework.HILT, DiFramework.DAGGER -> {
+                                                        addAnnotation(JAVAX_SINGLETON)
+                                                        addAnnotation(DAGGER_PROVIDES)
+                                                    }
 
-                          else -> {}
-                        }
-                      }
-                      .returns(
-                        ClassName(
-                          "${roomModel.packageName}.dao",
-                          "${roomModel.name}Dao",
-                        ),
-                      )
-                      .addParameter(
-                        ParameterSpec.builder(
-                          "db",
-                          database.type,
-                        ).build(),
-                      )
-                      .addStatement("return db.${function.name}()")
-                      .build(),
-                  )
-                }
-                addFunction(
-                  FunSpec.builder("provide${roomModel.getRepositoryName()}")
-                    .addDocumentation(
-                      """
+                                                    else -> {}
+                                                }
+                                            }
+                                            .returns(
+                                                ClassName(
+                                                    "${roomModel.packageName}.dao",
+                                                    "${roomModel.name}Dao",
+                                                ),
+                                            )
+                                            .addParameter(
+                                                ParameterSpec.builder(
+                                                    "db",
+                                                    database.type,
+                                                ).build(),
+                                            )
+                                            .addStatement("return db.${function.name}()")
+                                            .build(),
+                                    )
+                                }
+                                addFunction(
+                                    FunSpec.builder("provide${roomModel.getRepositoryName()}")
+                                        .addDocumentation(
+                                            """
                       Provides the [${roomModel.getRepositoryName()}] using the provided DAO.
 
                       @param dao The [${roomModel.name}Dao] instance.
 ${roomModel.mapper?.let { "                      @param mapper The [${it.shortName}] instance.\n" } ?: ""}
                       @see [${roomModel.name}Dao]
                       @see [${roomModel.getRepositoryName()}]
-                      """.trimIndent(),
-                    )
-                    .apply {
-                      when (diFramework) {
-                        DiFramework.METRO -> {
-                          addAnnotation(
-                            AnnotationSpec.builder(METRO_SINGLE_IN)
-                              .addMember("%T::class", STITCH_SCOPE)
-                              .build(),
-                          )
-                          addAnnotation(METRO_PROVIDES)
-                        }
+                                            """.trimIndent(),
+                                        )
+                                        .apply {
+                                            when (diFramework) {
+                                                DiFramework.METRO -> {
+                                                    addAnnotation(
+                                                        AnnotationSpec.builder(METRO_SINGLE_IN)
+                                                            .addMember("%T::class", STITCH_SCOPE)
+                                                            .build(),
+                                                    )
+                                                    addAnnotation(METRO_PROVIDES)
+                                                }
 
-                        DiFramework.HILT, DiFramework.DAGGER -> {
-                          addAnnotation(JAVAX_SINGLETON)
-                          addAnnotation(DAGGER_PROVIDES)
-                        }
+                                                DiFramework.HILT, DiFramework.DAGGER -> {
+                                                    addAnnotation(JAVAX_SINGLETON)
+                                                    addAnnotation(DAGGER_PROVIDES)
+                                                }
 
-                        else -> {}
-                      }
+                                                else -> {}
+                                            }
+                                        }
+                                        .returns(
+                                            ClassName(
+                                                roomModel.getRepositoryPackage(),
+                                                roomModel.getRepositoryName(),
+                                            ),
+                                        )
+                                        .addParameter(
+                                            ParameterSpec.builder(
+                                                "dao",
+                                                ClassName(
+                                                    "${roomModel.packageName}.dao",
+                                                    "${roomModel.name}Dao",
+                                                ),
+                                            ).build(),
+                                        )
+                                        .addParameter(
+                                            ParameterSpec.builder(
+                                                "db",
+                                                database.type,
+                                            ).build(),
+                                        )
+                                        .apply {
+                                            roomModel.mapper?.let { mapper ->
+                                                addParameter(
+                                                    ParameterSpec.builder(
+                                                        "mapper",
+                                                        mapper,
+                                                    ).build(),
+                                                )
+                                            }
+                                        }
+                                        .addStatement(
+                                            "return %T(dao, db${if (roomModel.mapper != null) ", mapper" else ""})",
+                                            ClassName(
+                                                roomModel.getRepositoryImplPackage(),
+                                                roomModel.getRepositoryImplName(),
+                                            ),
+                                        )
+                                        .build(),
+                                )
+                            }
+                        }
                     }
-                    .returns(
-                      ClassName(
-                        roomModel.getRepositoryPackage(),
-                        roomModel.getRepositoryName(),
-                      ),
-                    )
-                    .addParameter(
-                      ParameterSpec.builder(
-                        "dao",
-                        ClassName(
-                          "${roomModel.packageName}.dao",
-                          "${roomModel.name}Dao",
-                        ),
-                      ).build(),
-                    )
-                    .addParameter(
-                      ParameterSpec.builder(
-                        "db",
-                        database.type,
-                      ).build(),
-                    )
-                    .apply {
-                      roomModel.mapper?.let { mapper ->
-                        addParameter(
-                          ParameterSpec.builder(
-                            "mapper",
-                            mapper,
-                          ).build(),
-                        )
-                      }
-                    }
-                    .addStatement(
-                      "return %T(dao, db${if (roomModel.mapper != null) ", mapper" else ""})",
-                      ClassName(
-                        roomModel.getRepositoryImplPackage(),
-                        roomModel.getRepositoryImplName(),
-                      ),
-                    )
                     .build(),
-                )
-              }
-            }
-          }
-          .build(),
-      )
-    }.writeWith(codeOutputStreamMaker)
-  }
+            )
+        }.writeWith(codeOutputStreamMaker)
+    }
 }

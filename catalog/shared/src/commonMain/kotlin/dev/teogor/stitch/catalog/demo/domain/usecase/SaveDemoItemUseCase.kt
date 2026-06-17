@@ -20,10 +20,10 @@ import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 import dev.teogor.stitch.catalog.demo.domain.repository.DemoRepository
 
 class SaveDemoItemUseCase(private val repository: DemoRepository) {
-  suspend operator fun invoke(item: DemoModel) {
-    if (item.title.isBlank()) {
-      throw IllegalArgumentException("Title cannot be empty")
+    suspend operator fun invoke(item: DemoModel) {
+        if (item.title.isBlank()) {
+            throw IllegalArgumentException("Title cannot be empty")
+        }
+        repository.insert(item)
     }
-    repository.insert(item)
-  }
 }

@@ -27,5 +27,7 @@ import org.w3c.dom.Worker
 actual fun createSQLiteWebDriver(): SQLiteDriver = WebWorkerSQLiteDriver(createSQLiteWorker())
 
 @OptIn(ExperimentalWasmJsInterop::class)
-@JsFun("() => new Worker(new URL('sqlite-wasm-worker/worker.js', import.meta.url), { type: 'module' })")
+@JsFun(
+    "() => new Worker(new URL('sqlite-wasm-worker/worker.js', import.meta.url), { type: 'module' })",
+)
 private external fun createSQLiteWorker(): Worker

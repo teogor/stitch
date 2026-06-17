@@ -24,17 +24,17 @@ import dev.teogor.stitch.catalog.demo.data.local.dao.DemoDao
 import dev.teogor.stitch.catalog.demo.data.local.entity.DemoEntity
 
 @Database(
-  entities = [
-    DemoEntity::class,
-  ],
-  version = 1,
-  exportSchema = false,
+    entities = [
+        DemoEntity::class,
+    ],
+    version = 1,
+    exportSchema = false,
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
-  abstract fun demoDao(): DemoDao
+    abstract fun demoDao(): DemoDao
 }
 
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
-  override fun initialize(): AppDatabase
+    override fun initialize(): AppDatabase
 }

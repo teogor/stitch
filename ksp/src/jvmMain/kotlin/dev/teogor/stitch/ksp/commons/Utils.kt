@@ -25,9 +25,9 @@ import com.google.devtools.ksp.symbol.KSAnnotation
  * @return `true` if the element has at least one annotation of type `T`, `false` otherwise.
  */
 inline fun <reified T> KSAnnotated.firstAnnotation(): KSAnnotation? {
-  return annotations.firstOrNull {
-    it.annotationType.resolve().declaration.qualifiedName?.asString() == T::class.qualifiedName
-  }
+    return annotations.firstOrNull {
+        it.annotationType.resolve().declaration.qualifiedName?.asString() == T::class.qualifiedName
+    }
 }
 
 /**
@@ -39,5 +39,5 @@ inline fun <reified T> KSAnnotated.firstAnnotation(): KSAnnotation? {
  * expected type.
  */
 inline fun <reified T> KSAnnotation.findArgumentValue(name: String): T? {
-  return arguments.find { it.name?.asString() == name }?.value as T?
+    return arguments.find { it.name?.asString() == name }?.value as T?
 }

@@ -26,15 +26,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DemoDao {
-  @Query("SELECT * FROM demo_table ORDER BY id DESC")
-  fun observeAll(): Flow<List<DemoEntity>>
+    @Query("SELECT * FROM demo_table ORDER BY id DESC")
+    fun observeAll(): Flow<List<DemoEntity>>
 
-  @Query("SELECT * FROM demo_table WHERE id = :id")
-  suspend fun getById(id: Long): DemoEntity?
+    @Query("SELECT * FROM demo_table WHERE id = :id")
+    suspend fun getById(id: Long): DemoEntity?
 
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  suspend fun insert(entity: DemoEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entity: DemoEntity)
 
-  @Delete
-  suspend fun delete(entity: DemoEntity)
+    @Delete
+    suspend fun delete(entity: DemoEntity)
 }

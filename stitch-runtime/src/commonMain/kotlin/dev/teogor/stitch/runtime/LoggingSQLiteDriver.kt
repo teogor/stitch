@@ -24,33 +24,33 @@ import androidx.sqlite.SQLiteStatement
  * A [SQLiteDriver] decorator that logs all executed SQL queries and their parameters.
  */
 internal expect class LoggingSQLiteDriver(
-  delegate: SQLiteDriver,
-  logger: (String) -> Unit,
+    delegate: SQLiteDriver,
+    logger: (String) -> Unit,
 ) : SQLiteDriver
 
 /**
  * A [SQLiteConnection] decorator that logs prepared SQL queries.
  */
 internal expect class LoggingSQLiteConnection(
-  delegate: SQLiteConnection,
-  logger: (String) -> Unit,
+    delegate: SQLiteConnection,
+    logger: (String) -> Unit,
 ) : SQLiteConnection
 
 /**
  * A [SQLiteStatement] decorator that logs the SQL query and its bound parameters when executed.
  */
 internal expect class LoggingSQLiteStatement(
-  sql: String,
-  delegate: SQLiteStatement,
-  logger: (String) -> Unit,
+    sql: String,
+    delegate: SQLiteStatement,
+    logger: (String) -> Unit,
 ) : SQLiteStatement
 
 internal fun formatLog(sql: String, bindings: Map<Int, Any?>): String {
-  val formattedArgs = if (bindings.isEmpty()) {
-    ""
-  } else {
-    val sortedValues = bindings.keys.sorted().map { bindings[it] }
-    "\n  args: ${sortedValues.joinToString(", ")}"
-  }
-  return "SQLite: $sql$formattedArgs"
+    val formattedArgs = if (bindings.isEmpty()) {
+        ""
+    } else {
+        val sortedValues = bindings.keys.sorted().map { bindings[it] }
+        "\n  args: ${sortedValues.joinToString(", ")}"
+    }
+    return "SQLite: $sql$formattedArgs"
 }

@@ -26,56 +26,56 @@ import dev.teogor.stitch.codegen.model.CodeGenConfig
 import dev.teogor.stitch.codegen.model.RoomModel
 
 abstract class OutputWriter(
-  internal val codeGenConfig: CodeGenConfig,
+    internal val codeGenConfig: CodeGenConfig,
 ) {
 
-  fun getVisibility(): KModifier = when (codeGenConfig.visibility) {
-    Visibility.PUBLIC -> KModifier.PUBLIC
-    Visibility.INTERNAL -> KModifier.INTERNAL
-  }
-
-  fun RoomModel.getBasePackage() = codeGenConfig.generatedPackageName ?: packageName
-
-  fun RoomModel.getRepositoryPackage() = codeGenConfig.repositoryPackage
-    ?: "${getBasePackage()}.data.repository"
-
-  fun RoomModel.getRepositoryImplPackage() = codeGenConfig.repositoryImplPackage
-    ?: "${getRepositoryPackage()}.impl"
-
-  fun RoomModel.getOperationPackage() = codeGenConfig.operationPackage
-    ?: "${getBasePackage()}.database.operation"
-
-  fun RoomModel.getDiPackage() = codeGenConfig.diPackage
-    ?: "${getBasePackage()}.di"
-
-  fun RoomModel.getRepositoryName() = repositoryName ?: "$name${codeGenConfig.repositorySuffix}"
-
-  fun RoomModel.getRepositoryImplName() = repositoryImplName ?: "${getRepositoryName()}Impl"
-
-  fun RoomModel.getOperationName(baseName: String) =
-    "$name${baseName.titleCase()}${codeGenConfig.operationSuffix}"
-
-  fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
-    if (codeGenConfig.addDocumentation) {
-      addKdoc(format, *args)
+    fun getVisibility(): KModifier = when (codeGenConfig.visibility) {
+        Visibility.PUBLIC -> KModifier.PUBLIC
+        Visibility.INTERNAL -> KModifier.INTERNAL
     }
-  }
 
-  fun FunSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
-    if (codeGenConfig.addDocumentation) {
-      addKdoc(block)
-    }
-  }
+    fun RoomModel.getBasePackage() = codeGenConfig.generatedPackageName ?: packageName
 
-  fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
-    if (codeGenConfig.addDocumentation) {
-      addKdoc(format, *args)
-    }
-  }
+    fun RoomModel.getRepositoryPackage() = codeGenConfig.repositoryPackage
+        ?: "${getBasePackage()}.data.repository"
 
-  fun TypeSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
-    if (codeGenConfig.addDocumentation) {
-      addKdoc(block)
+    fun RoomModel.getRepositoryImplPackage() = codeGenConfig.repositoryImplPackage
+        ?: "${getRepositoryPackage()}.impl"
+
+    fun RoomModel.getOperationPackage() = codeGenConfig.operationPackage
+        ?: "${getBasePackage()}.database.operation"
+
+    fun RoomModel.getDiPackage() = codeGenConfig.diPackage
+        ?: "${getBasePackage()}.di"
+
+    fun RoomModel.getRepositoryName() = repositoryName ?: "$name${codeGenConfig.repositorySuffix}"
+
+    fun RoomModel.getRepositoryImplName() = repositoryImplName ?: "${getRepositoryName()}Impl"
+
+    fun RoomModel.getOperationName(baseName: String) =
+        "$name${baseName.titleCase()}${codeGenConfig.operationSuffix}"
+
+    fun FunSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
+        if (codeGenConfig.addDocumentation) {
+            addKdoc(format, *args)
+        }
     }
-  }
+
+    fun FunSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
+        if (codeGenConfig.addDocumentation) {
+            addKdoc(block)
+        }
+    }
+
+    fun TypeSpec.Builder.addDocumentation(format: String, vararg args: Any) = this.apply {
+        if (codeGenConfig.addDocumentation) {
+            addKdoc(format, *args)
+        }
+    }
+
+    fun TypeSpec.Builder.addDocumentation(block: CodeBlock) = this.apply {
+        if (codeGenConfig.addDocumentation) {
+            addKdoc(block)
+        }
+    }
 }

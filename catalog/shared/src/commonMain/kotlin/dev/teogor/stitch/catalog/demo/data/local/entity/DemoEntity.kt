@@ -22,19 +22,19 @@ import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 
 @Entity(tableName = "demo_table")
 data class DemoEntity(
-  @PrimaryKey(autoGenerate = true) val id: Long = 0,
-  val title: String,
-  val description: String,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val title: String,
+    val description: String,
 )
 
 fun DemoEntity.toDomain(): DemoModel = DemoModel(
-  id = id,
-  title = title,
-  description = description,
+    id = id,
+    title = title,
+    description = description,
 )
 
 fun DemoModel.toEntity(): DemoEntity = DemoEntity(
-  id = id,
-  title = title,
-  description = description,
+    id = id,
+    title = title,
+    description = description,
 )

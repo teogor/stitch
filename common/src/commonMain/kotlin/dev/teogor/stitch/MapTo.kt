@@ -37,8 +37,8 @@ import kotlin.reflect.KClass
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.BINARY)
 annotation class MapTo(
-  val target: KClass<*>,
-  val toDomain: String = "toDomain",
-  val toEntity: String = "toEntity",
-  val mapper: KClass<*> = Nothing::class,
+    val target: KClass<*>,
+    val toDomain: String = "toDomain",
+    val toEntity: String = "toEntity",
+    val mapper: KClass<*> = Nothing::class,
 )

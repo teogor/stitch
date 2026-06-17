@@ -17,7 +17,7 @@
 package dev.teogor.stitch.catalog.demo.domain.model
 
 data class DemoModel(
-  val id: Long = 0,
-  val title: String,
-  val description: String,
+    val id: Long = 0,
+    val title: String,
+    val description: String,
 )

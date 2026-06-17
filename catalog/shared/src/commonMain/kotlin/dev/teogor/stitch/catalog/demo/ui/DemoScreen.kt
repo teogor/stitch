@@ -44,91 +44,91 @@ import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
 @Composable
 @Suppress("FunctionName")
 fun DemoScreen(
-  modifier: Modifier = Modifier,
-  viewModel: DemoViewModel = viewModel { DemoViewModel() },
+    modifier: Modifier = Modifier,
+    viewModel: DemoViewModel = viewModel { DemoViewModel() },
 ) {
-  val items by viewModel.items.collectAsState()
+    val items by viewModel.items.collectAsState()
 
-  var title by remember { mutableStateOf("") }
-  var description by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
 
-  Column(
-    modifier = modifier
-      .fillMaxSize()
-      .padding(16.dp),
-  ) {
-    Text(
-      text = "Room 3 KMP Demo",
-      style = MaterialTheme.typography.headlineSmall,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    OutlinedTextField(
-      value = title,
-      onValueChange = { title = it },
-      label = { Text("Title") },
-      modifier = Modifier.fillMaxWidth(),
-    )
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    OutlinedTextField(
-      value = description,
-      onValueChange = { description = it },
-      label = { Text("Description") },
-      modifier = Modifier.fillMaxWidth(),
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Button(
-      onClick = {
-        if (title.isNotBlank() && description.isNotBlank()) {
-          viewModel.addItem(title, description)
-          title = ""
-          description = ""
-        }
-      },
-      modifier = Modifier.fillMaxWidth(),
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
     ) {
-      Text("Add Item")
-    }
+        Text(
+            text = "Room 3 KMP Demo",
+            style = MaterialTheme.typography.headlineSmall,
+        )
 
-    Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    HorizontalDivider()
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = { Text("Title") },
+            modifier = Modifier.fillMaxWidth(),
+        )
 
-    Spacer(modifier = Modifier.height(8.dp))
-
-    LazyColumn(
-      modifier = Modifier.weight(1f),
-    ) {
-      items(items) { item ->
-        DemoItemCard(item)
         Spacer(modifier = Modifier.height(8.dp))
-      }
+
+        OutlinedTextField(
+            value = description,
+            onValueChange = { description = it },
+            label = { Text("Description") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                if (title.isNotBlank() && description.isNotBlank()) {
+                    viewModel.addItem(title, description)
+                    title = ""
+                    description = ""
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Add Item")
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        HorizontalDivider()
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+        ) {
+            items(items) { item ->
+                DemoItemCard(item)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
     }
-  }
 }
 
 @Composable
 @Suppress("FunctionName")
 fun DemoItemCard(item: DemoModel) {
-  Card(
-    modifier = Modifier.fillMaxWidth(),
-  ) {
-    Column(
-      modifier = Modifier.padding(16.dp),
+    Card(
+        modifier = Modifier.fillMaxWidth(),
     ) {
-      Text(
-        text = item.title,
-        style = MaterialTheme.typography.titleMedium,
-      )
-      Text(
-        text = item.description,
-        style = MaterialTheme.typography.bodyMedium,
-      )
+        Column(
+            modifier = Modifier.padding(16.dp),
+        ) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = item.description,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
     }
-  }
 }

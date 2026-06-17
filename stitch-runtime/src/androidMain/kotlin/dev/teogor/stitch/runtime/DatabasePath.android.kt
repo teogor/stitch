@@ -20,13 +20,13 @@ import java.io.File
 
 @PublishedApi
 internal actual object StitchPathResolver {
-  actual fun resolve(name: String, strategy: DatabasePath): String {
-    val androidContext = StitchRuntime.getContext().context
-    return when (strategy) {
-      is DatabasePath.Internal -> androidContext.getDatabasePath(name).absolutePath
-      is DatabasePath.Temporary -> File(androidContext.cacheDir, name).absolutePath
-      is DatabasePath.Custom -> File(strategy.absoluteDirectoryPath, name).absolutePath
-      is DatabasePath.InMemory -> "" // Handled specially by Room.inMemoryDatabaseBuilder
+    actual fun resolve(name: String, strategy: DatabasePath): String {
+        val androidContext = StitchRuntime.getContext().context
+        return when (strategy) {
+            is DatabasePath.Internal -> androidContext.getDatabasePath(name).absolutePath
+            is DatabasePath.Temporary -> File(androidContext.cacheDir, name).absolutePath
+            is DatabasePath.Custom -> File(strategy.absoluteDirectoryPath, name).absolutePath
+            is DatabasePath.InMemory -> "" // Handled specially by Room.inMemoryDatabaseBuilder
+        }
     }
-  }
 }

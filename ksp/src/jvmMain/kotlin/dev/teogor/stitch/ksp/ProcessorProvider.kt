@@ -22,11 +22,11 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import dev.teogor.stitch.ksp.processors.StitchProcessor
 
 class ProcessorProvider : SymbolProcessorProvider {
-  override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-    return StitchProcessor(
-      environment.codeGenerator,
-      environment.logger,
-      environment.options,
-    )
-  }
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+        return StitchProcessor(
+            environment.codeGenerator,
+            environment.logger,
+            environment.options,
+        )
+    }
 }
