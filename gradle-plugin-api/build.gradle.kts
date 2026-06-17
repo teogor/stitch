@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 plugins {
-  `kotlin-dsl`
-  alias(libs.plugins.stitch.gradle.plugin)
+    `kotlin-dsl`
+    alias(libs.plugins.stitch.gradle.plugin)
 }
 
 dependencies {
-  api(project(":common"))
-  api(libs.android.gradle.plugin)
-  api(libs.kotlin.gradle.plugin)
+    api(project(":common"))
+    api(libs.android.gradle.plugin)
+    api(libs.kotlin.gradle.plugin)
 }
 
 winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "gradle-plugin-api"
+    moduleMetadata {
+        artifactDescriptor {
+            name = "gradle-plugin-api"
+        }
     }
-  }
 }

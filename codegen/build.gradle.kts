@@ -16,27 +16,27 @@
 import dev.teogor.stitch.convention.kmpLibraryAll
 
 plugins {
-  alias(libs.plugins.stitch.kmp.library)
+    alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  kmpLibraryAll(project, "StitchCodegen") {
-    sourceSets {
-      commonMain.dependencies {
-        api(project(":common"))
-      }
-      jvmMain.dependencies {
-        api(libs.kotlin.poet)
-        api(libs.kotlin.poet.ksp)
-      }
+    kmpLibraryAll(project, "StitchCodegen") {
+        sourceSets {
+            commonMain.dependencies {
+                api(project(":common"))
+            }
+            jvmMain.dependencies {
+                api(libs.kotlin.poet)
+                api(libs.kotlin.poet.ksp)
+            }
+        }
     }
-  }
 }
 
 winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "codegen"
+    moduleMetadata {
+        artifactDescriptor {
+            name = "codegen"
+        }
     }
-  }
 }

@@ -16,24 +16,24 @@
 import dev.teogor.stitch.convention.kmpLibraryAll
 
 plugins {
-  alias(libs.plugins.stitch.kmp.library)
+    alias(libs.plugins.stitch.kmp.library)
 }
 
 kotlin {
-  kmpLibraryAll(project, "StitchCommon") {
-    sourceSets {
-      commonMain.dependencies {
-        api(libs.room.common)
-        compileOnly(libs.metro.runtime)
-      }
+    kmpLibraryAll(project, "StitchCommon") {
+        sourceSets {
+            commonMain.dependencies {
+                api(libs.room.common)
+                compileOnly(libs.metro.runtime)
+            }
+        }
     }
-  }
 }
 
 winds {
-  moduleMetadata {
-    artifactDescriptor {
-      name = "common"
+    moduleMetadata {
+        artifactDescriptor {
+            name = "common"
+        }
     }
-  }
 }
