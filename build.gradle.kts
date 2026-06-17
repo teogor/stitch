@@ -23,6 +23,7 @@ import dev.teogor.winds.ktx.createVersion
 import dev.teogor.winds.ktx.person
 import dev.teogor.winds.ktx.scm
 import dev.teogor.winds.ktx.ticketSystem
+import org.gradle.internal.os.OperatingSystem.current
 import org.jetbrains.dokka.gradle.DokkaPlugin
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -195,6 +196,57 @@ spotless {
         trimTrailingWhitespace()
         endWithNewline()
     }
+}
+
+// Helper to identify core library modules
+val Project.isLibraryModule: Boolean
+    get() = !path.startsWith(":catalog") && this != rootProject
+
+// Aggregator for all subproject tests (excluding samples)
+tasks.register("allTests") {
+    group = "verification"
+    description = "Runs all tests in core Stitch modules"
+    dependsOn(
+        subprojects.filter { it.isLibraryModule }
+            .map { it.tasks.matching { t -> t.name == "allTests" } },
+    )
+}
+
+// Aggregator for all subproject API dumps (excluding samples)
+tasks.register("apiDumpAll") {
+    group = "verification"
+    description = "Updates API compatibility files in core Stitch modules"
+    dependsOn(
+        subprojects.filter { it.isLibraryModule }
+            .map { it.tasks.matching { t -> t.name == "apiDump" } },
+    )
+}
+
+// Automated pre-commit installation
+tasks.register<Exec>("installPreCommit") {
+    description = "Installs pre-commit hooks"
+    group = "verification"
+
+    val preCommitExecutable = "pre-commit"
+    val isWindows = current().isWindows
+    val executable = if (isWindows) "$preCommitExecutable.exe" else preCommitExecutable
+
+    commandLine(executable, "install")
+}
+
+tasks.register<Exec>("installPrePush") {
+    description = "Installs pre-push hooks"
+    group = "verification"
+
+    val preCommitExecutable = "pre-commit"
+    val isWindows = current().isWindows
+    val executable = if (isWindows) "$preCommitExecutable.exe" else preCommitExecutable
+
+    commandLine(executable, "install", "--hook-type", "pre-push")
+}
+
+tasks.named("installPreCommit") {
+    finalizedBy("installPrePush")
 }
 
 apiValidation {

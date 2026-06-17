@@ -71,6 +71,16 @@ For detailed guides and reference, visit our [Documentation Site](https://source
 - [Annotations Reference](https://source.teogor.dev/stitch/reference)
 - [Multi-platform Setup](https://source.teogor.dev/stitch/releases/implementation)
 
+## 🛠️ Development
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for setup instructions and technical requirements.
+
+To set up your local development environment with Git hooks, run:
+
+```bash
+./gradlew installPreCommit
+```
+
 ## 🩷 Support the Project
 
 - ⭐ **Star this repository** to show your support!
