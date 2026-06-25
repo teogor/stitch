@@ -24,7 +24,7 @@ kotlin {
         sourceSets {
             commonMain.dependencies {
                 api(libs.room.common)
-                compileOnly(libs.metro.runtime)
+                implementation(libs.metro.runtime)
             }
         }
     }

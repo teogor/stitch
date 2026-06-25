@@ -16,6 +16,7 @@
 
 package dev.teogor.stitch.codegen.writers
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
@@ -56,6 +57,15 @@ class RepositoryImplOutputWriter(
                 addImport("androidx.room3", "useWriterConnection")
                 addImport("androidx.room3", "immediateTransaction")
             }
+
+            if (roomModel.mapTo != null && roomModel.mapper == null) {
+                val entityClassName = roomModel.entity as? ClassName
+                if (entityClassName != null) {
+                    addImport(entityClassName.packageName, roomModel.toDomain)
+                    addImport(entityClassName.packageName, roomModel.toEntity)
+                }
+            }
+
             addType(
                 TypeSpec.classBuilder(repositoryImplName)
                     .addModifiers(getVisibility())

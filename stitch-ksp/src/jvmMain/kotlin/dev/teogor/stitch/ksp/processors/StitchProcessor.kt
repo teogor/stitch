@@ -53,6 +53,13 @@ class StitchProcessor(
         val annotatedViews = resolver.getViews()
         val annotatedDatabases = resolver.getDatabases()
 
+        logRoomAnnotatedFiles(
+            daos = annotatedDao,
+            entities = annotatedEntities,
+            views = annotatedViews,
+            databases = annotatedDatabases
+        )
+
         if (
             !annotatedDao.iterator().hasNext() &&
             !annotatedEntities.iterator().hasNext() &&
@@ -91,6 +98,37 @@ class StitchProcessor(
         )
 
         return emptyList()
+    }
+
+    /**
+     * Diagnostic helper function that intercepts compiled sequences, extracts
+     * their matching source file layouts, and prints them out directly to the build log output.
+     */
+    private fun logRoomAnnotatedFiles(
+        daos: Sequence<KSClassDeclaration>,
+        entities: Sequence<KSClassDeclaration>,
+        views: Sequence<KSClassDeclaration>,
+        databases: Sequence<KSClassDeclaration>
+    ) {
+        // Flat-map everything into a consolidated sequence of active physical files
+        val uniqueFiles = (daos + entities + views + databases)
+            .mapNotNull { classDeclaration -> classDeclaration.containingFile }
+            .distinctBy { file -> file.filePath }
+            .toList()
+
+        logger.warn("==================================================")
+        logger.warn("🔍 [Stitch Scan] Detected ${uniqueFiles.size} Room Component Files:")
+        logger.warn("==================================================")
+
+        if (uniqueFiles.isEmpty()) {
+            logger.warn("  (No files with active Room declarations were processed in this round)")
+        } else {
+            uniqueFiles.forEachIndexed { index, file ->
+                logger.warn("  [${index + 1}] File: ${file.fileName}")
+                logger.warn("      System Path: ${file.filePath}")
+            }
+        }
+        logger.warn("==================================================")
     }
 
     private fun validate(resolver: Resolver): Boolean {

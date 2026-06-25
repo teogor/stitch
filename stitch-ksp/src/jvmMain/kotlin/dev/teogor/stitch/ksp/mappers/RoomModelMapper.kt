@@ -108,8 +108,14 @@ class RoomModelMapper(
         val toDomain = mapToAnnotation?.findArgumentValue<String>("toDomain") ?: "toDomain"
         val toEntity = mapToAnnotation?.findArgumentValue<String>("toEntity") ?: "toEntity"
         val mapperType = mapToAnnotation?.findArgumentValue<KSType>("mapper")
-        val mapper = mapperType?.toTypeName()?.let {
-            if (it.toString() == "kotlin.Nothing") null else it
+
+        val mapper = mapperType?.toTypeName()?.let { typeName ->
+            val typeString = typeName.toString()
+            if (typeString == "kotlin.Nothing" || typeString == "java.lang.Void") {
+                null
+            } else {
+                typeName
+            }
         }
 
         var isToDomainSuspend = false
