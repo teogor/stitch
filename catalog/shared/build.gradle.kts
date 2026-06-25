@@ -100,3 +100,24 @@ tasks.configureEach {
         enabled = false
     }
 }
+
+winds {
+    features {
+        mavenPublishing = false
+    }
+
+    moduleMetadata {
+        publishing {
+            enabled = false
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.withType<PublishToMavenLocal>().configureEach {
+        enabled = false
+    }
+    tasks.withType<PublishToMavenRepository>().configureEach {
+        enabled = false
+    }
+}

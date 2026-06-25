@@ -46,27 +46,27 @@ internal actual class LoggingSQLiteStatement actual constructor(
     private val bindings = mutableMapOf<Int, Any?>()
     private var hasLogged = false
 
-    override fun bindBlob(index: Int, value: ByteArray) {
+    actual override fun bindBlob(index: Int, value: ByteArray) {
         bindings[index] = "Blob(${value.size} bytes)"
         delegate.bindBlob(index, value)
     }
 
-    override fun bindDouble(index: Int, value: Double) {
+    actual override fun bindDouble(index: Int, value: Double) {
         bindings[index] = value
         delegate.bindDouble(index, value)
     }
 
-    override fun bindLong(index: Int, value: Long) {
+    actual override fun bindLong(index: Int, value: Long) {
         bindings[index] = value
         delegate.bindLong(index, value)
     }
 
-    override fun bindText(index: Int, value: String) {
+    actual override fun bindText(index: Int, value: String) {
         bindings[index] = value
         delegate.bindText(index, value)
     }
 
-    override fun bindNull(index: Int) {
+    actual override fun bindNull(index: Int) {
         bindings[index] = null
         delegate.bindNull(index)
     }
@@ -94,12 +94,12 @@ internal actual class LoggingSQLiteStatement actual constructor(
         return delegate.step()
     }
 
-    override fun reset() {
+    actual override fun reset() {
         hasLogged = false
         delegate.reset()
     }
 
-    override fun clearBindings() {
+    actual override fun clearBindings() {
         bindings.clear()
         delegate.clearBindings()
     }

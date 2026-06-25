@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+rootProject.name = "Stitch"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -22,6 +26,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
@@ -30,8 +35,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "Stitch"
 
 include(":stitch-common")
 include(":stitch-codegen")

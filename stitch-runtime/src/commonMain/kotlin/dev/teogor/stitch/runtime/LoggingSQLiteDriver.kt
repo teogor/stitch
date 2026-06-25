@@ -34,7 +34,9 @@ internal expect class LoggingSQLiteDriver(
 internal expect class LoggingSQLiteConnection(
     delegate: SQLiteConnection,
     logger: (String) -> Unit,
-) : SQLiteConnection
+) : SQLiteConnection {
+    override fun close()
+}
 
 /**
  * A [SQLiteStatement] decorator that logs the SQL query and its bound parameters when executed.
@@ -43,7 +45,24 @@ internal expect class LoggingSQLiteStatement(
     sql: String,
     delegate: SQLiteStatement,
     logger: (String) -> Unit,
-) : SQLiteStatement
+) : SQLiteStatement {
+    override fun bindBlob(index: Int, value: ByteArray)
+    override fun bindDouble(index: Int, value: Double)
+    override fun bindLong(index: Int, value: Long)
+    override fun bindText(index: Int, value: String)
+    override fun bindNull(index: Int)
+    override fun getBlob(index: Int): ByteArray
+    override fun getDouble(index: Int): Double
+    override fun getLong(index: Int): Long
+    override fun getText(index: Int): String
+    override fun isNull(index: Int): Boolean
+    override fun getColumnCount(): Int
+    override fun getColumnName(index: Int): String
+    override fun getColumnType(index: Int): Int
+    override fun reset()
+    override fun clearBindings()
+    override fun close()
+}
 
 internal fun formatLog(sql: String, bindings: Map<Int, Any?>): String {
     val formattedArgs = if (bindings.isEmpty()) {

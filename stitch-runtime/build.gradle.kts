@@ -86,3 +86,11 @@ kotlin {
         }
     }
 }
+
+winds {
+    moduleMetadata {
+        artifactDescriptor {
+            name = "stitch-runtime"
+        }
+    }
+}
