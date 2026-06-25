@@ -25,7 +25,7 @@ import org.gradle.process.CommandLineArgumentProvider
 class StitchSchemaArgProvider(
     private val addDocumentation: Boolean,
     private val enableOperationGeneration: Boolean,
-    private val generatedPackageName: String,
+    private val generatedPackageName: String?,
     private val operationGenerationLevel: OperationGenerationLevel,
     private val repositorySuffix: String,
     private val operationSuffix: String,
@@ -43,25 +43,27 @@ class StitchSchemaArgProvider(
 ) : CommandLineArgumentProvider {
 
     override fun asArguments() = listOf(
-        "stitch.addDocumentation=$addDocumentation",
-        "stitch.enableOperationGeneration=$enableOperationGeneration",
-        "stitch.generatedPackageName=$generatedPackageName",
-        "stitch.operationGenerationLevel=$operationGenerationLevel",
-        "stitch.repositorySuffix=$repositorySuffix",
-        "stitch.operationSuffix=$operationSuffix",
-        "stitch.enableMetro=$enableMetro",
-        "stitch.diFramework=$diFramework",
-        "stitch.visibility=$visibility",
-        "stitch.enableRepositoryImplGeneration=$enableRepositoryImplGeneration",
-        "stitch.enableDatabaseBuilderGeneration=$enableDatabaseBuilderGeneration",
-    ) + listOfNotNull(
-        repositoryPackage?.let { "stitch.repositoryPackage=$it" },
-        repositoryImplPackage?.let { "stitch.repositoryImplPackage=$it" },
-        operationPackage?.let { "stitch.operationPackage=$it" },
-        diPackage?.let { "stitch.diPackage=$it" },
-        injectAnnotation?.let { "stitch.injectAnnotation=$it" },
-        repositoryBaseClass?.let { "stitch.repositoryBaseClass=$it" },
-    )
+        "stitch.addDocumentation" to addDocumentation,
+        "stitch.enableOperationGeneration" to enableOperationGeneration,
+        "stitch.generatedPackageName" to generatedPackageName,
+        "stitch.operationGenerationLevel" to operationGenerationLevel,
+        "stitch.repositorySuffix" to repositorySuffix,
+        "stitch.operationSuffix" to operationSuffix,
+        "stitch.enableMetro" to enableMetro,
+        "stitch.diFramework" to diFramework,
+        "stitch.visibility" to visibility,
+        "stitch.enableRepositoryImplGeneration" to enableRepositoryImplGeneration,
+        "stitch.enableDatabaseBuilderGeneration" to enableDatabaseBuilderGeneration,
+        "stitch.repositoryPackage" to repositoryPackage,
+        "stitch.repositoryImplPackage" to repositoryImplPackage,
+        "stitch.operationPackage" to operationPackage,
+        "stitch.diPackage" to diPackage,
+        "stitch.injectAnnotation" to injectAnnotation,
+        "stitch.repositoryBaseClass" to repositoryBaseClass,
+    ).mapNotNull { (key, value) ->
+        val valueStr = value?.toString()
+        if (!valueStr.isNullOrBlank()) "$key=$valueStr" else null
+    }
 
     companion object {
         @Suppress("DEPRECATION")

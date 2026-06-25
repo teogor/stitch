@@ -74,7 +74,7 @@ abstract class StitchExtensionImpl : StitchExtension {
      * By default, this is an empty string, meaning the generated code will be
      * placed in the root package.
      */
-    override var generatedPackageName: String = ""
+    override var generatedPackageName: String? = null
 
     /**
      * The suffix to append to the generated repository interfaces.

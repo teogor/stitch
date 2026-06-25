@@ -78,7 +78,7 @@ interface StitchExtension {
      *
      * @return The base package name for generated code.
      */
-    var generatedPackageName: String
+    var generatedPackageName: String?
 
     /**
      * The suffix to append to the generated repository interfaces.
