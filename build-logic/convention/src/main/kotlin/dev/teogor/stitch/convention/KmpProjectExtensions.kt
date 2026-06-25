@@ -129,9 +129,17 @@ fun Project.kspMultiplatform(
     // 3. Enforce safe build execution boundaries to protect against WorkValidationException
     tasks.configureEach {
         val taskName = name
-        if (!taskName.contains("Metadata") && taskName != "kspCommonMainKotlinMetadata") {
-            if (taskName.startsWith("ksp") || taskName.startsWith("compileKotlin")) {
-                dependsOn("kspCommonMainKotlinMetadata")
+        if (taskName != "kspCommonMainKotlinMetadata") {
+            val isKspTask = taskName.startsWith("ksp")
+            val isCompileTask = taskName.startsWith("compileKotlin")
+            val isSourcesJarTask = taskName.contains("SourcesJar", ignoreCase = true) || taskName == "sourcesJar"
+
+            if (isKspTask || isCompileTask || isSourcesJarTask) {
+                if (commonProcessors.isNotEmpty()) {
+                    runCatching {
+                        dependsOn("kspCommonMainKotlinMetadata")
+                    }
+                }
             }
         }
     }
