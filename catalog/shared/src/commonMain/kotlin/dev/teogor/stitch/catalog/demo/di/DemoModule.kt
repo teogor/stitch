@@ -20,10 +20,8 @@ import dev.teogor.stitch.catalog.demo.data.local.AppDatabase
 import dev.teogor.stitch.catalog.demo.data.local.AppDatabaseConstructor
 import dev.teogor.stitch.catalog.demo.data.local.data.repository.TaskRepository
 import dev.teogor.stitch.catalog.demo.data.local.data.repository.impl.TaskRepositoryImpl
-import dev.teogor.stitch.catalog.demo.data.repository.DemoRepositoryImpl
-import dev.teogor.stitch.catalog.demo.domain.repository.DemoRepository
-import dev.teogor.stitch.catalog.demo.domain.usecase.GetDemoItemsUseCase
-import dev.teogor.stitch.catalog.demo.domain.usecase.SaveDemoItemUseCase
+import dev.teogor.stitch.catalog.demo.data.local.database.operation.TaskInsertTaskOperation
+import dev.teogor.stitch.catalog.demo.data.local.database.operation.TaskUpdateTaskStatusOperation
 import dev.teogor.stitch.runtime.StitchRoom
 
 object DemoModule {
@@ -40,19 +38,15 @@ object DemoModule {
     val taskRepository: TaskRepository by lazy {
         TaskRepositoryImpl(
             dao = database.taskDao(),
-            db = database
+            db = database,
         )
     }
 
-    val demoRepository: DemoRepository by lazy {
-        DemoRepositoryImpl(database)
+    val updateTaskStatus by lazy {
+        TaskUpdateTaskStatusOperation(taskRepository)
     }
 
-    val getDemoItemsUseCase by lazy {
-        GetDemoItemsUseCase(demoRepository)
-    }
-
-    val saveDemoItemUseCase by lazy {
-        SaveDemoItemUseCase(demoRepository)
+    val insertTask by lazy {
+        TaskInsertTaskOperation(taskRepository)
     }
 }

@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room3)
+    alias(libs.plugins.metro)
 }
 
 room3 {
@@ -91,7 +92,7 @@ dependencies {
 }
 
 kspMultiplatform(
-    commonProcessors = listOf(projects.stitchKsp),
+    commonProcessors = listOf(projects.stitchKsp, libs.metro.compiler),
     platformProcessors = listOf(libs.room.compiler),
 )
 

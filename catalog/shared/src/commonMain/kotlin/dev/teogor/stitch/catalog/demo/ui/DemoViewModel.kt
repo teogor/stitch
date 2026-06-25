@@ -18,32 +18,39 @@ package dev.teogor.stitch.catalog.demo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.teogor.stitch.catalog.demo.data.local.data.repository.TaskRepository
 import dev.teogor.stitch.catalog.demo.di.DemoModule
-import dev.teogor.stitch.catalog.demo.domain.model.DemoModel
+import dev.teogor.stitch.catalog.demo.domain.model.TaskModel
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class DemoViewModel : ViewModel() {
-    private val getDemoItemsUseCase = DemoModule.getDemoItemsUseCase
-    private val saveDemoItemUseCase = DemoModule.saveDemoItemUseCase
+class DemoViewModel @Inject constructor(
+    private val taskRepository: TaskRepository,
+): ViewModel() {
+    private val insertTask = DemoModule.insertTask
+    private val updateTaskStatus = DemoModule.updateTaskStatus
 
-    val items: StateFlow<List<DemoModel>> = getDemoItemsUseCase()
+    val uiTasks: StateFlow<List<TaskModel>> = taskRepository.observeAllTasks()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = emptyList(),
         )
 
-    fun addItem(title: String, description: String) {
+    fun createTask(title: String) {
         viewModelScope.launch {
-            saveDemoItemUseCase(
-                DemoModel(
-                    title = title,
-                    description = description,
-                ),
+            insertTask(
+                TaskModel(title = title, isCompleted = false),
             )
+        }
+    }
+
+    fun toggleTaskStatus(taskId: Long, isCompleted: Boolean) {
+        viewModelScope.launch {
+            updateTaskStatus(id = taskId, isCompleted = isCompleted)
         }
     }
 }

@@ -23,12 +23,13 @@ interface TaskDao {
     fun observeAllTasks(): Flow<List<TaskEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @RawOperation
     suspend fun insertTask(entity: TaskEntity)
 
     @Delete
     suspend fun deleteTask(entity: TaskEntity)
 
-    @RawOperation // ✨ Instructs Stitch to extract this single action into a dedicated Use-Case Interactor
+    @RawOperation
     @Query("UPDATE tasks_table SET isCompleted = :isCompleted WHERE id = :id")
     suspend fun updateTaskStatus(id: Long, isCompleted: Boolean)
 }

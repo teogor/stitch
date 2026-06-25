@@ -26,14 +26,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.teogor.stitch.catalog.demo.di.ApplicationComponent
 import dev.teogor.stitch.catalog.demo.ui.DemoScreen
+import dev.teogor.stitch.catalog.demo.ui.DemoViewModel
 import dev.teogor.stitch.catalog.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Suppress("ktlint:standard:function-naming")
 fun App() {
+    val diGraph = remember { ApplicationComponent() }
+    val demoViewModel: DemoViewModel = viewModel {
+        DemoViewModel(taskRepository = diGraph.taskRepository)
+    }
+
     AppTheme {
         Scaffold(
             topBar = {
@@ -57,7 +66,9 @@ fun App() {
                     .padding(innerPadding),
                 color = MaterialTheme.colorScheme.background,
             ) {
-                DemoScreen()
+                DemoScreen(
+                    viewModel = demoViewModel,
+                )
             }
         }
     }

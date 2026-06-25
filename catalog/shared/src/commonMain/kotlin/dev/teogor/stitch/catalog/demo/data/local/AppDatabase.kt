@@ -20,14 +20,11 @@ import androidx.room3.ConstructedBy
 import androidx.room3.Database
 import androidx.room3.RoomDatabase
 import androidx.room3.RoomDatabaseConstructor
-import dev.teogor.stitch.catalog.demo.data.local.dao.DemoDao
 import dev.teogor.stitch.catalog.demo.data.local.dao.TaskDao
-import dev.teogor.stitch.catalog.demo.data.local.entity.DemoEntity
 import dev.teogor.stitch.catalog.demo.data.local.entity.TaskEntity
 
 @Database(
     entities = [
-        DemoEntity::class,
         TaskEntity::class,
     ],
     version = 1,
@@ -35,7 +32,6 @@ import dev.teogor.stitch.catalog.demo.data.local.entity.TaskEntity
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun demoDao(): DemoDao
     abstract fun taskDao(): TaskDao
 }
 

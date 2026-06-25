@@ -211,9 +211,10 @@ ${if (codeGenConfig.ioDispatcherName != null) "                  @param ioDispat
                                                 "return databaseBuilder.setQueryCoroutineContext(ioDispatcher).build()",
                                             )
                                         } else {
+                                            val stitchRuntime = ClassName("dev.teogor.stitch.runtime", "StitchRuntime")
                                             addStatement(
-                                                "return databaseBuilder.setQueryCoroutineContext(%T.IO).build()",
-                                                DISPATCHERS,
+                                                "return databaseBuilder.setQueryCoroutineContext(%T.ioDispatcher).build()",
+                                                stitchRuntime,
                                             )
                                         }
                                     }
