@@ -15,6 +15,7 @@
  */
 import dev.teogor.stitch.convention.androidTarget
 import dev.teogor.stitch.convention.kmpLibraryAll
+import dev.teogor.stitch.convention.kspMultiplatform
 
 plugins {
     alias(libs.plugins.stitch.kmp.library)
@@ -22,6 +23,7 @@ plugins {
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room3)
+    alias(libs.plugins.metro)
 }
 
 room3 {
@@ -87,19 +89,12 @@ kotlin {
 
 dependencies {
     add("androidRuntimeClasspath", libs.androidx.ui.tooling)
-    add("kspAndroid", libs.room.compiler)
-    add("kspJvm", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
-    add("kspIosSimulatorArm64", libs.room.compiler)
-    add("kspJs", libs.room.compiler)
-    add("kspWasmJs", libs.room.compiler)
 }
 
-tasks.configureEach {
-    if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
-        enabled = false
-    }
-}
+kspMultiplatform(
+    commonProcessors = listOf(projects.stitchKsp, libs.metro.compiler),
+    platformProcessors = listOf(libs.room.compiler),
+)
 
 winds {
     features {

@@ -75,6 +75,7 @@ sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.r
 sqlite-common = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }
 sqlite-web = { group = "androidx.sqlite", name = "sqlite-web", version.ref = "sqlite" }
 metro-runtime = { group = "dev.zacsweers.metro", name = "runtime", version.ref = "metro" }
+metro-compiler = { group = "dev.zacsweers.metro", name = "compiler", version.ref = "metro" }
 kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlin-poet" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }

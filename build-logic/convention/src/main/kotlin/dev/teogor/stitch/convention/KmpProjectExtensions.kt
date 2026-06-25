@@ -20,6 +20,7 @@ import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -90,3 +91,48 @@ val Project.defaultNamespace: String
             .replace("stitch-", "")
         return if (suffix.isEmpty()) basePackage else "$basePackage.$suffix"
     }
+
+/**
+ * Robust target-aware helper that automatically manages KMP compiler distributions,
+ * registers output directories, and wires up task graph guarantees to prevent
+ * implicit dependency validation exceptions.
+ */
+fun Project.kspMultiplatform(
+    commonProcessors: List<Any> = emptyList(),
+    platformProcessors: List<Any> = emptyList(),
+) {
+    // 1. Explicitly point commonMain source set to include the KSP metadata output folder
+    plugins.withId("org.jetbrains.kotlin.multiplatform") {
+        extensions.configure<KotlinMultiplatformExtension> {
+            sourceSets.configureEach {
+                if (name == "commonMain") {
+                    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+                }
+            }
+
+            // 2. Reactively distribute dependencies to their appropriate compilation pipelines
+            targets.configureEach {
+                if (name == "metadata") {
+                    commonProcessors.forEach { processor ->
+                        dependencies.add("kspCommonMainMetadata", processor)
+                    }
+                } else {
+                    val configName = "ksp${name.replaceFirstChar { it.uppercaseChar() }}"
+                    platformProcessors.forEach { processor ->
+                        dependencies.add(configName, processor)
+                    }
+                }
+            }
+        }
+    }
+
+    // 3. Enforce safe build execution boundaries to protect against WorkValidationException
+    tasks.configureEach {
+        val taskName = name
+        if (!taskName.contains("Metadata") && taskName != "kspCommonMainKotlinMetadata") {
+            if (taskName.startsWith("ksp") || taskName.startsWith("compileKotlin")) {
+                dependsOn("kspCommonMainKotlinMetadata")
+            }
+        }
+    }
+}
