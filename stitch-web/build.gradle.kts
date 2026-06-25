@@ -51,7 +51,9 @@ kotlin {
 }
 
 winds {
-    features {
-        mavenPublishing = true
+    moduleMetadata {
+        artifactDescriptor {
+            name = "stitch-web"
+        }
     }
 }

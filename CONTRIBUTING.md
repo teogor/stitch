@@ -26,7 +26,7 @@ These requirements apply to all contributors. If you are using an AI agent for d
 3. **Quality Gates (Run after every commit/step):**
    - `./gradlew spotlessApply`
    - `./gradlew apiDump`
-   - `./gradlew :app:kspDebugKotlin` (to verify Stitch generation)
+   - `./gradlew :catalog:androidApp:kspDebugKotlin` (to verify Stitch generation)
 4. **Finalization:** Push the branch and create a GitHub PR with a descriptive title and body before moving to the next task or merging.
 5. **Task/Plan Integration:** These technical steps (spotless, apiDump, branch creation) must be explicitly listed as line items in the `task.artifact.md` and `implementation_plan.artifact.md` that you generate.
 
@@ -54,8 +54,8 @@ These requirements apply to all contributors. If you are using an AI agent for d
 After every step or commit, the following commands **must** be run to ensure project integrity:
 - `./gradlew spotlessApply`: Ensures code style compliance.
 - `./gradlew apiDump`: Verifies binary compatibility and API consistency across library modules.
-- `./gradlew :app:kspDebugKotlin`: Verifies that Stitch KSP code generation is working correctly.
-- `./gradlew :app:assembleDebug`: Ensures the project compiles successfully.
+- `./gradlew :catalog:androidApp:kspDebugKotlin`: Verifies that Stitch KSP code generation is working correctly.
+- `./gradlew :catalog:androidApp:assembleDebug`: Ensures the project compiles successfully.
 
 ### 4. Finalization & Pull Requests
 - **Remote Push:** Push your branch to the remote repository once the task is complete and all quality gates pass.

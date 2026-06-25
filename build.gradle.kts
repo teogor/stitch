@@ -43,6 +43,8 @@ plugins {
     alias(libs.plugins.api.validator) apply true
 }
 
+val isLocalPublish = gradle.startParameter.taskNames.any { it.contains("Local", ignoreCase = true) }
+
 winds {
     features {
         mavenPublishing = true
@@ -94,16 +96,14 @@ winds {
 
     publishing {
         enabled = false
-        enablePublicationSigning = false
+        enablePublicationSigning = !isLocalPublish
         optInForVanniktechPlugin = true
         cascade = true
         automaticPublishing = true
     }
 }
 
-val excludedProjects = listOf(
-    project.name,
-)
+val excludedProjects = listOf("Stitch", "catalog")
 
 spotless {
     kotlin {

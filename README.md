@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Acommon&smo=true"><img src="https://img.shields.io/maven-central/v/dev.teogor.stitch/common.svg?label=Maven%20Central" alt="Maven Central"></a>
+  <a href="https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Astitch-common&smo=true"><img src="https://img.shields.io/maven-central/v/dev.teogor.stitch/stitch-common.svg?label=Maven%20Central" alt="Maven Central"></a>
   <a href="https://android-arsenal.com/api?level=24"><img src="https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat" alt="API"></a>
   <a href="https://github.com/teogor"><img src="https://source.teogor.dev/badges/teogor-github.svg" alt="Profile"></a>
 </p>

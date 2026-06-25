@@ -48,7 +48,7 @@ kotlin {
                 implementation(libs.room.runtime)
                 api(libs.sqlite.common)
                 implementation(libs.metro.runtime)
-                implementation(project(":common"))
+                implementation(project(":stitch-common"))
                 implementation(project(":stitch-runtime"))
             }
 
@@ -97,6 +97,27 @@ dependencies {
 
 tasks.configureEach {
     if (name.contains("kspCommonMainKotlinMetadata", ignoreCase = true)) {
+        enabled = false
+    }
+}
+
+winds {
+    features {
+        mavenPublishing = false
+    }
+
+    moduleMetadata {
+        publishing {
+            enabled = false
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.withType<PublishToMavenLocal>().configureEach {
+        enabled = false
+    }
+    tasks.withType<PublishToMavenRepository>().configureEach {
         enabled = false
     }
 }

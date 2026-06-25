@@ -9,11 +9,11 @@ Stitch handles the Room boilerplate, including automatic generation of repositor
 ### API Reference
 
 * [`dev.teogor.stitch`](../html/){:target="_blank"}
-* [`dev.teogor.stitch:codegen`](../html/codegen){:target="_blank"}
-* [`dev.teogor.stitch:common`](../html/common){:target="_blank"}
-* [`dev.teogor.stitch:gradle-plugin`](../html/gradle-plugin){:target="_blank"}
-* [`dev.teogor.stitch:gradle-plugin-api`](../html/gradle-plugi-api){:target="_blank"}
-* [`dev.teogor.stitch:ksp`](../html/ksp){:target="_blank"}
+* [`dev.teogor.stitch:stitch-codegen`](../html/stitch-codegen){:target="_blank"}
+* [`dev.teogor.stitch:stitch-common`](../html/stitch-common){:target="_blank"}
+* [`dev.teogor.stitch:stitch-gradle-plugin`](../html/stitch-gradle-plugin){:target="_blank"}
+* [`dev.teogor.stitch:stitch-gradle-plugin-api`](../html/stitch-gradle-plugi-api){:target="_blank"}
+* [`dev.teogor.stitch:stitch-ksp`](../html/stitch-ksp){:target="_blank"}
 
 ### Release
 

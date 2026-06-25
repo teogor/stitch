@@ -49,10 +49,6 @@ public final class dev/teogor/stitch/catalog/demo/data/local/AppDatabaseConstruc
 	public fun initialize ()Ldev/teogor/stitch/catalog/demo/data/local/AppDatabase;
 }
 
-public final class dev/teogor/stitch/catalog/demo/data/local/Database_jvmKt {
-	public static final fun getDatabaseBuilder ()Landroidx/room3/RoomDatabase$Builder;
-}
-
 public abstract interface class dev/teogor/stitch/catalog/demo/data/local/dao/DemoDao {
 	public abstract fun delete (Ldev/teogor/stitch/catalog/demo/data/local/entity/DemoEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -84,7 +80,9 @@ public final class dev/teogor/stitch/catalog/demo/data/local/entity/DemoEntityKt
 
 public final class dev/teogor/stitch/catalog/demo/data/repository/DemoRepositoryImpl : dev/teogor/stitch/catalog/demo/domain/repository/DemoRepository {
 	public static final field $stable I
-	public fun <init> (Ldev/teogor/stitch/catalog/demo/data/local/dao/DemoDao;)V
+	public fun <init> (Ldev/teogor/stitch/catalog/demo/data/local/AppDatabase;Ldev/teogor/stitch/catalog/demo/data/local/dao/DemoDao;)V
+	public synthetic fun <init> (Ldev/teogor/stitch/catalog/demo/data/local/AppDatabase;Ldev/teogor/stitch/catalog/demo/data/local/dao/DemoDao;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun bulkInsert (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun delete (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun insert (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -117,6 +115,7 @@ public final class dev/teogor/stitch/catalog/demo/domain/model/DemoModel {
 }
 
 public abstract interface class dev/teogor/stitch/catalog/demo/domain/repository/DemoRepository {
+	public abstract fun bulkInsert (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun delete (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun getById (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun insert (Ldev/teogor/stitch/catalog/demo/domain/model/DemoModel;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -217,4 +216,3 @@ public final class dev/teogor/stitch/catalog/ui/theme/ColorKt {
 public final class dev/teogor/stitch/catalog/ui/theme/ThemeKt {
 	public static final fun AppTheme (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
-

@@ -1,3 +1,5 @@
+default_stages: [ pre-commit ]
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -7,26 +9,3 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
       - id: check-case-conflict
-
-  - repo: local
-    hooks:
-      - id: spotless-apply
-        name: Spotless Apply
-        entry: ./gradlew spotlessApply
-        language: system
-        pass_filenames: false
-        stages: [commit]
-
-      - id: api-dump
-        name: API Dump
-        entry: ./gradlew apiDumpAll
-        language: system
-        pass_filenames: false
-        stages: [commit]
-
-      - id: gradle-check
-        name: Gradle Check (All Tests)
-        entry: ./gradlew allTests
-        language: system
-        pass_filenames: false
-        stages: [push]
