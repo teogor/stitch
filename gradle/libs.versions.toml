@@ -1,8 +1,6 @@
 [versions]
-# Project versions
-stitch = "1.0.0-alpha03"
 winds = "1.0.3"
-vanniktech-maven-plugin = "0.36.0"
+vanniktech-maven-plugin = "0.34.0"
 jetbrainsCompose = "1.11.1"
 
 # Build configurations
