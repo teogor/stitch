@@ -6,7 +6,7 @@ Get Stitch up and running in your project. Stitch is designed to work seamlessly
 
 ## 📦 Latest Version
 
-The current stable release is: `1.0.0-alpha02`
+The current stable release is: `1.0.0-alpha03`
 
 ---
 
@@ -18,7 +18,7 @@ We recommend using a Version Catalog to manage your dependencies.
 
 ```toml title="gradle/libs.versions.toml"
 [versions]
-stitch = "1.0.0-alpha02"
+stitch = "1.0.0-alpha03"
 
 [libraries]
 stitch-common = { module = "dev.teogor.stitch:stitch-common", version.ref = "stitch" }

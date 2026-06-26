@@ -19,8 +19,8 @@ Stitch handles the Room boilerplate, including automatic generation of repositor
 
 |   Latest Update   | Stable Release | Beta Release | Alpha Release |
 |:-----------------:|:--------------:|:------------:|:-------------:|
+|   June 26, 2026   |       -        |      -       | 1.0.0-alpha03 |
 | February 15, 2024 |       -        |      -       | 1.0.0-alpha02 |
-| February 06, 2024 |       -        |      -       | 1.0.0-alpha01 |
 
 ### Declaring dependencies
 
@@ -33,7 +33,7 @@ Add the dependencies for the artifacts you need in the `build.gradle` file for y
 
     ```kotlin
     plugins {
-      id("dev.teogor.stitch") version "1.0.0-alpha02"
+      id("dev.teogor.stitch") version "1.0.0-alpha03"
     }
     ```
 
@@ -41,7 +41,7 @@ Add the dependencies for the artifacts you need in the `build.gradle` file for y
 
     ```groovy
     plugins {
-      id 'dev.teogor.stitch' version '1.0.0-alpha02'
+      id 'dev.teogor.stitch' version '1.0.0-alpha03'
     }
     ```
 
@@ -55,6 +55,21 @@ existing issue by clicking the star button.
 [Create a new issue](https://github.com/teogor/stitch/issues/new){ .md-button }
 
 ### Version 1.0.0
+
+#### Version 1.0.0-alpha03
+
+June 26, 2026
+
+`dev.teogor.stitch:stitch-*:1.0.0-alpha03` is
+released. [Version 1.0.0-alpha03 contains these commits.](https://github.com/teogor/stitch/compare/1.0.0-alpha02...1.0.0-alpha03)
+
+**Enhancements**
+* Standardize artifact names by removing 'stitch-' prefix in Winds configuration.
+* Support Nullable and Optional Package Configurations in Stitch Gradle Plugin.
+* Enhance KSP Processor for Improved Room Component Mapping and Code Generation.
+
+**Bug Fixes**
+* Resolve Implicit Task Dependencies for KSP Metadata in Kotlin Multiplatform.
 
 #### Version 1.0.0-alpha02
 

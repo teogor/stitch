@@ -8,16 +8,16 @@
   <strong>Effortlessly Sew Your Room Persistence Layer Together</strong>
 </p>
 
-<p align="center">
-  <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://central.sonatype.com/search?q=g%3Adev.teogor.stitch+a%3Astitch-common&smo=true"><img src="https://img.shields.io/maven-central/v/dev.teogor.stitch/stitch-common.svg?label=Maven%20Central" alt="Maven Central"></a>
-  <a href="https://android-arsenal.com/api?level=24"><img src="https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat" alt="API"></a>
-  <a href="https://github.com/teogor"><img src="https://source.teogor.dev/badges/teogor-github.svg" alt="Profile"></a>
-</p>
+[![Maven Central](https://img.shields.io/maven-central/v/dev.teogor.stitch/stitch-common?logo=apache-maven&color=007ec6)](https://central.sonatype.com/search?q=dev.teogor.stitch)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Build](https://img.shields.io/github/actions/workflow/status/teogor/stitch/publish.yml?branch=main&logo=github-actions&logoColor=white)](https://github.com/teogor/stitch/actions)
+[![License](https://img.shields.io/github/license/teogor/stitch?color=blue)](LICENSE)
 
 ---
 
-Tired of writing repetitive Room boilerplate code? **Stitch** is a Kotlin compiler plugin that automatically generates Repositories, Repository Implementations, and Operations based on your Room DAOs and entities.
+Tired of writing repetitive Room boilerplate code? **Stitch** is a Kotlin compiler plugin that
+automatically generates Repositories, Repository Implementations, and Operations based on your Room
+DAOs and entities.
 
 ## 🚀 Quick Start
 
@@ -27,7 +27,7 @@ Add the following to your root `build.gradle.kts`:
 
 ```kotlin
 plugins {
-    id("dev.teogor.stitch") version "1.0.0-alpha02"
+    id("dev.teogor.stitch") version "1.0.0-alpha03"
 }
 ```
 
@@ -73,7 +73,8 @@ For detailed guides and reference, visit our [Documentation Site](https://source
 
 ## 🛠️ Development
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for setup instructions and technical requirements.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for setup
+instructions and technical requirements.
 
 To set up your local development environment with Git hooks, run:
 
