@@ -105,6 +105,30 @@ winds {
 
 val excludedProjects = listOf("Stitch", "catalog")
 
+subprojects {
+    if (path.startsWith(":catalog")) {
+        plugins.withId("dev.teogor.winds") {
+            configure<dev.teogor.winds.api.Winds> {
+                features {
+                    mavenPublishing = false
+                }
+                publishing {
+                    enabled = false
+                }
+            }
+        }
+        afterEvaluate {
+            tasks.matching {
+                it.name.contains("publish", ignoreCase = true) ||
+                    it.name.contains("generatePom", ignoreCase = true) ||
+                    it.name.contains("generateMetadata", ignoreCase = true)
+            }.configureEach {
+                enabled = false
+            }
+        }
+    }
+}
+
 spotless {
     kotlin {
         target("**/*.kt")

@@ -95,24 +95,3 @@ kspMultiplatform(
     commonProcessors = listOf(projects.stitchKsp, libs.metro.compiler),
     platformProcessors = listOf(libs.room.compiler),
 )
-
-winds {
-    features {
-        mavenPublishing = false
-    }
-
-    moduleMetadata {
-        publishing {
-            enabled = false
-        }
-    }
-}
-
-afterEvaluate {
-    tasks.withType<PublishToMavenLocal>().configureEach {
-        enabled = false
-    }
-    tasks.withType<PublishToMavenRepository>().configureEach {
-        enabled = false
-    }
-}
