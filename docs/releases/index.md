@@ -22,7 +22,7 @@ API Reference
 
 | Latest Update   |  Stable Release  |  Release Candidate  |  Beta Release  |  Alpha Release  |
 |:----------------|:----------------:|:-------------------:|:--------------:|:---------------:|
-| June 26, 2026   |        -         |          -          |       -        |  1.0.0-alpha02  |
+| June 26, 2026   |        -         |          -          |       -        |  1.0.0-alpha03  |
 
 [//]: # (REGION-RELEASE-TABLE)
 
@@ -36,7 +36,7 @@ To use Stitch in your app, add the following dependencies to your app's `build.g
 
     ```groovy title="build.gradle"
     dependencies {
-        def teogorStitch = "1.0.0-alpha02"
+        def teogorStitch = "1.0.0-alpha03"
 
         implementation "dev.teogor.stitch:stitch-codegen:$teogorStitch"
         implementation "dev.teogor.stitch:stitch-common:$teogorStitch"
@@ -51,7 +51,7 @@ To use Stitch in your app, add the following dependencies to your app's `build.g
 
     ```kotlin title="build.gradle.kts"
     dependencies {
-        val teogorStitch = "1.0.0-alpha02"
+        val teogorStitch = "1.0.0-alpha03"
 
         implementation("dev.teogor.stitch:stitch-codegen:$teogorStitch")
         implementation("dev.teogor.stitch:stitch-common:$teogorStitch")

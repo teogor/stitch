@@ -40,7 +40,7 @@ Ready to simplify your Room layer?
 
 1.  **[Installation](releases/implementation.md)** - Add the plugin to your project.
 2.  **[Reference Guide](reference.md)** - Explore available annotations and configurations.
-3.  **[Changelog](releases/changelog/1.0.0-alpha02.md)** - See what's new in the latest version.
+3.  **[Changelog](releases/changelog/1.0.0-alpha03.md)** - See what's new in the latest version.
 
 ---
 

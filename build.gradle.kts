@@ -64,7 +64,7 @@ winds {
             group = "dev.teogor.stitch"
             name = "stitch"
             version = createVersion(1, 0, 0) {
-                alphaRelease(2)
+                alphaRelease(3)
             }
             nameFormat = NameFormat.FULL
             artifactIdFormat = ArtifactIdFormat.MODULE_NAME_ONLY
