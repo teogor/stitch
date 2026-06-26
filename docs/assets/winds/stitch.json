@@ -1,0 +1,92 @@
+[
+  {
+    "module": "dev.teogor.stitch:stitch",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0,
+      "flag": "Alpha",
+      "versionQualifier": 2
+    },
+    "date": 1782432344,
+    "dependencies": [
+      {
+        "module": "dev.teogor.stitch:stitch-codegen",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-common",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-gradle-plugin",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-gradle-plugin-api",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-ksp",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-runtime",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      },
+      {
+        "module": "dev.teogor.stitch:stitch-web",
+        "version": {
+          "major": 1,
+          "minor": 0,
+          "patch": 0,
+          "flag": "Alpha",
+          "versionQualifier": 2
+        },
+        "date": 1782432344
+      }
+    ]
+  }
+]

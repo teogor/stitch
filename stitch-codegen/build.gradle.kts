@@ -36,7 +36,7 @@ kotlin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-codegen"
+            name = "codegen"
         }
     }
 }

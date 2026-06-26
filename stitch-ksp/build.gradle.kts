@@ -41,7 +41,7 @@ kotlin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-ksp"
+            name = "ksp"
         }
     }
 }

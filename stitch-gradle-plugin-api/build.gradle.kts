@@ -27,7 +27,7 @@ dependencies {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-gradle-plugin-api"
+            name = "gradle-plugin-api"
         }
     }
 }
