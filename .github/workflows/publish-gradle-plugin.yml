@@ -1,6 +1,9 @@
 name: Publish Gradle Plugin
 
 on:
+  push:
+    branches:
+      - fix/ci-java
   release:
     types: [released]
   workflow_dispatch:
