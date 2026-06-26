@@ -53,7 +53,7 @@ kotlin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-web"
+            name = "web"
         }
     }
 }

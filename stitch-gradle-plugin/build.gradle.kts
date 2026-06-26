@@ -49,7 +49,7 @@ gradlePlugin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-gradle-plugin"
+            name = "gradle-plugin"
         }
     }
 }

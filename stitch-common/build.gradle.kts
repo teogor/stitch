@@ -33,7 +33,7 @@ kotlin {
 winds {
     moduleMetadata {
         artifactDescriptor {
-            name = "stitch-common"
+            name = "common"
         }
     }
 }
