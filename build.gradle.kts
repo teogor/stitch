@@ -99,7 +99,7 @@ winds {
         enablePublicationSigning = !isLocalPublish
         optInForVanniktechPlugin = true
         cascade = true
-        automaticPublishing = true
+        automaticPublishing = false
     }
 }
 
